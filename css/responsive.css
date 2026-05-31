@@ -1,0 +1,423 @@
+/* ============================================================
+   SALMO CONSTRUCTION SERVICES — Responsive Breakpoints
+   Mobile-first: base = mobile, scale up
+   Breakpoints: 480px | 768px | 1024px | 1280px | 1440px
+   ============================================================ */
+
+/* ── LARGE DESKTOP (1440px+) ────────────────────────────────── */
+@media (min-width: 1440px) {
+  :root { --max-w: 1320px; }
+
+  .hero-title    { font-size: 76px; }
+  .hero-subtitle { font-size: 38px; }
+}
+
+/* ── DESKTOP (1024px–1439px) ────────────────────────────────── */
+@media (max-width: 1280px) {
+  .services-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; height: 1080px; transition: none; }
+
+  .projects-gallery { grid-template-columns: repeat(3, 1fr); }
+
+  .faq-inner {
+    grid-template-columns: 1fr 1.6fr;
+    gap: 60px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .trust-inner { gap: 50px; }
+
+  .about-inner { gap: 50px; }
+
+  .contact-inner { gap: 40px; }
+
+  .contact-form-wrap { padding: 36px 28px; }
+}
+
+/* ── TABLET (768px–1023px) ──────────────────────────────────── */
+@media (max-width: 1023px) {
+  :root {
+    --section-pad: 80px 0;
+    --nav-h: 64px;
+  }
+
+  /* Nav */
+  .nav-links  { display: none; }
+  .nav-cta    { display: none; }
+  .nav-hamburger { display: flex; }
+
+  /* Hero */
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 50px;
+    padding: 60px var(--pad-x);
+    text-align: center;
+  }
+
+  .hero-right { order: -1; }
+
+  #hero-house { max-width: 440px; }
+
+  .hero-ctas  { justify-content: center; }
+
+  .hero-desc  { max-width: 100%; margin-left: auto; margin-right: auto; }
+
+  .hero-label { justify-content: center; }
+
+  /* Services */
+  .services-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; height: 1080px; transition: none; }
+
+  /* Projects gallery */
+  .projects-gallery { grid-template-columns: repeat(2, 1fr); }
+
+  /* How We Work */
+  .steps-wrap {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+  .steps-line { display: none; }
+
+  /* Projects bento — tablet */
+  .bento-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 260px 220px;
+  }
+
+  .bento-item:nth-child(1) { grid-column: 1 / 3; grid-row: 1; }
+  .bento-item:nth-child(2) { grid-column: 1;     grid-row: 2; }
+  .bento-item:nth-child(3) { grid-column: 2;     grid-row: 2; }
+
+  /* Trust */
+  .trust-inner {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .trust-badges-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+  /* About */
+  .about-inner {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .about-image-wrap { max-width: 520px; margin: 0 auto; width: 100%; }
+
+  /* FAQ */
+  .faq-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .faq-left { position: static; }
+
+  /* Contact */
+  .contact-inner {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  /* Footer */
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+}
+
+/* ── MOBILE LARGE (480px–767px) ─────────────────────────────── */
+@media (max-width: 767px) {
+  :root {
+    --section-pad: 64px 0;
+    --pad-x: 20px;
+    --nav-h: 60px;
+  }
+
+  /* Hero */
+  .hero-inner { padding: 40px var(--pad-x); gap: 40px; }
+
+  .hero-title { font-size: 36px; }
+
+  .hero-subtitle { font-size: 22px; }
+
+  #hero-house { max-width: 340px; }
+
+  .hero-ctas { flex-direction: column; align-items: center; }
+
+  .hero-ctas .btn { width: 100%; max-width: 320px; justify-content: center; }
+
+  /* Services — single column, tap opens modal */
+  .services-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, auto);
+    height: auto;
+    transition: none;
+  }
+
+  /* Neutralize desktop :has(:hover) reshaping */
+  .services-grid:has(.service-card:nth-child(1):hover),
+  .services-grid:has(.service-card:nth-child(2):hover),
+  .services-grid:has(.service-card:nth-child(3):hover),
+  .services-grid:has(.service-card:nth-child(4):hover),
+  .services-grid:has(.service-card:nth-child(5):hover),
+  .services-grid:has(.service-card:nth-child(6):hover) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, auto);
+  }
+
+  /* Row layout: [icon]  Title text  › */
+  .service-card {
+    padding: 18px 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    min-height: 72px;
+  }
+
+  /* Top-line animation is hover-only — disable on touch to prevent sticky-hover flash */
+  .service-card::before { display: none; }
+
+  /* Suppress any sticky-hover item flash */
+  .service-card:hover .service-items,
+  .services-grid:has(.service-card:hover) .service-card:not(:hover) .service-items {
+    max-height: 0 !important;
+    opacity: 0 !important;
+  }
+
+  /* Hidden elements must not become flex items in the row */
+  .service-num,
+  .service-items { display: none; }
+
+  .service-icon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .service-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 0;
+    flex: 1;
+  }
+
+  /* Cyan chevron — clear tap affordance */
+  .service-card::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid rgba(0,180,216,0.65);
+    border-top: 2px solid rgba(0,180,216,0.65);
+    transform: rotate(45deg) translateY(-1px);
+    flex-shrink: 0;
+  }
+
+  /* Immediate press-state feedback on tap */
+  .service-card:active {
+    background: rgba(255,255,255,0.10) !important;
+  }
+
+  /* How We Work */
+  .steps-wrap { grid-template-columns: 1fr; gap: 32px; }
+
+  .step { align-items: flex-start; text-align: left; }
+
+  .step-num-wrap { margin-bottom: 20px; }
+
+  /* Bento — mobile: single column stack */
+  .bento-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 260px 200px 200px;
+  }
+
+  .bento-item:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .bento-item:nth-child(2) { grid-column: 1; grid-row: 2; }
+  .bento-item:nth-child(3) { grid-column: 1; grid-row: 3; }
+
+  /* Projects gallery — 2 columns on mobile */
+  .projects-gallery { grid-template-columns: repeat(2, 1fr); }
+
+  /* Marquee */
+  .marquee-wrap { height: 150px; }
+
+  /* Testimonials */
+  .testimonial-card { width: 300px; padding: 28px 24px; }
+
+  /* Trust */
+  .trust-badges-grid { grid-template-columns: 1fr 1fr; }
+
+  /* About values */
+  .about-values { grid-template-columns: 1fr; }
+
+  /* Contact form — explicit 44px tap target on all inputs */
+  .form-input,
+  .form-select { min-height: 44px; }
+
+  .form-submit { min-height: 48px; }
+
+  .form-row { grid-template-columns: 1fr; }
+
+  .contact-form-wrap { padding: 28px 20px; }
+
+  /* Cookie bar */
+  #cookie-bar { flex-direction: column; text-align: center; gap: 12px; }
+
+  /* FAB — smaller house + tighter stack on mobile */
+  #contact-fab { bottom: 20px; right: 16px; gap: 7px; }
+  #widget-top  { gap: 3px; }
+
+  #house-widget,
+  #hw-svg      { width: 70px; height: 70px; }
+
+  .hw-message  { font-size: 8px; max-width: 84px; min-height: 22px; }
+  .hw-progress { font-size: 8.5px; }
+
+  .hw-arrow    { width: 40px; }
+  .hw-arrow svg { width: 14px; height: 8px; }
+
+  /* Section labels / titles */
+  .section-label { font-size: 9px; letter-spacing: 3px; }
+
+  .trust-badges-grid { gap: 12px; }
+
+  .trust-badge { padding: 22px 16px; }
+
+  .trust-badge-num { font-size: 28px; }
+}
+
+/* ── MOBILE SMALL (320px–479px) ─────────────────────────────── */
+@media (max-width: 479px) {
+  :root { --pad-x: 16px; }
+
+  .hero-title { font-size: 30px; }
+
+  .hero-subtitle { font-size: 19px; }
+
+  .nav-logo-sub { display: none; }
+
+  .nav-logo-name { font-size: 12px; }
+
+  .trust-badge-num { font-size: 24px; }
+
+  .trust-badge { padding: 18px 12px; }
+
+  .testimonial-card { width: 280px; }
+
+  .about-values { grid-template-columns: 1fr; }
+
+  #hero-house { max-width: 290px; }
+
+  /* Projects gallery — single column on tiny screens */
+  .projects-gallery { grid-template-columns: 1fr; }
+
+  /* FAB — even smaller house on very small screens */
+  #contact-fab { gap: 5px; }
+  #widget-top  { gap: 2px; }
+
+  #house-widget,
+  #hw-svg      { width: 60px; height: 60px; }
+
+  .hw-message  { font-size: 7.5px; max-width: 74px; min-height: 20px; }
+  .hw-progress { font-size: 8px; }
+
+  .hw-arrow    { width: 34px; }
+  .hw-arrow svg { width: 12px; height: 7px; }
+}
+
+/* ── TOUCH DEVICE AFFORDANCES ───────────────────────────────── */
+/* hover:none = phone/tablet — no pointer hover available */
+@media (hover: none) {
+
+  /* Service cards are tappable on any touch device (phones + tablets) */
+  .service-card { cursor: pointer; }
+
+  /* Bento photos: show caption overlay always (gradient, not full cyan tint) */
+  .bento-overlay {
+    opacity: 1;
+    background: linear-gradient(transparent 38%, rgba(1,30,62,0.88));
+  }
+
+  /* Marquee photos: show caption label always */
+  .marquee-item .marquee-overlay {
+    opacity: 1;
+    background: linear-gradient(transparent 38%, rgba(1,30,62,0.88));
+  }
+
+  /* Project gallery cards: always show overlay on touch */
+  .project-card-overlay { opacity: 1; }
+  .project-card-num,
+  .project-card-title,
+  .project-card-loc { transform: translateY(0); opacity: 1; }
+
+  /* Long-review cards: pointer cursor signals they are tappable */
+  .testimonial-card.has-long-review { cursor: pointer; }
+
+  /* Slightly taller fade hint on is-clamped text */
+  .testimonial-text.is-clamped::after { height: 40px; }
+
+  /* Testimonial card: visible press state on tap */
+  .testimonial-card:active {
+    transform: scale(1.04);
+    z-index: 10;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.42);
+  }
+
+  /* Photo marquee: switch to native touch scroll (swipeable) */
+  .marquee-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    cursor: grab;
+  }
+  .marquee-wrap::-webkit-scrollbar { display: none; }
+  .marquee-track { animation: none !important; }
+}
+
+/* ── LIGHTBOX ON MOBILE ─────────────────────────────────────── */
+/* Extra top padding ensures the close button (top: -48px) stays
+   inside the visible viewport even on small portrait screens. */
+@media (max-width: 767px) {
+  #lightbox { padding: 64px 16px 20px; }
+}
+
+/* ── REDUCED MOTION ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html { scroll-behavior: auto; }
+
+  .marquee-track,
+  .testimonials-track {
+    animation: none;
+    flex-wrap: wrap;
+  }
+
+  #hero-house { animation: none; }
+
+  .messenger-btn { animation: none; }
+
+  .fab-btn { animation: none; }
+}
+
+/* ── PRINT ──────────────────────────────────────────────────── */
+@media print {
+  #loading-screen,
+  #navbar,
+  #contact-fab,
+  #cookie-bar { display: none !important; }
+
+  body { color: #000; background: #fff; }
+
+  .blueprint-bg { background: #fff !important; color: #000 !important; }
+
+  section { page-break-inside: avoid; }
+}

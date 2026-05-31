@@ -1,0 +1,125 @@
+/* ============================================================
+   SALMO CONSTRUCTION SERVICES — Animation Keyframes
+   Colors: Navy #011E3E · White #FFFFFF · Black #000000
+   ============================================================ */
+
+/* ── LOADING SCREEN ─────────────────────────────────────────── */
+@keyframes loadingFadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes progressFill {
+  0%   { width: 0; }
+  20%  { width: 20%; }
+  50%  { width: 55%; }
+  80%  { width: 80%; }
+  100% { width: 100%; }
+}
+
+/* ── SCROLL DOT (hero) ──────────────────────────────────────── */
+@keyframes scrollDot {
+  0%   { opacity: 1; transform: translateY(0); }
+  80%  { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 0; transform: translateY(0); }
+}
+
+/* ── MARQUEE SCROLL ─────────────────────────────────────────── */
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── MESSENGER PULSE ────────────────────────────────────────── */
+@keyframes messengerPulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(0,104,255,0.35), 0 0 0 0 rgba(0,104,255,0.25); }
+  50%       { box-shadow: 0 4px 16px rgba(0,104,255,0.35), 0 0 0 10px rgba(0,104,255,0); }
+}
+
+/* ── FAB PULSE (navy More button) ───────────────────────────── */
+@keyframes fabPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(1,30,62,0.45), 0 0 0 0   rgba(1,30,62,0.2); }
+  50%       { box-shadow: 0 4px 20px rgba(1,30,62,0.45), 0 0 0 10px rgba(1,30,62,0);  }
+}
+
+/* ── HERO HOUSE SVG WHITE GLOW ──────────────────────────────── */
+@keyframes glowPulse {
+  0%, 100% { filter: drop-shadow(0 0 18px rgba(255,255,255,0.08)); }
+  50%       { filter: drop-shadow(0 0 40px rgba(255,255,255,0.20)); }
+}
+
+/* ── HERO HOUSE BLUEPRINT → FILLED TRANSITION ───────────────── */
+#hero-house .hp-window,
+#hero-house .hp-door,
+#hero-house .hp-garage {
+  transition: fill 0.9s ease;
+}
+#hero-house.house-filled .hp-window { fill: rgba(255,255,255,0.06); }
+#hero-house.house-filled .hp-door   { fill: rgba(255,255,255,0.09); }
+#hero-house.house-filled .hp-garage { fill: rgba(255,255,255,0.04); }
+
+/* ── HOUSE WIDGET ATTENTION BOUNCE ─────────────────────────── */
+@keyframes houseAttention {
+  0%   { transform: scale(1)    translateY(0)    rotate(0deg);  }
+  25%  { transform: scale(1.15) translateY(-10px) rotate(3deg);  }
+  50%  { transform: scale(1.1)  translateY(-5px)  rotate(-2deg); }
+  75%  { transform: scale(1.05) translateY(-3px)  rotate(1deg);  }
+  100% { transform: scale(1)    translateY(0)    rotate(0deg);  }
+}
+
+/* Applied by JS on the SVG element directly (no circle container) */
+#hw-svg.house-attention {
+  animation: houseAttention 0.4s ease-in-out forwards;
+}
+
+/* ── PROGRESS COUNTER MILESTONE PULSE ──────────────────────── */
+@keyframes progressPulse {
+  0%   { opacity: 1; }
+  40%  { opacity: 0.2; color: #00B4D8; }
+  100% { opacity: 1; }
+}
+.hw-progress.milestone {
+  animation: progressPulse 0.45s ease-in-out forwards;
+}
+
+/* ── FADE UP ────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SCALE IN ───────────────────────────────────────────────── */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── SLIDE IN ───────────────────────────────────────────────── */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── 404 RING SPIN ──────────────────────────────────────────── */
+@keyframes spinSlow {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ── APPLIED ANIMATIONS ─────────────────────────────────────── */
+
+#hero-house {
+  animation: glowPulse 5s ease-in-out infinite;
+}
+
+.fab-btn {
+  animation: fabPulse 3.5s ease-in-out infinite;
+}
+
+.fab-btn.open {
+  animation: none;
+}

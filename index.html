@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ── SEO META ──────────────────────────────────────────── -->
+  <title>Salmo Construction Services | Metro Manila Contractor</title>
+  <meta name="description" content="Your Dreams, Our Passion — Professional construction, planning, design, and permit assistance across Metro Manila. 22+ projects. BIR &amp; DTI Registered." />
+  <meta name="keywords" content="construction company Marikina, contractor Metro Manila, house builder Philippines, renovation Quezon City, building permit assistance" />
+  <meta name="author" content="Salmo Construction Services" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- ── OPEN GRAPH ─────────────────────────────────────────── -->
+  <meta property="og:title" content="Salmo Construction Services" />
+  <meta property="og:description" content="Your Dreams, Our Passion, Let's Build It Together." />
+  <meta property="og:image" content="assets/images/logo.png" />
+  <meta property="og:url" content="https://salmo-construction.vercel.app" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://salmo-construction.vercel.app" />
+
+  <!-- ── FONTS ─────────────────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
+
+  <!-- ── STYLES ────────────────────────────────────────────── -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     PRE: LOADING SCREEN
+     Shows 1.5–2s on first visit; skipped on repeat (sessionStorage)
+     ══════════════════════════════════════════════════════════ -->
+<div id="loading-screen" aria-hidden="true">
+  <div class="loading-logo-wrap">
+    <img src="assets/images/salmo.png" alt="Salmo Construction Services" class="loading-logo-img" />
+    <div class="loading-tagline">"Your Dreams, Our Passion"</div>
+  </div>
+
+  <div class="loading-progress-wrap">
+    <div class="loading-corner tl"></div>
+    <div class="loading-corner tr"></div>
+    <div class="loading-corner bl"></div>
+    <div class="loading-corner br"></div>
+    <div class="loading-progress-bar">
+      <div class="loading-progress-fill"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     NAV: FIXED NAVIGATION BAR
+     ══════════════════════════════════════════════════════════ -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+
+    <!-- Logo -->
+    <a href="#hero" class="nav-logo" aria-label="Salmo Construction Services — back to top">
+      <img src="assets/images/salmo.png" alt="Salmo Construction Services" class="nav-logo-img" />
+    </a>
+
+    <!-- Desktop nav links -->
+    <div class="nav-links" role="list">
+      <a href="#services"    class="nav-link" role="listitem">Services</a>
+      <a href="#how-we-work" class="nav-link" role="listitem">How We Work</a>
+      <a href="#projects"    class="nav-link" role="listitem">Projects</a>
+      <a href="#about"       class="nav-link" role="listitem">About</a>
+      <a href="#faq"         class="nav-link" role="listitem">FAQ</a>
+      <a href="#contact"     class="nav-link" role="listitem">Contact</a>
+    </div>
+
+    <!-- Desktop CTA -->
+    <a href="#contact" class="nav-cta" aria-label="Start your dream project">
+      Start Your Dream
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+
+    <!-- Hamburger (mobile) -->
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Mobile overlay -->
+  <div class="nav-mobile-overlay" id="nav-mobile" role="dialog" aria-label="Mobile navigation" aria-modal="true">
+    <a href="#services"    class="nav-link" onclick="closeMobileMenu()">Services</a>
+    <a href="#how-we-work" class="nav-link" onclick="closeMobileMenu()">How We Work</a>
+    <a href="#projects"    class="nav-link" onclick="closeMobileMenu()">Projects</a>
+    <a href="#about"       class="nav-link" onclick="closeMobileMenu()">About</a>
+    <a href="#faq"         class="nav-link" onclick="closeMobileMenu()">FAQ</a>
+    <a href="#contact"     class="nav-link" onclick="closeMobileMenu()">Contact</a>
+    <a href="#contact" class="nav-cta btn btn-cyan" onclick="closeMobileMenu()">Start Your Dream &rarr;</a>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 01: HERO
+     ══════════════════════════════════════════════════════════ -->
+<section id="hero" class="blueprint-bg" aria-labelledby="hero-heading">
+  <div class="hero-inner">
+
+    <!-- Left: Text content -->
+    <div class="hero-text">
+      <div class="hero-label" id="hero-label">
+        <span class="hero-label-bracket">[</span>
+        Salmo Construction Services
+        <span class="hero-label-bracket">]</span>
+      </div>
+
+      <h1 class="hero-title" id="hero-heading">
+        Your Dreams,<br />
+        <span>Our Passion.</span>
+      </h1>
+
+      <p class="hero-subtitle">Let's Build It Together.</p>
+
+      <p class="hero-desc">
+        Professional Construction, Planning &amp; Design Services across Metro Manila.
+        Licensed engineers, architects, and skilled craftsmen — from blueprint to turnover.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="#contact" class="btn btn-cyan">
+          Start Your Dream Project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#projects" class="btn btn-outline-white">View Our Work</a>
+      </div>
+    </div>
+
+    <!-- Right: SVG Modern House Blueprint Animation -->
+    <div class="hero-right">
+      <svg id="hero-house" viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg"
+           fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"
+           role="img" aria-label="Architectural blueprint of a modern two-storey house">
+
+        <!-- ── GROUND LINE ── -->
+        <line class="house-path hp-ground" x1="0" y1="450" x2="860" y2="450" stroke-width="2"/>
+        <line class="house-path hp-ground" x1="0" y1="460" x2="860" y2="460" stroke-width="0.8" stroke-opacity="0.25"/>
+
+        <!-- ── MAIN HOUSE — FLAT ROOF (overhang both sides) ── -->
+        <line class="house-path hp-roof"   x1="32"  y1="128" x2="570" y2="128" stroke-width="3.5"/>
+        <line class="house-path hp-roof"   x1="32"  y1="145" x2="570" y2="145" stroke-width="1.5"/>
+        <line class="house-path hp-roof"   x1="32"  y1="128" x2="32"  y2="145" stroke-width="1.5"/>
+        <line class="house-path hp-roof"   x1="570" y1="128" x2="570" y2="145" stroke-width="1.5"/>
+
+        <!-- ── MAIN HOUSE — LEFT & RIGHT WALLS ── -->
+        <line class="house-path hp-wall"   x1="55"  y1="145" x2="55"  y2="450" stroke-width="2.2"/>
+        <line class="house-path hp-wall"   x1="548" y1="145" x2="548" y2="450" stroke-width="2.2"/>
+
+        <!-- ── MID-FLOOR BAND (subtle separator between stories) ── -->
+        <line class="house-path hp-detail" x1="55"  y1="297" x2="548" y2="297" stroke-width="0.8" stroke-opacity="0.22"/>
+
+        <!-- ── SECOND FLOOR WINDOWS (aligned above first-floor windows) ── -->
+        <!-- Left window -->
+        <rect class="house-path hp-window" x="88"  y="162" width="126" height="102" stroke-width="2"/>
+        <line class="house-path hp-detail" x1="151" y1="162" x2="151" y2="264" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="88"  y1="213" x2="214" y2="213" stroke-width="1" stroke-opacity="0.5"/>
+        <!-- Right window -->
+        <rect class="house-path hp-window" x="384" y="162" width="126" height="102" stroke-width="2"/>
+        <line class="house-path hp-detail" x1="447" y1="162" x2="447" y2="264" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="384" y1="213" x2="510" y2="213" stroke-width="1" stroke-opacity="0.5"/>
+
+        <!-- ── FIRST FLOOR — LEFT WINDOW ── -->
+        <rect class="house-path hp-window" x="88"  y="318" width="126" height="98"  stroke-width="2"/>
+        <line class="house-path hp-detail" x1="151" y1="318" x2="151" y2="416" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="88"  y1="367" x2="214" y2="367" stroke-width="1" stroke-opacity="0.5"/>
+
+        <!-- ── FIRST FLOOR — FRONT DOOR (centered between windows) ── -->
+        <rect class="house-path hp-door"   x="249" y="308" width="102" height="142" stroke-width="2.2"/>
+        <!-- Door center divider -->
+        <line class="house-path hp-detail" x1="300" y1="308" x2="300" y2="450" stroke-width="0.9" stroke-opacity="0.4"/>
+        <!-- Door handle -->
+        <circle class="house-path hp-detail" cx="336" cy="382" r="4"             stroke-width="1.5"/>
+        <!-- Lintel above door -->
+        <line class="house-path hp-detail" x1="237" y1="308" x2="363" y2="308"  stroke-width="1.5"/>
+        <!-- Door step -->
+        <line class="house-path hp-detail" x1="240" y1="450" x2="360" y2="450"  stroke-width="2.5"/>
+
+        <!-- ── FIRST FLOOR — RIGHT WINDOW ── -->
+        <rect class="house-path hp-window" x="384" y="318" width="126" height="98"  stroke-width="2"/>
+        <line class="house-path hp-detail" x1="447" y1="318" x2="447" y2="416" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="384" y1="367" x2="510" y2="367" stroke-width="1" stroke-opacity="0.5"/>
+
+        <!-- ── GARAGE — FLAT ROOF (attached right) ── -->
+        <line class="house-path hp-roof"   x1="545" y1="220" x2="824" y2="220" stroke-width="2.5"/>
+        <line class="house-path hp-roof"   x1="545" y1="233" x2="824" y2="233" stroke-width="1.5"/>
+        <line class="house-path hp-roof"   x1="545" y1="220" x2="545" y2="233" stroke-width="1.5"/>
+        <line class="house-path hp-roof"   x1="824" y1="220" x2="824" y2="233" stroke-width="1.5"/>
+
+        <!-- ── GARAGE — RIGHT OUTER WALL ── -->
+        <line class="house-path hp-wall"   x1="820" y1="233" x2="820" y2="450" stroke-width="2.2"/>
+
+        <!-- ── GARAGE DOOR ── -->
+        <rect class="house-path hp-garage" x="560" y="250" width="170" height="200" stroke-width="2"/>
+        <!-- Horizontal panel lines -->
+        <line class="house-path hp-detail" x1="560" y1="300" x2="730" y2="300" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="560" y1="350" x2="730" y2="350" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="560" y1="400" x2="730" y2="400" stroke-width="1"/>
+        <!-- Garage center divider -->
+        <line class="house-path hp-detail" x1="645" y1="250" x2="645" y2="450" stroke-width="0.8" stroke-opacity="0.4"/>
+
+        <!-- ── BLUEPRINT DIMENSION LINES ── -->
+        <line class="house-path hp-dim"    x1="55"  y1="490" x2="548" y2="490" stroke-width="0.8" stroke-opacity="0.22"/>
+        <line class="house-path hp-dim"    x1="55"  y1="484" x2="55"  y2="496" stroke-width="0.8" stroke-opacity="0.22"/>
+        <line class="house-path hp-dim"    x1="548" y1="484" x2="548" y2="496" stroke-width="0.8" stroke-opacity="0.22"/>
+
+        <!-- ── BLUEPRINT CORNER MARKS ── -->
+        <path class="house-path hp-detail" d="M14,112 L26,112 M14,112 L14,124"  stroke-width="0.9" stroke-opacity="0.3"/>
+        <path class="house-path hp-detail" d="M588,112 L576,112 M588,112 L588,124" stroke-width="0.9" stroke-opacity="0.3"/>
+        <path class="house-path hp-detail" d="M14,470 L26,470 M14,470 L14,458"  stroke-width="0.9" stroke-opacity="0.3"/>
+        <path class="house-path hp-detail" d="M588,470 L576,470 M588,470 L588,458" stroke-width="0.9" stroke-opacity="0.3"/>
+
+        <!-- ── GRID REFERENCE LINES (very faint) ── -->
+        <line x1="300" y1="0" x2="300" y2="520" stroke-width="0.4" stroke="rgba(0,180,216,0.07)"/>
+        <line x1="0"   y1="297" x2="860" y2="297" stroke-width="0.4" stroke="rgba(0,180,216,0.07)"/>
+
+      </svg>
+    </div><!-- /hero-right -->
+  </div><!-- /hero-inner -->
+
+  <!-- Scroll hint -->
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <div class="hero-scroll-mouse"><span></span></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 02: OUR SERVICES
+     ══════════════════════════════════════════════════════════ -->
+<section id="services" class="black-bg" aria-labelledby="services-heading">
+  <div class="container">
+    <div class="services-header">
+      <span class="section-label">[ 02 — Our Services ]</span>
+      <h2 class="section-title light reveal" id="services-heading">
+        What We Build For You
+      </h2>
+      <p class="section-sub light reveal" style="margin: 0 auto;">
+        From the ground up to the finishing touch — we cover every step of your construction journey.
+      </p>
+    </div>
+
+    <div class="services-grid">
+
+      <!-- 01: Construction Services -->
+      <article class="service-card reveal">
+        <span class="service-num">[ 01 ]</span>
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <h3 class="service-title">Construction Services</h3>
+        <ul class="service-items">
+          <li>Residential and Commercial Construction</li>
+          <li>Renovation and Improvement Works</li>
+          <li>Interior Fit-Out Services</li>
+          <li>Modular Cabinet Installation</li>
+          <li>Roofing Services</li>
+        </ul>
+        <span class="service-card-bg-num" aria-hidden="true">01</span>
+      </article>
+
+      <!-- 02: Planning & Design -->
+      <article class="service-card reveal">
+        <span class="service-num">[ 02 ]</span>
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <h3 class="service-title">Planning &amp; Design</h3>
+        <ul class="service-items">
+          <li>Architectural Plans with 3D Perspective</li>
+          <li>Electrical Plans and Design</li>
+          <li>Plumbing Plans</li>
+          <li>Technical Specifications</li>
+          <li>Bill of Materials</li>
+          <li>Structural Analysis and Design</li>
+          <li>Signing and Sealing of Plans and Permit Documents</li>
+        </ul>
+        <span class="service-card-bg-num" aria-hidden="true">02</span>
+      </article>
+
+      <!-- 03: Building Permit Assistance -->
+      <article class="service-card reveal">
+        <span class="service-num">[ 03 ]</span>
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h3 class="service-title">Building Permit Assistance</h3>
+        <ul class="service-items">
+          <li>Lot Plan</li>
+          <li>Lot Resurvey</li>
+          <li>Signing and Sealing of Plans</li>
+          <li>Processing of Building Permit Documents</li>
+        </ul>
+        <span class="service-card-bg-num" aria-hidden="true">03</span>
+      </article>
+
+      <!-- 04: Project Management -->
+      <article class="service-card reveal">
+        <span class="service-num">[ 04 ]</span>
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h3 class="service-title">Project Management</h3>
+        <ul class="service-items">
+          <li>Overall Management of Project Execution</li>
+          <li>Coordination with Clients and Contractors</li>
+          <li>Monitoring of Project Timeline and Budget</li>
+          <li>Preparation of Progress Billings</li>
+          <li>Preparation of Shop Drawings</li>
+          <li>Full Supervision of Project Flow</li>
+        </ul>
+        <span class="service-card-bg-num" aria-hidden="true">04</span>
+      </article>
+
+      <!-- 05: Project Consultancy -->
+      <article class="service-card reveal">
+        <span class="service-num">[ 05 ]</span>
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3 class="service-title">Project Consultancy</h3>
+        <ul class="service-items">
+          <li>Ensuring Work Follows Approved Plans</li>
+          <li>Ensuring All Work is Completed as Agreed</li>
+          <li>Site Inspections</li>
+          <li>Preparation of Project Progress Reports</li>
+          <li>Review and Evaluation of Contractor Billings</li>
+        </ul>
+        <span class="service-card-bg-num" aria-hidden="true">05</span>
+      </article>
+
+      <!-- 06: Cost Estimation -->
+      <article class="service-card reveal">
+        <span class="service-num">[ 06 ]</span>
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <h3 class="service-title">Cost Estimation</h3>
+        <ul class="service-items">
+          <li>Detailed Project Cost Estimates</li>
+          <li>Bill of Materials for Pag-IBIG Loan Applications</li>
+          <li>Bill of Materials for Construction Loan Applications</li>
+        </ul>
+        <span class="service-card-bg-num" aria-hidden="true">06</span>
+      </article>
+
+    </div><!-- /services-grid -->
+  </div><!-- /container -->
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 03: HOW WE WORK — 4-STEP PROCESS
+     ══════════════════════════════════════════════════════════ -->
+<section id="how-we-work" class="light-bg" aria-labelledby="how-heading">
+  <div class="container">
+    <div class="how-header">
+      <span class="section-label">[ 03 — How We Work ]</span>
+      <h2 class="section-title dark reveal" id="how-heading">
+        Your Dream, Our Process
+      </h2>
+      <p class="section-sub dark reveal" style="margin: 0 auto;">
+        Simple. Transparent. No surprises. Here's exactly how we bring your vision to life.
+      </p>
+    </div>
+
+    <div class="steps-wrap">
+      <div class="steps-line" aria-hidden="true"></div>
+
+      <!-- Step 01 -->
+      <div class="step reveal">
+        <div class="step-num-wrap" aria-hidden="true">
+          <span class="step-num">01</span>
+        </div>
+        <h3 class="step-title">Consult</h3>
+        <p class="step-desc">
+          Tell us your vision. We listen, we understand, and we make sure your dream is crystal clear before we take a single step.
+        </p>
+      </div>
+
+      <!-- Step 02 -->
+      <div class="step reveal">
+        <div class="step-num-wrap" aria-hidden="true">
+          <span class="step-num">02</span>
+        </div>
+        <h3 class="step-title">Plan</h3>
+        <p class="step-desc">
+          We design, engineer, and prepare everything — from blueprints to permits. You'll see your dream before we break ground.
+        </p>
+      </div>
+
+      <!-- Step 03 -->
+      <div class="step reveal">
+        <div class="step-num-wrap" aria-hidden="true">
+          <span class="step-num">03</span>
+        </div>
+        <h3 class="step-title">Build</h3>
+        <p class="step-desc">
+          Our team brings your vision to life with precision, quality, and passion — every single day, on schedule.
+        </p>
+      </div>
+
+      <!-- Step 04 -->
+      <div class="step reveal">
+        <div class="step-num-wrap" aria-hidden="true">
+          <span class="step-num">04</span>
+        </div>
+        <h3 class="step-title">Turn Over</h3>
+        <p class="step-desc">
+          We hand over your completed dream — on time, on budget, exactly as promised. Your journey with us doesn't end here.
+        </p>
+      </div>
+
+    </div><!-- /steps-wrap -->
+  </div><!-- /container -->
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 04: PROJECTS
+     ══════════════════════════════════════════════════════════ -->
+<section id="projects" class="blueprint-bg" aria-labelledby="projects-heading">
+  <div class="container">
+
+    <div class="projects-header">
+      <span class="section-label">[ 04 — Our Work ]</span>
+      <div class="projects-counter reveal" aria-label="22 plus projects completed">
+        <span class="counter-val" data-target="22">0</span><span>+</span>
+      </div>
+      <p class="projects-counter-sub reveal">Projects Completed</p>
+      <h2 class="section-title light reveal" id="projects-heading" style="margin-top:16px;">
+        Dreams We've Built
+      </h2>
+    </div>
+
+    <!-- LAYER 1: Bento Grid (4 photos) -->
+    <div class="bento-grid reveal">
+
+      <!-- Large: left column spanning both rows — Project 4 -->
+      <div class="bento-item"
+           data-src="assets/images/bento/Project%204.JPG"
+           data-title="Two Storey Mixed-Use Building"
+           data-loc="Imus City, Cavite"
+           aria-label="Click to view — Two Storey Mixed-Use Building, Imus City, Cavite"
+           role="button" tabindex="0">
+        <img src="assets/images/bento/Project%204.JPG" class="bento-img" loading="lazy" alt="Two Storey Mixed-Use Building — Imus City, Cavite" />
+        <div class="bento-overlay">
+          <div class="bento-info">
+            <span class="bento-label">Two Storey Mixed-Use Building</span>
+            <span class="bento-location">Imus City, Cavite</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top right — Project 15 -->
+      <div class="bento-item"
+           data-src="assets/images/bento/Project%2015.JPG"
+           data-title="Renovation of Two Storey"
+           data-loc="Marikina City, Metro Manila"
+           aria-label="Click to view — Renovation of Two Storey, Marikina City, Metro Manila"
+           role="button" tabindex="0">
+        <img src="assets/images/bento/Project%2015.JPG" class="bento-img" loading="lazy" alt="Renovation of Two Storey — Marikina City, Metro Manila" />
+        <div class="bento-overlay">
+          <div class="bento-info">
+            <span class="bento-label">Renovation of Two Storey</span>
+            <span class="bento-location">Marikina City, Metro Manila</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom right — Project 8 -->
+      <div class="bento-item"
+           data-src="assets/images/bento/project%208.JPG"
+           data-title="Renovation of Two Storey Residential Bldg"
+           data-loc="San Jose City, Nueva Ecija"
+           aria-label="Click to view — Renovation of Two Storey Residential Bldg, San Jose City, Nueva Ecija"
+           role="button" tabindex="0">
+        <img src="assets/images/bento/project%208.JPG" class="bento-img" loading="lazy" alt="Renovation of Two Storey Residential Bldg — San Jose City, Nueva Ecija" />
+        <div class="bento-overlay">
+          <div class="bento-info">
+            <span class="bento-label">Renovation of Two Storey Residential Bldg</span>
+            <span class="bento-location">San Jose City, Nueva Ecija</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /bento-grid -->
+
+    <!-- LAYER 2: Full Projects Gallery (JS-rendered — cards appear automatically when photo is uploaded) -->
+    <div id="projects-gallery" class="projects-gallery" aria-label="All completed projects"></div>
+
+    <!-- LAYER 3: Scrolling Marquee Strip -->
+    <!-- Photos are .JPG files from assets/images/marquee/. Duplicate set below ensures
+         translateX(-50%) loops seamlessly — first 7 and last 7 are identical. -->
+    <div class="marquee-wrap" aria-label="Scrolling project photo strip" aria-hidden="true">
+      <div class="marquee-track">
+
+        <!-- ── First set (8 photos — all files in assets/images/marquee/) ── -->
+        <div class="marquee-item" role="button" tabindex="0"
+             data-src="assets/images/marquee/Project%205.JPG"
+             data-title="Two Storey Residential Building"
+             data-loc="Munoz City, Nueva Ecija"
+             aria-label="Project 5 — Two Storey Residential Building, Munoz City, Nueva Ecija">
+          <img src="assets/images/marquee/Project%205.JPG" loading="lazy" alt="Two Storey Residential Building — Munoz City, Nueva Ecija" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Munoz City, Nueva Ecija</span></div></div>
+        </div>
+
+        <div class="marquee-item" role="button" tabindex="0"
+             data-src="assets/images/marquee/Project%206.JPG"
+             data-title="Addition of Dirty Kitchen &amp; Laundry"
+             data-loc="San Jose City, Nueva Ecija"
+             aria-label="Project 6 — Addition of Dirty Kitchen &amp; Laundry, San Jose City, Nueva Ecija">
+          <img src="assets/images/marquee/Project%206.JPG" loading="lazy" alt="Addition of Dirty Kitchen &amp; Laundry — San Jose City, Nueva Ecija" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Addition of Dirty Kitchen &amp; Laundry</span><span class="bento-location">San Jose City, Nueva Ecija</span></div></div>
+        </div>
+
+        <div class="marquee-item" role="button" tabindex="0"
+             data-src="assets/images/marquee/Project%2010.JPG"
+             data-title="Two Storey Residential Building"
+             data-loc="Marikina City, Metro Manila"
+             aria-label="Project 10 — Two Storey Residential Building, Marikina City, Metro Manila">
+          <img src="assets/images/marquee/Project%2010.JPG" loading="lazy" alt="Two Storey Residential Building — Marikina City, Metro Manila" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
+        </div>
+
+        <div class="marquee-item" role="button" tabindex="0"
+             data-src="assets/images/marquee/Project%2010.1.JPG"
+             data-title="Two Storey Residential Building"
+             data-loc="Marikina City, Metro Manila"
+             aria-label="Project 10 — Two Storey Residential Building, Marikina City, Metro Manila">
+          <img src="assets/images/marquee/Project%2010.1.JPG" loading="lazy" alt="Two Storey Residential Building — Marikina City, Metro Manila" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
+        </div>
+
+        <div class="marquee-item" role="button" tabindex="0"
+             data-src="assets/images/marquee/Project%2013.JPG"
+             data-title="One Storey Residential Building"
+             data-loc="Antipolo City, Rizal"
+             aria-label="Project 13 — One Storey Residential Building, Antipolo City, Rizal">
+          <img src="assets/images/marquee/Project%2013.JPG" loading="lazy" alt="One Storey Residential Building — Antipolo City, Rizal" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey Residential Building</span><span class="bento-location">Antipolo City, Rizal</span></div></div>
+        </div>
+
+        <div class="marquee-item" role="button" tabindex="0"
+             data-src="assets/images/marquee/Project%2015.JPG"
+             data-title="Renovation of Two Storey"
+             data-loc="Marikina City, Metro Manila"
+             aria-label="Project 15 — Renovation of Two Storey, Marikina City, Metro Manila">
+          <img src="assets/images/marquee/Project%2015.JPG" loading="lazy" alt="Renovation of Two Storey — Marikina City, Metro Manila" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Renovation of Two Storey</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
+        </div>
+
+        <div class="marquee-item" role="button" tabindex="0"
+             data-src="assets/images/marquee/Project%2020.JPG"
+             data-title="One Storey with Roof Deck"
+             data-loc="Quezon City, Metro Manila"
+             aria-label="Project 20 — One Storey with Roof Deck, Quezon City, Metro Manila">
+          <img src="assets/images/marquee/Project%2020.JPG" loading="lazy" alt="One Storey with Roof Deck — Quezon City, Metro Manila" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey with Roof Deck</span><span class="bento-location">Quezon City, Metro Manila</span></div></div>
+        </div>
+
+        <div class="marquee-item" role="button" tabindex="0"
+             data-src="assets/images/marquee/Project%2020.1.JPG"
+             data-title="One Storey with Roof Deck"
+             data-loc="Quezon City, Metro Manila"
+             aria-label="Project 20 — One Storey with Roof Deck, Quezon City, Metro Manila">
+          <img src="assets/images/marquee/Project%2020.1.JPG" loading="lazy" alt="One Storey with Roof Deck — Quezon City, Metro Manila" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey with Roof Deck</span><span class="bento-location">Quezon City, Metro Manila</span></div></div>
+        </div>
+
+        <!-- ── Duplicate set (aria-hidden) — exact copy for seamless translateX(-50%) loop ── -->
+        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%205.JPG" data-title="Two Storey Residential Building" data-loc="Munoz City, Nueva Ecija">
+          <img src="assets/images/marquee/Project%205.JPG" loading="lazy" alt="" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Munoz City, Nueva Ecija</span></div></div>
+        </div>
+        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%206.JPG" data-title="Addition of Dirty Kitchen &amp; Laundry" data-loc="San Jose City, Nueva Ecija">
+          <img src="assets/images/marquee/Project%206.JPG" loading="lazy" alt="" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Addition of Dirty Kitchen &amp; Laundry</span><span class="bento-location">San Jose City, Nueva Ecija</span></div></div>
+        </div>
+        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2010.JPG" data-title="Two Storey Residential Building" data-loc="Marikina City, Metro Manila">
+          <img src="assets/images/marquee/Project%2010.JPG" loading="lazy" alt="" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
+        </div>
+        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2010.1.JPG" data-title="Two Storey Residential Building" data-loc="Marikina City, Metro Manila">
+          <img src="assets/images/marquee/Project%2010.1.JPG" loading="lazy" alt="" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
+        </div>
+        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2013.JPG" data-title="One Storey Residential Building" data-loc="Antipolo City, Rizal">
+          <img src="assets/images/marquee/Project%2013.JPG" loading="lazy" alt="" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey Residential Building</span><span class="bento-location">Antipolo City, Rizal</span></div></div>
+        </div>
+        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2015.JPG" data-title="Renovation of Two Storey" data-loc="Marikina City, Metro Manila">
+          <img src="assets/images/marquee/Project%2015.JPG" loading="lazy" alt="" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Renovation of Two Storey</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
+        </div>
+        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2020.JPG" data-title="One Storey with Roof Deck" data-loc="Quezon City, Metro Manila">
+          <img src="assets/images/marquee/Project%2020.JPG" loading="lazy" alt="" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey with Roof Deck</span><span class="bento-location">Quezon City, Metro Manila</span></div></div>
+        </div>
+        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2020.1.JPG" data-title="One Storey with Roof Deck" data-loc="Quezon City, Metro Manila">
+          <img src="assets/images/marquee/Project%2020.1.JPG" loading="lazy" alt="" />
+          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey with Roof Deck</span><span class="bento-location">Quezon City, Metro Manila</span></div></div>
+        </div>
+
+      </div>
+    </div><!-- /marquee-wrap -->
+
+    <!-- LAYER 3: Instagram Feed (Behold.so) -->
+    <div class="ig-section reveal">
+      <p class="section-label" style="justify-content:center; margin-bottom:24px; color:rgba(255,255,255,0.4);">[ Instagram Feed ]</p>
+      <!-- Behold.so Instagram feed — Feed ID: 4Xv8NIp1snFawXWUe96S -->
+      <behold-widget feed-id="4Xv8NIp1snFawXWUe96S"></behold-widget>
+      <script type="module" src="https://w.behold.so/widget.js"></script>
+
+      <a href="https://www.instagram.com/salmo.construction/" target="_blank" rel="noopener noreferrer"
+         class="btn-ig" aria-label="View more on Instagram (opens in new tab)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        More on Instagram
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+  </div><!-- /container -->
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 05: TESTIMONIALS
+     ══════════════════════════════════════════════════════════ -->
+<section id="testimonials" class="black-bg" aria-labelledby="testimonials-heading">
+  <div class="container">
+    <div class="testimonials-header">
+      <div class="testimonials-quote-bg" aria-hidden="true">"</div>
+      <span class="section-label" style="justify-content:center;">[ 05 — What Clients Say ]</span>
+      <h2 class="section-title light reveal" id="testimonials-heading">
+        Real Clients. Real Dreams.<br />Real Results.
+      </h2>
+    </div>
+  </div>
+
+  <div class="testimonials-track-wrap">
+    <div class="testimonials-track" role="list" aria-label="Client testimonials">
+
+      <!--
+        ══════════════════════════════════════════════════════════
+        TESTIMONIALS — Edit names, locations, and quotes below.
+        To update a reviewer:
+          • NAME:     Change the text inside .testimonial-name
+                      Use class="testimonial-name is-verified" for "Verified Client" (adds cyan ✓)
+                      Use class="testimonial-name" for a real name (no checkmark)
+          • PHOTO:    Upload "review-N.png" to assets/images/reviews/
+                      JS auto-loads it; falls back to default avatar if not found
+          • QUOTE:    Change the text inside .testimonial-text
+        ══════════════════════════════════════════════════════════
+      -->
+
+      <!-- ── CARD 1 ─────────────────────────────────────────── -->
+      <!-- PHOTO: review-1.png — upload to assets/images/reviews/ when ready -->
+      <div class="testimonial-card" role="listitem">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="1" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <!-- NAME: Myron Nicolas -->
+            <span class="testimonial-name">Myron Nicolas</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text long-review">
+          Building our first home, our dream home. It felt like a daunting task until we met
+          Engr. Benjamin Yuzon and the team. We were introduced to Benjamin through my father
+          and from that very first meeting, we knew we were in good hands. Benjamin and Tito
+          Gerry were incredibly accommodating. As first-time homeowners, we had so many
+          questions, but they laid out the entire plan in a way that was so easy to understand.
+          What we appreciated most was how they truly listened. They took every design idea and
+          'must-have' we envisioned and made sure it became a reality. From start to finish,
+          they guided us with patience and expertise. The result is exactly what we dreamed of,
+          and we couldn't be happier. We are so incredibly thankful to Benjamin and his team
+          for turning our vision into a beautiful home. If you want a builder who genuinely
+          cares about your journey, look no further than Salmo Construction!
+        </p>
+      </div>
+
+      <!-- ── CARD 2 ─────────────────────────────────────────── -->
+      <!-- PHOTO: review-2.png — upload to assets/images/reviews/ when ready -->
+      <div class="testimonial-card" role="listitem">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="2" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <!-- NAME: Change to real name, or keep is-verified for "Verified Client" -->
+            <span class="testimonial-name is-verified">Verified Client</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text">
+          We had so many questions and concerns before starting, but the team made everything
+          so easy to understand. They were patient, professional, and truly passionate about
+          what they do. Our home turned out even better than we imagined. Sobrang galing!
+        </p>
+      </div>
+
+      <!-- ── CARD 3 ─────────────────────────────────────────── -->
+      <!-- PHOTO: review-3.png — upload to assets/images/reviews/ when ready -->
+      <div class="testimonial-card" role="listitem">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="3" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <!-- NAME: Change to real name, or keep is-verified for "Verified Client" -->
+            <span class="testimonial-name is-verified">Verified Client</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text">
+          From the blueprints to the final turnover, Salmo Construction guided us every step
+          of the way. The quality of the work is exceptional and they finished on time. We
+          couldn't be more grateful. This is the team you want building your dream.
+        </p>
+      </div>
+
+      <!-- ── CARD 4 ─────────────────────────────────────────── -->
+      <!-- PHOTO: review-4.png — upload to assets/images/reviews/ when ready -->
+      <div class="testimonial-card" role="listitem">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="4" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <!-- NAME: Change to real name, or keep is-verified for "Verified Client" -->
+            <span class="testimonial-name is-verified">Verified Client</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text">
+          What impressed us most was how organized and transparent they were throughout the
+          whole project. Regular updates, honest pricing, no hidden costs. They delivered
+          exactly what was promised. Highly recommended to anyone building or renovating!
+        </p>
+      </div>
+
+      <!-- ── CARD 5 ─────────────────────────────────────────── -->
+      <!-- PHOTO: review-5.png — upload to assets/images/reviews/ when ready -->
+      <div class="testimonial-card" role="listitem">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="5" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <!-- NAME: Change to real name, or keep is-verified for "Verified Client" -->
+            <span class="testimonial-name is-verified">Verified Client</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text">
+          We hired Salmo for our office renovation and the results exceeded our expectations.
+          Very professional team, great attention to detail, and they worked around our
+          schedule. Will definitely work with them again for future projects.
+        </p>
+      </div>
+
+      <!-- ── CARD 6 ─────────────────────────────────────────── -->
+      <!-- PHOTO: review-6.png — upload to assets/images/reviews/ when ready -->
+      <div class="testimonial-card" role="listitem">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="6" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <!-- NAME: Change to real name, or keep is-verified for "Verified Client" -->
+            <span class="testimonial-name is-verified">Verified Client</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text">
+          The renovation they did on our home is absolutely beautiful. You can see the passion
+          and craftsmanship in every corner. They treated our home like it was their own.
+          Truly a team that lives up to their tagline — Your Dreams, Our Passion!
+        </p>
+      </div>
+
+      <!-- ── DUPLICATES (aria-hidden) — seamless loop requires full set ── -->
+      <div class="testimonial-card" role="listitem" aria-hidden="true">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="1" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <span class="testimonial-name">Myron Nicolas</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text long-review">Building our first home, our dream home. It felt like a daunting task until we met Engr. Benjamin Yuzon and the team. We were introduced to Benjamin through my father and from that very first meeting, we knew we were in good hands. Benjamin and Tito Gerry were incredibly accommodating. As first-time homeowners, we had so many questions, but they laid out the entire plan in a way that was so easy to understand. What we appreciated most was how they truly listened. They took every design idea and 'must-have' we envisioned and made sure it became a reality. From start to finish, they guided us with patience and expertise. The result is exactly what we dreamed of, and we couldn't be happier. We are so incredibly thankful to Benjamin and his team for turning our vision into a beautiful home. If you want a builder who genuinely cares about your journey, look no further than Salmo Construction!</p>
+      </div>
+
+      <div class="testimonial-card" role="listitem" aria-hidden="true">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="2" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <span class="testimonial-name is-verified">Verified Client</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text">We had so many questions and concerns before starting, but the team made everything so easy to understand. They were patient, professional, and truly passionate about what they do. Our home turned out even better than we imagined. Sobrang galing!</p>
+      </div>
+
+      <div class="testimonial-card" role="listitem" aria-hidden="true">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="3" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <span class="testimonial-name is-verified">Verified Client</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text">From the blueprints to the final turnover, Salmo Construction guided us every step of the way. The quality of the work is exceptional and they finished on time. We couldn't be more grateful. This is the team you want building your dream.</p>
+      </div>
+
+      <div class="testimonial-card" role="listitem" aria-hidden="true">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="4" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <span class="testimonial-name is-verified">Verified Client</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text">What impressed us most was how organized and transparent they were throughout the whole project. Regular updates, honest pricing, no hidden costs. They delivered exactly what was promised. Highly recommended to anyone building or renovating!</p>
+      </div>
+
+      <div class="testimonial-card" role="listitem" aria-hidden="true">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="5" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <span class="testimonial-name is-verified">Verified Client</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text">We hired Salmo for our office renovation and the results exceeded our expectations. Very professional team, great attention to detail, and they worked around our schedule. Will definitely work with them again for future projects.</p>
+      </div>
+
+      <div class="testimonial-card" role="listitem" aria-hidden="true">
+        <div class="testimonial-profile">
+          <div class="testimonial-avatar" data-review="6" aria-hidden="true"></div>
+          <div class="testimonial-meta">
+            <span class="testimonial-name is-verified">Verified Client</span>
+          </div>
+        </div>
+        <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+        <p class="testimonial-text">The renovation they did on our home is absolutely beautiful. You can see the passion and craftsmanship in every corner. They treated our home like it was their own. Truly a team that lives up to their tagline — Your Dreams, Our Passion!</p>
+      </div>
+
+    </div><!-- /testimonials-track -->
+  </div><!-- /track-wrap -->
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 06: TRUST BADGES + WHY CHOOSE US
+     ══════════════════════════════════════════════════════════ -->
+<section id="trust" class="light-bg" aria-labelledby="trust-heading">
+  <div class="container">
+    <div class="trust-inner">
+
+      <!-- Left: Trust Badges -->
+      <div>
+        <span class="section-label">[ 06 — Our Credentials ]</span>
+        <h2 class="section-title dark reveal" id="trust-heading">
+          Built on Trust.<br />Backed by Results.
+        </h2>
+        <div class="accent-line reveal"></div>
+
+        <div class="trust-badges-grid">
+
+          <!-- Badge: Projects -->
+          <div class="trust-badge reveal">
+            <div class="trust-badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              </svg>
+            </div>
+            <div class="trust-badge-num">
+              <span class="counter-val" data-target="22">0</span><span>+</span>
+            </div>
+            <div class="trust-badge-label">Finished Projects</div>
+            <div class="trust-badge-sub">Dreams Built</div>
+          </div>
+
+          <!-- Badge: BIR (clickable) -->
+          <a class="trust-badge clickable reveal"
+             href="https://drive.google.com/file/d/1EyzkqAx3ksOjVHuK5keE-VSdRy4_Nztj/view?usp=drive_link"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="View BIR Certificate (opens in new tab)">
+            <div class="trust-badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
+              </svg>
+            </div>
+            <div class="trust-badge-num" style="font-size:28px; letter-spacing:2px;">BIR</div>
+            <div class="trust-badge-label">Registered</div>
+            <div class="trust-badge-sub">Bureau of Internal Revenue</div>
+            <span class="trust-badge-link-hint">View Certificate ↗</span>
+          </a>
+
+          <!-- Badge: DTI (clickable) -->
+          <a class="trust-badge clickable reveal"
+             href="https://drive.google.com/file/d/1NkkJOtpVRHhpzP6osoBuNQrHeOsd1ko4/view?usp=drive_link"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="View DTI Certificate (opens in new tab)">
+            <div class="trust-badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+            </div>
+            <div class="trust-badge-num" style="font-size:28px; letter-spacing:2px;">DTI</div>
+            <div class="trust-badge-label">Registered</div>
+            <div class="trust-badge-sub">Dept. of Trade &amp; Industry</div>
+            <span class="trust-badge-link-hint">View Certificate ↗</span>
+          </a>
+
+          <!-- Badge: Licensed Engineers & Architects (clickable) -->
+          <a class="trust-badge clickable reveal"
+             href="https://drive.google.com/drive/folders/1YS8MamBeFBma7S6MyNbB5_kOW8tTWf2l?usp=drive_link"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="View Licensed Engineers and Architects (opens in new tab)">
+            <div class="trust-badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
+              </svg>
+            </div>
+            <div class="trust-badge-num" style="font-size:18px; font-weight:700; letter-spacing:0;">Licensed</div>
+            <div class="trust-badge-label">Engineers</div>
+            <div class="trust-badge-sub">&amp; Architects</div>
+            <span class="trust-badge-link-hint">View Licenses ↗</span>
+          </a>
+
+        </div><!-- /trust-badges-grid -->
+      </div>
+
+      <!-- Right: Why Choose Us -->
+      <div>
+        <span class="section-label why-section-label">[ Why Choose Salmo ]</span>
+        <h3 class="why-title reveal">
+          Your dream deserves the best team.<br />Here's why we are.
+        </h3>
+
+        <ul class="why-list" role="list">
+          <li class="why-item reveal">
+            <div class="why-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span>22+ Dreams Successfully Built</span>
+          </li>
+          <li class="why-item reveal">
+            <div class="why-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span>BIR &amp; DTI Registered — Legitimate &amp; Trusted</span>
+          </li>
+          <li class="why-item reveal">
+            <div class="why-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span>Licensed Engineers &amp; Architects on Every Project</span>
+          </li>
+          <li class="why-item reveal">
+            <div class="why-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span>Serving Metro Manila &amp; Surrounding Areas</span>
+          </li>
+          <li class="why-item reveal">
+            <div class="why-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span>From Planning to Turnover — We've Got You</span>
+          </li>
+          <li class="why-item reveal">
+            <div class="why-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span>Free Detailed Cost Estimates — No Obligation</span>
+          </li>
+          <li class="why-item reveal">
+            <div class="why-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span>Pag-IBIG &amp; Bank Loan Documentation Assistance</span>
+          </li>
+          <li class="why-item reveal">
+            <div class="why-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span>Transparent Pricing — No Hidden Costs</span>
+          </li>
+        </ul>
+
+        <a href="#contact" class="btn btn-cyan reveal">
+          Start Your Dream Project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+    </div><!-- /trust-inner -->
+  </div><!-- /container -->
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 07: ABOUT
+     ══════════════════════════════════════════════════════════ -->
+<section id="about" aria-labelledby="about-heading">
+  <div class="container">
+    <div class="about-inner">
+
+      <!-- Left: Image -->
+      <div class="about-image-wrap reveal-left">
+        <img src="assets/images/Founder.png" loading="lazy" alt="Salmo Construction — Founder" class="about-img" />
+        <div class="about-img-accent" aria-hidden="true"></div>
+        <div class="about-img-accent-2" aria-hidden="true"></div>
+      </div>
+
+      <!-- Right: Text -->
+      <div class="about-text reveal-right">
+        <span class="section-label">[ 07 — About Us ]</span>
+        <h2 class="section-title dark" id="about-heading">
+          We Don't Just Build Structures.<br />We Build Dreams.
+        </h2>
+        <div class="accent-line"></div>
+
+        <p class="about-body">
+          <strong>Salmo Construction Services</strong> is a professional construction and engineering company
+          based in Marikina City, Metro Manila. We are a team of licensed engineers, architects, and skilled
+          craftsmen who are passionate about bringing your vision to life.
+        </p>
+        <p class="about-body">
+          From the very first consultation to the final turnover, we guide you every step of the way —
+          making the construction journey as <strong>smooth, transparent, and exciting</strong> as it should be.
+        </p>
+        <p class="about-body">
+          Every project we take on is a promise we keep.
+        </p>
+
+        <div class="about-values">
+
+          <div class="value-card">
+            <div class="value-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <h4 class="value-title">Quality Craftsmanship</h4>
+            <p class="value-desc">Every project built to last — no shortcuts, no compromises.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              </svg>
+            </div>
+            <h4 class="value-title">Client-First Service</h4>
+            <p class="value-desc">Your vision is our mission. We listen before we build.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h4 class="value-title">Integrity &amp; Transparency</h4>
+            <p class="value-desc">Honest work, honest pricing, honest communication.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <h4 class="value-title">Precision &amp; Excellence</h4>
+            <p class="value-desc">Engineering done right — measured, intentional, perfect.</p>
+          </div>
+
+        </div><!-- /about-values -->
+      </div><!-- /about-text -->
+
+    </div><!-- /about-inner -->
+  </div><!-- /container -->
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 08: FAQ
+     ══════════════════════════════════════════════════════════ -->
+<section id="faq" class="black-bg" aria-labelledby="faq-heading">
+  <div class="container">
+    <div class="faq-inner">
+
+      <!-- Left: sticky label -->
+      <div class="faq-left">
+        <span class="section-label">[ 08 — FAQ ]</span>
+        <h2 class="section-title light reveal" id="faq-heading">
+          Questions?<br />We've Got Answers.
+        </h2>
+        <p class="section-sub light reveal">
+          If you don't find what you're looking for, we're just one message away.
+        </p>
+
+        <div class="faq-cta-inline reveal">
+          <a href="#contact" class="btn btn-cyan">
+            Let's Talk
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: accordion -->
+      <div class="faq-list" role="list">
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-a1">
+            Do you offer free estimates?
+            <div class="faq-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer" id="faq-a1" role="region">
+            <div class="faq-answer-inner">
+              <strong>Absolutely!</strong> Every dream starts with a plan — and we want to make sure yours is within reach.
+              Reach out to us and we'll prepare a detailed cost estimate and Bill of Materials, completely free.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-a2">
+            Do you assist with building permits?
+            <div class="faq-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer" id="faq-a2" role="region">
+            <div class="faq-answer-inner">
+              <strong>We've got you covered!</strong> From lot plans and resurvey to signing, sealing, and processing all permit
+              documents — we handle the paperwork so you can focus on dreaming bigger.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-a3">
+            Do you accept Pag-IBIG or bank construction loans?
+            <div class="faq-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer" id="faq-a3" role="region">
+            <div class="faq-answer-inner">
+              <strong>Yes!</strong> We prepare all the necessary Bill of Materials and documentation you need for Pag-IBIG
+              housing loans and bank construction loan applications. Let's make your dream home financially within reach.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-a4">
+            How long does construction take?
+            <div class="faq-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer" id="faq-a4" role="region">
+            <div class="faq-answer-inner">
+              Every dream is different, so every timeline is too. We work with you to set a realistic schedule during the
+              planning phase and keep you informed every step of the way — because this is your journey as much as ours.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-a5">
+            Do you handle both residential and commercial projects?
+            <div class="faq-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer" id="faq-a5" role="region">
+            <div class="faq-answer-inner">
+              <strong>Yes!</strong> Whether it's your dream home, a commercial space, a renovation, interior fit-out, cabinet
+              installation, or roofing — if you can dream it, we can build it together.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-a6">
+            Where are you located and what areas do you serve?
+            <div class="faq-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer" id="faq-a6" role="region">
+            <div class="faq-answer-inner">
+              We're based in <strong>Marikina City, Philippines</strong>, proudly serving Metro Manila and surrounding areas
+              including Quezon City, Pasig, Mandaluyong, Antipolo, Rizal, and nearby provinces.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-a7">
+            Can you design my house before building it?
+            <div class="faq-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer" id="faq-a7" role="region">
+            <div class="faq-answer-inner">
+              <strong>Definitely!</strong> We'll transform your ideas into full Architectural Plans complete with stunning 3D
+              Perspectives, Electrical and Plumbing Plans, Structural Analysis, and all Technical Specifications.
+              See your dream before we build it.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-a8">
+            How do I get started?
+            <div class="faq-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer" id="faq-a8" role="region">
+            <div class="faq-answer-inner">
+              <strong>Simple — just reach out!</strong> Call, email, or message us on Viber or WhatsApp, and let's have a
+              conversation about your vision. Your dream project starts with one message.
+              <strong>Let's build it together.</strong>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /faq-list -->
+    </div><!-- /faq-inner -->
+  </div><!-- /container -->
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 09: CONTACT
+     ══════════════════════════════════════════════════════════ -->
+<section id="contact" class="blueprint-bg" aria-labelledby="contact-heading">
+  <div class="container">
+
+    <div class="contact-header">
+      <span class="section-label" style="justify-content:center;">[ 09 — Get In Touch ]</span>
+      <h2 class="section-title light reveal" id="contact-heading">
+        Your Dream Project<br />Starts With One Message.
+      </h2>
+      <p class="section-sub light reveal" style="margin: 0 auto;">
+        Let's talk about your vision. We're ready when you are.
+      </p>
+    </div>
+
+    <div class="contact-inner">
+
+      <!-- Left: Contact details -->
+      <div class="contact-details reveal-left">
+        <h3 class="contact-info-title">Reach Us Directly</h3>
+
+        <!-- Operating hours -->
+        <div class="contact-hours">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="contact-hours-text">
+            <strong>Mon – Sat, 8:00 AM – 5:00 PM</strong> (Philippine Time)
+          </span>
+        </div>
+
+        <div class="contact-items">
+
+          <a href="mailto:salmoconstructionservices@gmail.com" class="contact-item" aria-label="Send email to Salmo Construction">
+            <div class="contact-item-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-value">salmoconstructionservices@gmail.com</div>
+            </div>
+          </a>
+
+          <a href="tel:+639975747607" class="contact-item" aria-label="Call Salmo Construction">
+            <div class="contact-item-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5a2 2 0 0 1 1.99-2H6.6a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 10.4a16 16 0 0 0 6 6l.94-.93a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 17.91v-.99z"/></svg>
+            </div>
+            <div>
+              <div class="contact-item-label">Phone</div>
+              <div class="contact-item-value">+63 997 574 7607</div>
+            </div>
+          </a>
+
+          <a href="viber://chat?number=+639975747607" class="contact-item" aria-label="Message on Viber">
+            <div class="contact-item-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div>
+              <div class="contact-item-label">Viber</div>
+              <div class="contact-item-value">+63 997 574 7607</div>
+            </div>
+          </a>
+
+          <a href="https://wa.me/639975747607" target="_blank" rel="noopener noreferrer" class="contact-item" aria-label="Message on WhatsApp (opens in new tab)">
+            <div class="contact-item-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <div>
+              <div class="contact-item-label">WhatsApp</div>
+              <div class="contact-item-value">+63 997 574 7607</div>
+            </div>
+          </a>
+
+          <div class="contact-item" style="cursor:default;">
+            <div class="contact-item-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="contact-item-label">Address</div>
+              <div class="contact-item-value">2F LPAN Building, Block 1 Lot 16,<br />Gil Fernando Ave, cor Lark,<br />Marikina City, Philippines 1800</div>
+            </div>
+          </div>
+
+        </div><!-- /contact-items -->
+
+        <!-- Social icons -->
+        <div class="contact-social">
+          <div class="contact-social-title">Follow Our Work</div>
+          <div class="contact-social-icons">
+
+            <a href="https://web.facebook.com/salmo.construction" target="_blank" rel="noopener noreferrer"
+               class="social-icon" aria-label="Facebook (opens in new tab)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+
+            <a href="https://www.instagram.com/salmo.construction/" target="_blank" rel="noopener noreferrer"
+               class="social-icon" aria-label="Instagram (opens in new tab)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+
+            <a href="https://www.tiktok.com/@salmo.construction" target="_blank" rel="noopener noreferrer"
+               class="social-icon" aria-label="TikTok (opens in new tab)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+            </a>
+
+            <a href="https://www.youtube.com/@salmo.construction" target="_blank" rel="noopener noreferrer"
+               class="social-icon" aria-label="YouTube (opens in new tab)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- Google Maps embed -->
+        <div class="contact-map">
+          <iframe
+            src="https://maps.google.com/maps?q=LPAN+Building,+Gil+Fernando+Avenue,+cor+Lark,+Marikina+City,+Philippines+1800&t=&z=17&ie=UTF8&iwloc=B&output=embed"
+            loading="lazy"
+            allowfullscreen=""
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Salmo Construction Services location — Marikina City"
+            aria-label="Google Maps showing our Marikina City office location">
+          </iframe>
+        </div>
+
+      </div><!-- /contact-details -->
+
+      <!-- Right: Contact form -->
+      <div class="contact-form-wrap reveal-right">
+        <h3 class="contact-form-title">Send Us a Message</h3>
+
+        <!--
+          CONTACT FORM: Sign up at formspree.io → create a form → replace YOUR_FORM_ID below.
+          Form action: https://formspree.io/f/YOUR_FORM_ID
+        -->
+        <form
+          id="contact-form"
+          action="https://formspree.io/f/YOUR_FORM_ID"
+          method="POST"
+          novalidate
+          aria-label="Contact form">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="contact-name">Full Name *</label>
+              <input
+                class="form-input"
+                type="text"
+                id="contact-name"
+                name="name"
+                placeholder="Juan dela Cruz"
+                required
+                autocomplete="name" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contact-email">Email Address *</label>
+              <input
+                class="form-input"
+                type="email"
+                id="contact-email"
+                name="email"
+                placeholder="juan@email.com"
+                required
+                autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="contact-phone">Phone Number</label>
+              <input
+                class="form-input"
+                type="tel"
+                id="contact-phone"
+                name="phone"
+                placeholder="+63 9XX XXX XXXX"
+                autocomplete="tel" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contact-service">Service Needed</label>
+              <select class="form-select" id="contact-service" name="service">
+                <option value="" disabled selected>Select a service</option>
+                <option value="Construction Services">Construction Services</option>
+                <option value="Planning & Design">Planning &amp; Design</option>
+                <option value="Building Permit Assistance">Building Permit Assistance</option>
+                <option value="Project Management">Project Management</option>
+                <option value="Project Consultancy">Project Consultancy</option>
+                <option value="Cost Estimation">Cost Estimation</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-message">Message *</label>
+            <textarea
+              class="form-textarea"
+              id="contact-message"
+              name="message"
+              placeholder="Tell us about your dream project..."
+              required
+              rows="5"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-cyan form-submit">
+            Let's Build It Together
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+
+          <div class="form-success" role="alert" aria-live="polite">
+            Your message has been sent! We'll get back to you within 24 hours.
+          </div>
+
+        </form>
+      </div><!-- /contact-form-wrap -->
+
+    </div><!-- /contact-inner -->
+  </div><!-- /container -->
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════════════════════ -->
+<footer id="footer" class="black-bg" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+
+      <a href="#hero" class="footer-logo" aria-label="Salmo Construction Services — back to top">
+        <img src="assets/images/salmo.png" alt="Salmo Construction Services" class="footer-logo-img" />
+      </a>
+
+      <p class="footer-copy">
+        &copy; 2025 Salmo Construction Services. All Rights Reserved.
+      </p>
+
+      <a href="#hero" class="footer-back" aria-label="Scroll back to top">
+        Back to Top &uarr;
+      </a>
+
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FLOATING ELEMENT 1: Multi-Contact FAB (bottom-right)
+     ══════════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════════════
+     FLOATING WIDGET — bottom-right, centered vertical stack
+     Top group (message+%+house+arrow) naturally rises when
+     FAB options expand, because the widget grows upward.
+     ══════════════════════════════════════════════════════════ -->
+<div id="contact-fab" role="complementary" aria-label="Quick contact options">
+
+  <!-- ① TOP GROUP — moves up as a unit when More is tapped -->
+  <div id="widget-top">
+
+    <!-- Section message: appears above %, both always visible simultaneously -->
+    <span id="hw-message" class="hw-message" aria-live="polite"></span>
+
+    <!-- Scroll progress percentage -->
+    <span class="hw-progress" aria-hidden="true">0%</span>
+
+    <!-- SVG house — 7 separate paths, one per section, drawn progressively -->
+    <div id="house-widget" role="img" aria-label="Construction progress indicator">
+      <svg id="hw-svg" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"
+           fill="none" stroke-width="0.85"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+
+        <!--
+          TWO-STOREY HOUSE — 44×44 viewBox
+          ─────────────────────────────────────────────────────────────
+          Body:        x=5–39  (34px wide)  center x=22
+          Eave:        y=13   (taller than before)
+          Ground:      y=42
+          Floor split: y=27   (2nd floor y=13–27=14px, ground y=27–42=15px)
+          Roof peak:   y=5    (8px above eave)
+
+          2nd floor:  1 big window x=8–36, y=16–25 (28×9px) + cross lines
+          Ground floor layout — 28px span x=8–36 (matches 2nd-floor window exactly):
+            win 5px | gap 4px | door 10px | gap 4px | win 5px = 28px ✓
+            Left win: x=8–13   Door: x=17–27 (center x=22)   Right win: x=31–36
+          Windows: y=31–39 (8px)   Door: y=30–42 (12px, taller ✓, flush to ground)
+          ─────────────────────────────────────────────────────────────
+        -->
+
+        <!-- §02 Services: ground baseline -->
+        <path id="hw-ground"  d="M3,42 L41,42" stroke-width="1.1"/>
+
+        <!-- §03 How We Work: two walls + eave + floor separator -->
+        <path id="hw-walls"   d="M5,42 L5,13 L39,13 L39,42 M5,27 L39,27"/>
+
+        <!-- §04 Projects: roof — two slopes to peak -->
+        <path id="hw-roof"    d="M5,13 L22,5 L39,13"/>
+
+        <!-- §05 Testimonials: 2nd floor — 1 big window, 3 verticals (x=15,22,29) + horizontal → 8 panes -->
+        <path id="hw-win-l"   d="M8,16 L8,25 L36,25 L36,16 Z M15,16 L15,25 M22,16 L22,25 M29,16 L29,25 M8,20.5 L36,20.5" stroke-width="0.55"/>
+
+        <!-- §06 Trust: ground floor — left win x=8–13, right win x=31–36 (5px each, outer edges
+             align with 2nd-floor window x=8–36; equal 4px gaps to door x=17–27) -->
+        <path id="hw-win-r"   d="M8,31 L8,39 L13,39 L13,31 Z M10.5,31 L10.5,39 M8,35 L13,35 M31,31 L31,39 L36,39 L36,31 Z M33.5,31 L33.5,39 M31,35 L36,35" stroke-width="0.55"/>
+
+        <!-- §07 About: door — x=17–27 (10px, center x=22), y=30–42 (12px, flush to ground) -->
+        <path id="hw-door"    d="M17,42 L17,30 L27,30 L27,42" stroke-width="0.65"/>
+
+        <!-- §08 FAQ: chimney — short, left roof slope (slope: (5,13)→(22,5), at x=9 y≈11, x=13 y≈9) -->
+        <path id="hw-chimney" d="M9,11 L9,6 L13,6 L13,9"/>
+
+      </svg>
+    </div>
+
+    <!-- Bouncing arrow — Section 09 only, hidden by default -->
+    <div id="hw-arrow" class="hw-arrow" aria-hidden="true">
+      <svg viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="1,1 9,9 17,1" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+  </div><!-- /widget-top -->
+
+  <!-- ② EXPANDABLE OPTIONS — slides open between top group and Messenger -->
+  <div id="fab-options" class="fab-options" aria-hidden="true">
+
+    <a href="mailto:salmoconstructionservices@gmail.com" class="fab-option email"
+       aria-label="Send email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <span class="fab-option-label">Email</span>
+    </a>
+
+    <a href="tel:+639975747607" class="fab-option call"
+       aria-label="Call us">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5a2 2 0 0 1 1.99-2H6.6a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 10.4a16 16 0 0 0 6 6l.94-.93a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 17.91v-.99z"/></svg>
+      <span class="fab-option-label">Call</span>
+    </a>
+
+    <a href="viber://chat?number=+639975747607" class="fab-option viber"
+       aria-label="Message on Viber">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span class="fab-option-label">Viber</span>
+    </a>
+
+    <a href="https://wa.me/639975747607" target="_blank" rel="noopener noreferrer"
+       class="fab-option whatsapp" aria-label="Message on WhatsApp (opens in new tab)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      <span class="fab-option-label">WhatsApp</span>
+    </a>
+
+  </div><!-- /fab-options -->
+
+  <!-- ③ MESSENGER — always visible above More button -->
+  <a href="https://m.me/salmo.construction" target="_blank" rel="noopener noreferrer"
+     class="messenger-btn" id="messenger-bubble" aria-label="Chat on Facebook Messenger (opens in new tab)">
+    <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
+      <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.908 1.438 5.504 3.688 7.21V22l3.37-1.853c.9.25 1.854.383 2.942.383 5.523 0 10-4.145 10-9.243C22 6.145 17.523 2 12 2zm1.088 12.445l-2.548-2.72-4.972 2.72 5.474-5.808 2.61 2.72 4.91-2.72-5.474 5.808z"/>
+    </svg>
+    <span class="fab-option-label">Messenger</span>
+  </a>
+
+  <!-- ④ MORE / CLOSE button — navy circle, + becomes × -->
+  <button class="fab-btn" id="fab-btn" aria-label="Open contact options" aria-expanded="false" aria-controls="fab-options">
+    <svg class="fab-icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+    <svg class="fab-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+
+</div><!-- /contact-fab -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     LIGHTBOX — Opens when a bento photo is clicked
+     ══════════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════════════
+     SERVICE MODAL — mobile tap to view service details
+     ══════════════════════════════════════════════════════════ -->
+<div id="service-modal" class="service-modal" role="dialog" aria-modal="true" aria-label="Service details" aria-hidden="true">
+  <div class="service-modal-backdrop"></div>
+  <div class="service-modal-panel">
+    <div class="service-modal-handle" aria-hidden="true"></div>
+    <button class="service-modal-close" aria-label="Close service details">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="service-modal-icon" id="service-modal-icon" aria-hidden="true"></div>
+    <h3 class="service-modal-title" id="service-modal-title"></h3>
+    <ul class="service-modal-list" id="service-modal-list"></ul>
+  </div>
+</div>
+
+
+<div id="lightbox" aria-modal="true" aria-label="Project photo viewer" role="dialog" aria-hidden="true">
+  <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close photo viewer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="lightbox-img-wrap">
+      <canvas id="lightbox-canvas" class="lightbox-canvas"></canvas>
+    </div>
+    <div class="lightbox-caption">
+      <span class="lightbox-title" id="lightbox-title"></span>
+      <span class="lightbox-loc"   id="lightbox-loc"></span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FLOATING ELEMENT 3: Cookie Notice Bar
+     First visit only — dismissed via localStorage
+     ══════════════════════════════════════════════════════════ -->
+<div id="cookie-bar" role="dialog" aria-label="Cookie notice" aria-live="polite">
+  <p class="cookie-text">
+    This site uses cookies to improve your experience.
+  </p>
+  <button class="cookie-btn" id="cookie-accept" aria-label="Accept cookies and dismiss this notice">
+    Got it
+  </button>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════════════════════════════ -->
+
+<!-- GSAP + ScrollTrigger (free CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<!-- Site scripts -->
+<script src="js/main.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/components.js"></script>
+
+</body>
+</html>
