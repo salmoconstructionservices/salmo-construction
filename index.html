@@ -457,53 +457,56 @@
       </h2>
     </div>
 
-    <!-- LAYER 1: Bento Grid (4 photos) -->
+    <!-- LAYER 1: Bento Grid — featured projects (Projects 3, 7, 14) -->
     <div class="bento-grid reveal">
 
-      <!-- Large: left column spanning both rows — Project 4 -->
+      <!-- Large: left column spanning both rows — Project 3 -->
       <div class="bento-item"
-           data-src="assets/images/bento/Project%204.JPG"
-           data-title="Two Storey Mixed-Use Building"
+           data-project-num="3"
+           data-src="assets/images/bento/Project%203/Project%203.JPG"
+           data-title="Two Storey Residential Building"
            data-loc="Imus City, Cavite"
-           aria-label="Click to view — Two Storey Mixed-Use Building, Imus City, Cavite"
+           aria-label="Click to view — Two Storey Residential Building, Imus City, Cavite"
            role="button" tabindex="0">
-        <img src="assets/images/bento/Project%204.JPG" class="bento-img" loading="lazy" alt="Two Storey Mixed-Use Building — Imus City, Cavite" />
+        <img src="assets/images/bento/Project%203/Project%203.JPG" class="bento-img" loading="lazy" alt="Two Storey Residential Building — Imus City, Cavite" />
         <div class="bento-overlay">
           <div class="bento-info">
-            <span class="bento-label">Two Storey Mixed-Use Building</span>
+            <span class="bento-label">Two Storey Residential Building</span>
             <span class="bento-location">Imus City, Cavite</span>
           </div>
         </div>
       </div>
 
-      <!-- Top right — Project 15 -->
+      <!-- Top right — Project 7 -->
       <div class="bento-item"
-           data-src="assets/images/bento/Project%2015.JPG"
-           data-title="Renovation of Two Storey"
-           data-loc="Marikina City, Metro Manila"
-           aria-label="Click to view — Renovation of Two Storey, Marikina City, Metro Manila"
+           data-project-num="7"
+           data-src="assets/images/bento/Project%207/Project%207.JPG"
+           data-title="Two Storey Residential Building"
+           data-loc="San Jose City, Nueva Ecija"
+           aria-label="Click to view — Two Storey Residential Building, San Jose City, Nueva Ecija"
            role="button" tabindex="0">
-        <img src="assets/images/bento/Project%2015.JPG" class="bento-img" loading="lazy" alt="Renovation of Two Storey — Marikina City, Metro Manila" />
+        <img src="assets/images/bento/Project%207/Project%207.JPG" class="bento-img" loading="lazy" alt="Two Storey Residential Building — San Jose City, Nueva Ecija" />
         <div class="bento-overlay">
           <div class="bento-info">
-            <span class="bento-label">Renovation of Two Storey</span>
-            <span class="bento-location">Marikina City, Metro Manila</span>
+            <span class="bento-label">Two Storey Residential Building</span>
+            <span class="bento-location">San Jose City, Nueva Ecija</span>
           </div>
         </div>
       </div>
 
-      <!-- Bottom right — Project 8 -->
+      <!-- Bottom right — Project 14 -->
       <div class="bento-item"
-           data-src="assets/images/bento/project%208.JPG"
-           data-title="Renovation of Two Storey Residential Bldg"
-           data-loc="San Jose City, Nueva Ecija"
-           aria-label="Click to view — Renovation of Two Storey Residential Bldg, San Jose City, Nueva Ecija"
+           data-project-num="14"
+           data-src="assets/images/bento/Project%2014/Project%2014.JPG"
+           data-title="One Storey Residential Building"
+           data-loc="Antipolo City, Rizal"
+           aria-label="Click to view — One Storey Residential Building, Antipolo City, Rizal"
            role="button" tabindex="0">
-        <img src="assets/images/bento/project%208.JPG" class="bento-img" loading="lazy" alt="Renovation of Two Storey Residential Bldg — San Jose City, Nueva Ecija" />
+        <img src="assets/images/bento/Project%2014/Project%2014.JPG" class="bento-img" loading="lazy" alt="One Storey Residential Building — Antipolo City, Rizal" />
         <div class="bento-overlay">
           <div class="bento-info">
-            <span class="bento-label">Renovation of Two Storey Residential Bldg</span>
-            <span class="bento-location">San Jose City, Nueva Ecija</span>
+            <span class="bento-label">One Storey Residential Building</span>
+            <span class="bento-location">Antipolo City, Rizal</span>
           </div>
         </div>
       </div>
@@ -513,119 +516,10 @@
     <!-- LAYER 2: Full Projects Gallery (JS-rendered — cards appear automatically when photo is uploaded) -->
     <div id="projects-gallery" class="projects-gallery" aria-label="All completed projects"></div>
 
-    <!-- LAYER 3: Scrolling Marquee Strip -->
-    <!-- Photos are .JPG files from assets/images/marquee/. Duplicate set below ensures
-         translateX(-50%) loops seamlessly — first 7 and last 7 are identical. -->
+    <!-- LAYER 3: Scrolling Marquee Strip — populated by JS from PROJECTS data -->
     <div class="marquee-wrap" aria-label="Scrolling project photo strip" aria-hidden="true">
-      <div class="marquee-track">
-
-        <!-- ── First set (8 photos — all files in assets/images/marquee/) ── -->
-        <div class="marquee-item" role="button" tabindex="0"
-             data-src="assets/images/marquee/Project%205.JPG"
-             data-title="Two Storey Residential Building"
-             data-loc="Munoz City, Nueva Ecija"
-             aria-label="Project 5 — Two Storey Residential Building, Munoz City, Nueva Ecija">
-          <img src="assets/images/marquee/Project%205.JPG" loading="lazy" alt="Two Storey Residential Building — Munoz City, Nueva Ecija" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Munoz City, Nueva Ecija</span></div></div>
-        </div>
-
-        <div class="marquee-item" role="button" tabindex="0"
-             data-src="assets/images/marquee/Project%206.JPG"
-             data-title="Addition of Dirty Kitchen &amp; Laundry"
-             data-loc="San Jose City, Nueva Ecija"
-             aria-label="Project 6 — Addition of Dirty Kitchen &amp; Laundry, San Jose City, Nueva Ecija">
-          <img src="assets/images/marquee/Project%206.JPG" loading="lazy" alt="Addition of Dirty Kitchen &amp; Laundry — San Jose City, Nueva Ecija" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Addition of Dirty Kitchen &amp; Laundry</span><span class="bento-location">San Jose City, Nueva Ecija</span></div></div>
-        </div>
-
-        <div class="marquee-item" role="button" tabindex="0"
-             data-src="assets/images/marquee/Project%2010.JPG"
-             data-title="Two Storey Residential Building"
-             data-loc="Marikina City, Metro Manila"
-             aria-label="Project 10 — Two Storey Residential Building, Marikina City, Metro Manila">
-          <img src="assets/images/marquee/Project%2010.JPG" loading="lazy" alt="Two Storey Residential Building — Marikina City, Metro Manila" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
-        </div>
-
-        <div class="marquee-item" role="button" tabindex="0"
-             data-src="assets/images/marquee/Project%2010.1.JPG"
-             data-title="Two Storey Residential Building"
-             data-loc="Marikina City, Metro Manila"
-             aria-label="Project 10 — Two Storey Residential Building, Marikina City, Metro Manila">
-          <img src="assets/images/marquee/Project%2010.1.JPG" loading="lazy" alt="Two Storey Residential Building — Marikina City, Metro Manila" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
-        </div>
-
-        <div class="marquee-item" role="button" tabindex="0"
-             data-src="assets/images/marquee/Project%2013.JPG"
-             data-title="One Storey Residential Building"
-             data-loc="Antipolo City, Rizal"
-             aria-label="Project 13 — One Storey Residential Building, Antipolo City, Rizal">
-          <img src="assets/images/marquee/Project%2013.JPG" loading="lazy" alt="One Storey Residential Building — Antipolo City, Rizal" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey Residential Building</span><span class="bento-location">Antipolo City, Rizal</span></div></div>
-        </div>
-
-        <div class="marquee-item" role="button" tabindex="0"
-             data-src="assets/images/marquee/Project%2015.JPG"
-             data-title="Renovation of Two Storey"
-             data-loc="Marikina City, Metro Manila"
-             aria-label="Project 15 — Renovation of Two Storey, Marikina City, Metro Manila">
-          <img src="assets/images/marquee/Project%2015.JPG" loading="lazy" alt="Renovation of Two Storey — Marikina City, Metro Manila" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Renovation of Two Storey</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
-        </div>
-
-        <div class="marquee-item" role="button" tabindex="0"
-             data-src="assets/images/marquee/Project%2020.JPG"
-             data-title="One Storey with Roof Deck"
-             data-loc="Quezon City, Metro Manila"
-             aria-label="Project 20 — One Storey with Roof Deck, Quezon City, Metro Manila">
-          <img src="assets/images/marquee/Project%2020.JPG" loading="lazy" alt="One Storey with Roof Deck — Quezon City, Metro Manila" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey with Roof Deck</span><span class="bento-location">Quezon City, Metro Manila</span></div></div>
-        </div>
-
-        <div class="marquee-item" role="button" tabindex="0"
-             data-src="assets/images/marquee/Project%2020.1.JPG"
-             data-title="One Storey with Roof Deck"
-             data-loc="Quezon City, Metro Manila"
-             aria-label="Project 20 — One Storey with Roof Deck, Quezon City, Metro Manila">
-          <img src="assets/images/marquee/Project%2020.1.JPG" loading="lazy" alt="One Storey with Roof Deck — Quezon City, Metro Manila" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey with Roof Deck</span><span class="bento-location">Quezon City, Metro Manila</span></div></div>
-        </div>
-
-        <!-- ── Duplicate set (aria-hidden) — exact copy for seamless translateX(-50%) loop ── -->
-        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%205.JPG" data-title="Two Storey Residential Building" data-loc="Munoz City, Nueva Ecija">
-          <img src="assets/images/marquee/Project%205.JPG" loading="lazy" alt="" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Munoz City, Nueva Ecija</span></div></div>
-        </div>
-        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%206.JPG" data-title="Addition of Dirty Kitchen &amp; Laundry" data-loc="San Jose City, Nueva Ecija">
-          <img src="assets/images/marquee/Project%206.JPG" loading="lazy" alt="" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Addition of Dirty Kitchen &amp; Laundry</span><span class="bento-location">San Jose City, Nueva Ecija</span></div></div>
-        </div>
-        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2010.JPG" data-title="Two Storey Residential Building" data-loc="Marikina City, Metro Manila">
-          <img src="assets/images/marquee/Project%2010.JPG" loading="lazy" alt="" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
-        </div>
-        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2010.1.JPG" data-title="Two Storey Residential Building" data-loc="Marikina City, Metro Manila">
-          <img src="assets/images/marquee/Project%2010.1.JPG" loading="lazy" alt="" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Two Storey Residential Building</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
-        </div>
-        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2013.JPG" data-title="One Storey Residential Building" data-loc="Antipolo City, Rizal">
-          <img src="assets/images/marquee/Project%2013.JPG" loading="lazy" alt="" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey Residential Building</span><span class="bento-location">Antipolo City, Rizal</span></div></div>
-        </div>
-        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2015.JPG" data-title="Renovation of Two Storey" data-loc="Marikina City, Metro Manila">
-          <img src="assets/images/marquee/Project%2015.JPG" loading="lazy" alt="" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">Renovation of Two Storey</span><span class="bento-location">Marikina City, Metro Manila</span></div></div>
-        </div>
-        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2020.JPG" data-title="One Storey with Roof Deck" data-loc="Quezon City, Metro Manila">
-          <img src="assets/images/marquee/Project%2020.JPG" loading="lazy" alt="" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey with Roof Deck</span><span class="bento-location">Quezon City, Metro Manila</span></div></div>
-        </div>
-        <div class="marquee-item" aria-hidden="true" data-src="assets/images/marquee/Project%2020.1.JPG" data-title="One Storey with Roof Deck" data-loc="Quezon City, Metro Manila">
-          <img src="assets/images/marquee/Project%2020.1.JPG" loading="lazy" alt="" />
-          <div class="marquee-overlay"><div class="bento-info"><span class="bento-label">One Storey with Roof Deck</span><span class="bento-location">Quezon City, Metro Manila</span></div></div>
-        </div>
-
+      <div class="marquee-track" id="marquee-track">
+        <!-- JS renders all project cover photos + duplicate set for seamless loop -->
       </div>
     </div><!-- /marquee-wrap -->
 
@@ -1654,18 +1548,39 @@
 <div id="lightbox" aria-modal="true" aria-label="Project photo viewer" role="dialog" aria-hidden="true">
   <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
   <div class="lightbox-inner">
-    <button class="lightbox-close" id="lightbox-close" aria-label="Close photo viewer">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
-    </button>
-    <div class="lightbox-img-wrap">
-      <canvas id="lightbox-canvas" class="lightbox-canvas"></canvas>
+
+    <!-- Top bar: counter + close -->
+    <div class="lightbox-topbar">
+      <span class="lightbox-counter" id="lightbox-counter">1 / 1</span>
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close photo viewer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
     </div>
+
+    <!-- Photo row with prev/next arrows -->
+    <div class="lightbox-photo-row">
+      <button class="lightbox-arrow lightbox-prev" id="lightbox-prev" aria-label="Previous photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="lightbox-img-wrap">
+        <canvas id="lightbox-canvas" class="lightbox-canvas"></canvas>
+      </div>
+      <button class="lightbox-arrow lightbox-next" id="lightbox-next" aria-label="Next photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <!-- Caption: title + location -->
     <div class="lightbox-caption">
       <span class="lightbox-title" id="lightbox-title"></span>
       <span class="lightbox-loc"   id="lightbox-loc"></span>
     </div>
+
+    <!-- Dots indicator -->
+    <div class="lightbox-dots" id="lightbox-dots"></div>
+
   </div>
 </div>
 

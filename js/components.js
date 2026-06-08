@@ -153,152 +153,248 @@
 })();
 
 
-/* ── PROJECTS GALLERY ───────────────────────────────────────── */
+/* ── PROJECT DATA ───────────────────────────────────────────── */
 /*
- * All 20 projects are defined below. For each project, JS loads the photo
- * from assets/images/projects/. If the file exists, the card is rendered.
- * If the file does not exist, no card is shown — no placeholder, no gap.
+ * All projects are defined here. Each entry has:
+ *   num      — project number
+ *   title    — project description
+ *   location — city / province
+ *   base     — folder path (trailing slash, spaces allowed)
+ *   photos   — ordered array: cover first, then extras
+ *   featured — true = appears in the bento grid
  *
- * To make a card appear:
- *   1. Upload the photo to assets/images/projects/
- *   2. Name it exactly as shown (e.g. "project 1.png")
- *   3. Reload the page — the card appears automatically, no code changes needed.
+ * To add a new project: copy a block, set the fields, add files to the folder.
+ * To remove a project: delete its block. No other code changes needed.
  */
-(function initProjectsGallery() {
-  const gallery = document.getElementById('projects-gallery');
-  if (!gallery) return;
+const PROJECTS = [
+  // PROJECT 1
+  { num: 1,  title: 'Two Storey Mixed-Use Building',
+             location: 'San Jose City, Nueva Ecija',
+             base: 'assets/images/marquee/Project 1/',
+             photos: ['Project 1.png', 'Project 1.1.png'],
+             featured: false },
 
-  const BASE = 'assets/images/projects/';
+  // PROJECT 2
+  { num: 2,  title: 'Two Storey House Renovation and Extension',
+             location: 'San Jose City, Nueva Ecija',
+             base: 'assets/images/marquee/Project 2/',
+             photos: ['Project 2.png', 'Project 2.1.png'],
+             featured: false },
 
-  const PROJECTS = [
-    // PROJECT 1 - Two Storey Mixed-Use Building
-    // Location: San Jose City, Nueva Ecija
-    // Photo: "project 1.png" — upload to assets/images/projects/ when ready
-    { num: 1,  title: 'Two Storey Mixed-Use Building',                                       location: 'San Jose City, Nueva Ecija'   },
+  // PROJECT 3
+  { num: 3,  title: 'Two Storey Residential Building',
+             location: 'Imus City, Cavite',
+             base: 'assets/images/bento/Project 3/',
+             photos: ['Project 3.JPG','Project 3.1.JPG','Project 3.2.JPG','Project 3.3.JPG',
+                      'Project 3.4.JPG','Project 3.5.JPG','Project 3.6.JPG','Project 3.7.JPG',
+                      'Project 3.8.JPG','Project 3.9.JPG'],
+             featured: true },
 
-    // PROJECT 2 - Two Storey House Renovation and Extension
-    // Location: San Jose City, Nueva Ecija
-    // Photo: "project 2.png" — upload to assets/images/projects/ when ready
-    { num: 2,  title: 'Two Storey House Renovation and Extension',                           location: 'San Jose City, Nueva Ecija'   },
+  // PROJECT 4
+  { num: 4,  title: 'Two Storey Mixed-Use Building',
+             location: 'Imus City, Cavite',
+             base: 'assets/images/marquee/Project 4/',
+             photos: ['Project 4.png', 'Project 4.1.png'],
+             featured: false },
 
-    // PROJECT 3 - Two Storey Residential Building
-    // Location: Imus City, Cavite
-    // Photo: "project 3.png" — upload to assets/images/projects/ when ready
-    { num: 3,  title: 'Two Storey Residential Building',                                     location: 'Imus City, Cavite'            },
+  // PROJECT 5
+  { num: 5,  title: 'Two Storey Residential Building',
+             location: 'Munoz City, Nueva Ecija',
+             base: 'assets/images/marquee/Project 5/',
+             photos: ['Project 5.JPG','Project 5.1.JPG','Project 5.2.JPG','Project 5.3.JPG'],
+             featured: false },
 
-    // PROJECT 4 - Two Storey Mixed-Use Building
-    // Location: Imus City, Cavite
-    // Photo: "project 4.png" — upload to assets/images/projects/ when ready
-    { num: 4,  title: 'Two Storey Mixed-Use Building',                                       location: 'Imus City, Cavite'            },
+  // PROJECT 6
+  { num: 6,  title: 'Addition of Dirty Kitchen & Laundry to Two Storey Residential Bldg',
+             location: 'San Jose City, Nueva Ecija',
+             base: 'assets/images/marquee/Project 6/',
+             photos: ['Project 6.JPG','Project 6.1.JPG','Project 6.2.JPG',
+                      'Project 6.3.JPG','Project 6.4.JPG','Project 6.5.JPG'],
+             featured: false },
 
-    // PROJECT 5 - Two Storey Residential Building
-    // Location: Munoz City, Nueva Ecija
-    // Photo: "project 5.png" — upload to assets/images/projects/ when ready
-    { num: 5,  title: 'Two Storey Residential Building',                                     location: 'Munoz City, Nueva Ecija'      },
+  // PROJECT 7
+  { num: 7,  title: 'Two Storey Residential Building',
+             location: 'San Jose City, Nueva Ecija',
+             base: 'assets/images/bento/Project 7/',
+             photos: ['Project 7.JPG','Project 7.1.JPG','Project 7.2.JPG'],
+             featured: true },
 
-    // PROJECT 6 - Addition of Dirty Kitchen & Laundry to Two Storey Residential Bldg
-    // Location: San Jose City, Nueva Ecija
-    // Photo: "project 6.png" — upload to assets/images/projects/ when ready
-    { num: 6,  title: 'Addition of Dirty Kitchen & Laundry to Two Storey Residential Bldg', location: 'San Jose City, Nueva Ecija'   },
+  // PROJECT 8
+  { num: 8,  title: 'Renovation of Two Storey Residential Bldg',
+             location: 'San Jose City, Nueva Ecija',
+             base: 'assets/images/marquee/Project 8/',
+             photos: ['Project 8.JPG','Project 8.1.JPG','Project 8.2.JPG'],
+             featured: false },
 
-    // PROJECT 7 - Two Storey Residential Building
-    // Location: San Jose City, Nueva Ecija
-    // Photo: "project 7.png" — upload to assets/images/projects/ when ready
-    { num: 7,  title: 'Two Storey Residential Building',                                     location: 'San Jose City, Nueva Ecija'   },
+  // PROJECT 9
+  { num: 9,  title: 'Four Bedroom Two Storey Residential Bldg',
+             location: 'Marikina City, Metro Manila',
+             base: 'assets/images/marquee/Project 9/',
+             photos: ['Project 9.JPG','Project 9.1.JPG','Project 9.2.JPG','Project 9.3.JPG',
+                      'Project 9.4.JPG','Project 9.5.JPG','Project 9.6.JPG','Project 9.7.JPG',
+                      'Project 9.8.JPG','Project 9.9.JPG','Project 9.10.JPG','Project 9.11.JPG',
+                      'Project 9.12.JPG','Project 9.13.JPG','Project 9.14.JPG','Project 9.15.JPG',
+                      'Project 9.16.JPG','Project 9.17.JPG'],
+             featured: false },
 
-    // PROJECT 8 - Renovation of Two Storey Residential Bldg
-    // Location: San Jose City, Nueva Ecija
-    // Photo: "project 8.png" — upload to assets/images/projects/ when ready
-    { num: 8,  title: 'Renovation of Two Storey Residential Bldg',                          location: 'San Jose City, Nueva Ecija'   },
+  // PROJECT 10
+  { num: 10, title: 'Two Storey Residential Building',
+             location: 'Marikina City, Metro Manila',
+             base: 'assets/images/marquee/Project 10/',
+             photos: ['Project 10.JPG','Project 10.1.JPG','Project 10.2.JPG','Project 10.3.JPG',
+                      'Project 10.4.JPG','Project 10.5.JPG','Project 10.6.JPG','Project 10.7.JPG',
+                      'Project 10.8.JPG','Project 10.9.JPG','Project 10.10.JPG','Project 10.11.JPG',
+                      'Project 10.12.JPG','Project 10.13.JPG','Project 10.14.JPG','Project 10.15.JPG'],
+             featured: false },
 
-    // PROJECT 9 - Four Bedroom Two Storey Residential Bldg
-    // Location: Marikina City, Metro Manila
-    // Photo: "project 9.png" — upload to assets/images/projects/ when ready
-    { num: 9,  title: 'Four Bedroom Two Storey Residential Bldg',                           location: 'Marikina City, Metro Manila'  },
+  // PROJECT 11
+  { num: 11, title: 'Two Storey Residential Building',
+             location: 'Antipolo City, Rizal',
+             base: 'assets/images/marquee/Project 11/',
+             photos: ['Project 11.png','Project 11.1.png'],
+             featured: false },
 
-    // PROJECT 10 - Two Storey Residential Building
-    // Location: Marikina City, Metro Manila
-    // Photo: "project 10.png" — upload to assets/images/projects/ when ready
-    { num: 10, title: 'Two Storey Residential Building',                                     location: 'Marikina City, Metro Manila'  },
+  // PROJECT 12
+  { num: 12, title: 'Multifamily Dwelling Units',
+             location: 'Parañaque City, Metro Manila',
+             base: 'assets/images/marquee/Project 12/',
+             photos: ['Project 12.JPG','Project 12.1.png','Project 12.2.png'],
+             featured: false },
 
-    // PROJECT 11 - Two Storey Residential Building
-    // Location: Antipolo City, Rizal
-    // Photo: "project 11.png" — upload to assets/images/projects/ when ready
-    { num: 11, title: 'Two Storey Residential Building',                                     location: 'Antipolo City, Rizal'         },
+  // PROJECT 13
+  { num: 13, title: 'One Storey Residential Building',
+             location: 'Antipolo City, Rizal',
+             base: 'assets/images/marquee/Project 13/',
+             photos: ['Project 13.png','Project 13.1.png'],
+             featured: false },
 
-    // PROJECT 12 - Multifamily Dwelling Units
-    // Location: Parañaque City, Metro Manila
-    // Photo: "project 12.png" — upload to assets/images/projects/ when ready
-    { num: 12, title: 'Multifamily Dwelling Units',                                          location: 'Parañaque City, Metro Manila' },
+  // PROJECT 14
+  { num: 14, title: 'One Storey Residential Building',
+             location: 'Antipolo City, Rizal',
+             base: 'assets/images/bento/Project 14/',
+             photos: ['Project 14.JPG','Project 14.1.JPG','Project 14.2.JPG',
+                      'Project 14.3.JPG','Project 14.4.JPG','Project 14.5.JPG'],
+             featured: true },
 
-    // PROJECT 13 - One Storey Residential Building
-    // Location: Antipolo City, Rizal
-    // Photo: "project 13.png" — upload to assets/images/projects/ when ready
-    { num: 13, title: 'One Storey Residential Building',                                     location: 'Antipolo City, Rizal'         },
+  // PROJECT 15
+  { num: 15, title: 'Renovation of Two Storey',
+             location: 'Marikina City, Metro Manila',
+             base: 'assets/images/marquee/Project 15/',
+             photos: ['Project 15.JPG','Project 15.1.JPG','Project 15.2.JPG','Project 15.3.JPG'],
+             featured: false },
 
-    // PROJECT 14 - One Storey Residential Building
-    // Location: Antipolo City, Rizal
-    // Photo: "project 14.png" — upload to assets/images/projects/ when ready
-    { num: 14, title: 'One Storey Residential Building',                                     location: 'Antipolo City, Rizal'         },
+  // PROJECT 16
+  { num: 16, title: 'Renovation of One Storey',
+             location: 'Marikina City, Metro Manila',
+             base: 'assets/images/marquee/Project 16/',
+             photos: ['Project 16.JPG','Project 16.1.JPG','Project 16.2.JPG','Project 16.3.JPG',
+                      'Project 16.4.JPG','Project 16.5.JPG','Project 16.6.JPG','Project 16.7.JPG'],
+             featured: false },
 
-    // PROJECT 15 - Renovation of Two Storey
-    // Location: Marikina City, Metro Manila
-    // Photo: "project 15.png" — upload to assets/images/projects/ when ready
-    { num: 15, title: 'Renovation of Two Storey',                                            location: 'Marikina City, Metro Manila'  },
+  // PROJECT 17
+  { num: 17, title: 'Renovation of One Storey Residential Bldg',
+             location: 'Parañaque City, Metro Manila',
+             base: 'assets/images/marquee/Project 17/',
+             photos: ['Project 17.png','Project 17.1.png'],
+             featured: false },
 
-    // PROJECT 16 - Renovation of One Storey
-    // Location: Marikina City, Metro Manila
-    // Photo: "project 16.png" — upload to assets/images/projects/ when ready
-    { num: 16, title: 'Renovation of One Storey',                                            location: 'Marikina City, Metro Manila'  },
+  // PROJECT 18
+  { num: 18, title: 'Two Storey Residential Building',
+             location: 'Antipolo City, Rizal',
+             base: 'assets/images/marquee/Project 18/',
+             photos: ['Project 18.JPG','Project 18.1.JPG','Project 18.2.JPG','Project 18.3.JPG',
+                      'Project 18.4.JPG','Project 18.5.JPG','Project 18.6.JPG','Project 18.7.JPG',
+                      'Project 18.8.JPG','Project 18.9.JPG','Project 18.10.JPG'],
+             featured: false },
 
-    // PROJECT 17 - Renovation of One Storey Residential Bldg
-    // Location: Parañaque City, Metro Manila
-    // Photo: "project 17.png" — upload to assets/images/projects/ when ready
-    { num: 17, title: 'Renovation of One Storey Residential Bldg',                          location: 'Parañaque City, Metro Manila' },
+  // PROJECT 19
+  { num: 19, title: 'Renovation of Two Storey Residential Bldg',
+             location: 'Las Piñas City, Metro Manila',
+             base: 'assets/images/marquee/Project 19/',
+             photos: ['Project 19.JPG','Project 19.1.JPG','Project 19.2.JPG',
+                      'Project 19.3.JPG','Project 19.4.JPG'],
+             featured: false },
 
-    // PROJECT 18 - Two Storey Residential Building
-    // Location: Antipolo City, Rizal
-    // Photo: "project 18.png" — upload to assets/images/projects/ when ready
-    { num: 18, title: 'Two Storey Residential Building',                                     location: 'Antipolo City, Rizal'         },
+  // PROJECT 20
+  { num: 20, title: 'One Storey with Roof Deck',
+             location: 'Quezon City, Metro Manila',
+             base: 'assets/images/marquee/Project 20/',
+             photos: ['Project 20.png'],
+             featured: false },
 
-    // PROJECT 19 - Renovation of Two Storey Residential Bldg
-    // Location: Las Piñas City, Metro Manila
-    // Photo: "project 19.png" — upload to assets/images/projects/ when ready
-    { num: 19, title: 'Renovation of Two Storey Residential Bldg',                          location: 'Las Piñas City, Metro Manila' },
+  // PROJECT 21
+  { num: 21, title: '',
+             location: '',
+             base: 'assets/images/marquee/Project 21/',
+             photos: ['Project 21.png','Project 21.1.png'],
+             featured: false },
 
-    // PROJECT 20 - One Storey with Roof Deck
-    // Location: Quezon City, Metro Manila
-    // Photo: "project 20.png" — upload to assets/images/projects/ when ready
-    { num: 20, title: 'One Storey with Roof Deck',                                           location: 'Quezon City, Metro Manila'    },
-  ];
+  // PROJECT 22
+  { num: 22, title: '',
+             location: '',
+             base: 'assets/images/marquee/Project 22/',
+             photos: ['Project 22.png'],
+             featured: false },
+];
 
-  PROJECTS.forEach(proj => {
-    const src  = `${BASE}project ${proj.num}.png`;
-    const test = new Image();
+/* Helper: encode spaces in a file path so Image() loads correctly */
+function encodeImgPath(rawPath) {
+  return rawPath.replace(/ /g, '%20');
+}
 
-    test.onload = () => {
-      const numPad = String(proj.num).padStart(2, '0');
-      const card   = document.createElement('article');
-      card.className = 'project-card';
-      card.setAttribute('aria-label', `Project ${proj.num}: ${proj.title} — ${proj.location}`);
-      /* Data attrs enable the lightbox and two-tap behavior */
-      card.dataset.src   = src;
-      card.dataset.title = proj.title;
-      card.dataset.loc   = proj.location;
-      card.style.cursor  = 'zoom-in';
-      card.innerHTML =
-        `<img class="project-card-img" src="${src}" alt="${proj.title} — ${proj.location}" loading="lazy" />` +
-        `<div class="project-card-overlay" aria-hidden="true">` +
-          `<span class="project-card-num">[ ${numPad} ]</span>` +
-          `<span class="project-card-title">${proj.title}</span>` +
-          `<span class="project-card-loc">${proj.location}</span>` +
-        `</div>`;
-      gallery.appendChild(card);
-    };
 
-    // No onload — image simply doesn't load and no card is created
-    test.src = src;
-  });
+/* ── MARQUEE STRIP ──────────────────────────────────────────── */
+/*
+ * Generates cover-photo items for all projects and injects them into
+ * #marquee-track. Duplicates the set so translateX(-50%) loops seamlessly.
+ * Animation duration is scaled to keep scroll speed consistent regardless
+ * of project count.
+ */
+(function initMarquee() {
+  const track = document.getElementById('marquee-track');
+  if (!track) return;
+
+  function makeItem(proj, isClone) {
+    const coverSrc = encodeImgPath(proj.base + proj.photos[0]);
+    const div = document.createElement('div');
+    div.className = 'marquee-item';
+    div.dataset.projectNum = proj.num;
+    div.dataset.src   = coverSrc;
+    div.dataset.title = proj.title;
+    div.dataset.loc   = proj.location;
+
+    if (isClone) {
+      div.setAttribute('aria-hidden', 'true');
+    } else {
+      div.setAttribute('role', 'button');
+      div.setAttribute('tabindex', '0');
+      const label = proj.title
+        ? `Project ${proj.num} — ${proj.title}${proj.location ? ', ' + proj.location : ''}`
+        : `Project ${proj.num}`;
+      div.setAttribute('aria-label', label);
+    }
+
+    const altText = proj.title
+      ? `${proj.title}${proj.location ? ' — ' + proj.location : ''}`
+      : `Project ${proj.num}`;
+    div.innerHTML =
+      `<img src="${coverSrc}" loading="lazy" alt="${isClone ? '' : altText}" />` +
+      `<div class="marquee-overlay"><div class="bento-info">` +
+        (proj.title ? `<span class="bento-label">${proj.title}</span>` : '') +
+        (proj.location ? `<span class="bento-location">${proj.location}</span>` : '') +
+      `</div></div>`;
+    return div;
+  }
+
+  /* First set */
+  const firstSet = PROJECTS.map(p => makeItem(p, false));
+  firstSet.forEach(el => track.appendChild(el));
+
+  /* Duplicate set for seamless loop */
+  PROJECTS.forEach(p => track.appendChild(makeItem(p, true)));
+
+  /* Scale animation duration: ~4.5 s per project keeps visual speed consistent */
+  track.style.animationDuration = Math.max(30, PROJECTS.length * 4.5) + 's';
 })();
 
 
@@ -546,84 +642,174 @@
 })();
 
 
-/* ── LIGHTBOX (Canvas + Watermark + Two-tap on touch) ────────── */
+/* ── LIGHTBOX CAROUSEL ──────────────────────────────────────── */
 /*
- * Desktop: single click on any project photo opens lightbox.
- * Touch:   first tap  → highlights item (tap-active overlay).
- *           second tap → opens lightbox.
- *           tap elsewhere → clears highlight.
- * Covers: bento grid, photo marquee, and project gallery cards.
+ * Opens a fullscreen carousel when any project photo is clicked.
+ * - Canvas API applies watermark (logo 15% width, 20% opacity) on every photo.
+ * - Fallback watermark: "© Salmo Construction Services" white text if no logo.
+ * - Navigation: arrows (hidden when only 1 photo), keyboard ←/→, swipe.
+ * - Dots indicate position; counter shows "N / Total".
+ * - Close: X button, ESC, or clicking the dark backdrop.
+ * - Desktop: single click opens. Touch: first tap highlights, second opens.
  */
 (function initLightbox() {
-  const lightbox = document.getElementById('lightbox');
-  const backdrop = document.getElementById('lightbox-backdrop');
-  const closeBtn = document.getElementById('lightbox-close');
-  const canvas   = document.getElementById('lightbox-canvas');
-  const titleEl  = document.getElementById('lightbox-title');
-  const locEl    = document.getElementById('lightbox-loc');
+  const lightbox  = document.getElementById('lightbox');
+  const backdrop  = document.getElementById('lightbox-backdrop');
+  const closeBtn  = document.getElementById('lightbox-close');
+  const canvas    = document.getElementById('lightbox-canvas');
+  const titleEl   = document.getElementById('lightbox-title');
+  const locEl     = document.getElementById('lightbox-loc');
+  const counterEl = document.getElementById('lightbox-counter');
+  const prevBtn   = document.getElementById('lightbox-prev');
+  const nextBtn   = document.getElementById('lightbox-next');
+  const dotsEl    = document.getElementById('lightbox-dots');
   if (!lightbox || !canvas) return;
 
   const ctx = canvas.getContext('2d');
 
-  /* Preload watermark logo */
-  let logoImg = null, logoReady = false;
-  function tryLoad(srcs, onDone) {
-    if (!srcs.length) { onDone(null); return; }
+  /* ── Watermark logo preload ── */
+  let logoImg = null;
+  (function tryLoadLogo(srcs) {
+    if (!srcs.length) return;
     const img = new Image();
-    img.onload  = () => onDone(img);
-    img.onerror = () => tryLoad(srcs.slice(1), onDone);
+    img.onload  = () => { logoImg = img; };
+    img.onerror = () => tryLoadLogo(srcs.slice(1));
     img.src = srcs[0];
-  }
-  tryLoad(['assets/images/logo.png', 'assets/images/salmo.png'],
-    img => { logoImg = img; logoReady = true; });
+  })(['assets/images/logo.png', 'assets/images/salmo.png']);
 
+  /* ── Carousel state ── */
+  let carouselPhotos = [];  /* array of encoded URL strings */
+  let carouselIndex  = 0;
+
+  /* ── Render photo onto canvas with watermark ── */
   function renderCanvas(photo) {
-    const MAX_W = window.innerWidth  * 0.88;
-    const MAX_H = window.innerHeight * 0.78;
+    const isMobile = window.innerWidth <= 640;
+    const arrowSpace = isMobile ? 96 : 128;
+    const MAX_W = Math.max(120, window.innerWidth  * (isMobile ? 0.92 : 0.88) - arrowSpace);
+    const MAX_H = window.innerHeight * (isMobile ? 0.58 : 0.65);
     const scale = Math.min(MAX_W / photo.naturalWidth, MAX_H / photo.naturalHeight, 1);
     const w = Math.round(photo.naturalWidth  * scale);
     const h = Math.round(photo.naturalHeight * scale);
-    canvas.width = w; canvas.height = h;
+    canvas.width  = w;
+    canvas.height = h;
     ctx.drawImage(photo, 0, 0, w, h);
     ctx.save();
-    if (logoReady && logoImg) {
+    if (logoImg) {
       const logoW  = Math.round(w * 0.15);
       const logoH  = Math.round(logoW * logoImg.naturalHeight / logoImg.naturalWidth);
       const margin = Math.round(Math.min(w, h) * 0.015);
       ctx.globalAlpha = 0.20;
       ctx.drawImage(logoImg, w - logoW - margin, h - logoH - margin, logoW, logoH);
     } else {
-      const fontSize = Math.max(11, Math.round(w * 0.022));
+      const fontSize = Math.max(10, Math.round(w * 0.022));
       const margin   = Math.round(Math.min(w, h) * 0.015);
       ctx.globalAlpha = 0.45;
-      ctx.font = `600 ${fontSize}px Montserrat, sans-serif`;
-      ctx.fillStyle = '#ffffff'; ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+      ctx.font        = `600 ${fontSize}px Montserrat, sans-serif`;
+      ctx.fillStyle   = '#ffffff';
+      ctx.textAlign   = 'right';
+      ctx.textBaseline = 'bottom';
       ctx.fillText('© Salmo Construction Services', w - margin, h - margin);
     }
     ctx.restore();
   }
 
-  function openLightbox(src, title, loc) {
-    titleEl.textContent = title || '';
-    locEl.textContent   = loc   || '';
+  /* ── Load and display a photo by index ── */
+  function showPhoto(index) {
+    carouselIndex = ((index % carouselPhotos.length) + carouselPhotos.length) % carouselPhotos.length;
+
+    /* Counter */
+    if (counterEl) counterEl.textContent = `${carouselIndex + 1} / ${carouselPhotos.length}`;
+
+    /* Arrows: hide completely when only 1 photo */
+    const multi = carouselPhotos.length > 1;
+    if (prevBtn) prevBtn.style.display = multi ? '' : 'none';
+    if (nextBtn) nextBtn.style.display = multi ? '' : 'none';
+
+    /* Dots */
+    if (dotsEl) {
+      dotsEl.querySelectorAll('.lightbox-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === carouselIndex);
+      });
+    }
+
     const photo = new Image();
-    photo.onload = () => {
-      renderCanvas(photo);
-      lightbox.classList.add('open');
-      lightbox.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    };
-    photo.src = src;
+    photo.onload = () => renderCanvas(photo);
+    photo.src    = carouselPhotos[carouselIndex];
   }
 
+  /* ── Build dots for a new project ── */
+  function buildDots(count) {
+    if (!dotsEl) return;
+    dotsEl.innerHTML = '';
+    for (let i = 0; i < count; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'lightbox-dot';
+      btn.setAttribute('aria-label', `Photo ${i + 1}`);
+      btn.addEventListener('click', () => showPhoto(i));
+      dotsEl.appendChild(btn);
+    }
+  }
+
+  /* ── Open carousel for a project ── */
+  function openCarousel(proj, startIndex) {
+    carouselPhotos = proj.photos.map(f => encodeImgPath(proj.base + f));
+
+    if (titleEl) titleEl.textContent = proj.title   || '';
+    if (locEl)   locEl.textContent   = proj.location || '';
+
+    buildDots(carouselPhotos.length);
+    showPhoto(startIndex || 0);
+
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* ── Close ── */
   function closeLightbox() {
     lightbox.classList.remove('open');
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    setTimeout(() => { ctx.clearRect(0, 0, canvas.width, canvas.height); }, 350);
+    setTimeout(() => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      carouselPhotos = [];
+      carouselIndex  = 0;
+      if (dotsEl) dotsEl.innerHTML = '';
+    }, 350);
   }
 
+  /* ── Navigation ── */
+  function prevPhoto() { if (carouselPhotos.length > 1) showPhoto(carouselIndex - 1); }
+  function nextPhoto() { if (carouselPhotos.length > 1) showPhoto(carouselIndex + 1); }
+
+  if (prevBtn) prevBtn.addEventListener('click', prevPhoto);
+  if (nextBtn) nextBtn.addEventListener('click', nextPhoto);
+
+  /* Keyboard */
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape')     { closeLightbox(); }
+    if (e.key === 'ArrowLeft')  { prevPhoto(); }
+    if (e.key === 'ArrowRight') { nextPhoto(); }
+  });
+
+  /* Swipe (touch) — on the canvas or the photo-row area */
+  let touchStartX = 0;
+  const photoRow = lightbox.querySelector('.lightbox-photo-row');
+  const swipeTarget = photoRow || canvas;
+  swipeTarget.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  swipeTarget.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) { dx < 0 ? nextPhoto() : prevPhoto(); }
+  }, { passive: true });
+
   canvas.addEventListener('contextmenu', e => e.preventDefault());
+
+  /* Close controls */
+  if (backdrop) backdrop.addEventListener('click', closeLightbox);
+  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
 
   /* ── Two-tap state for touch devices ── */
   const isTouch = () => window.matchMedia('(hover: none)').matches;
@@ -634,13 +820,17 @@
   }
 
   function handleItemClick(item) {
+    const num  = parseInt(item.dataset.projectNum, 10);
+    const proj = PROJECTS.find(p => p.num === num);
+    if (!proj) return;
+
     if (!isTouch()) {
-      openLightbox(item.dataset.src, item.dataset.title, item.dataset.loc);
+      openCarousel(proj, 0);
       return;
     }
     if (tappedItem === item) {
       clearTap();
-      openLightbox(item.dataset.src, item.dataset.title, item.dataset.loc);
+      openCarousel(proj, 0);
     } else {
       clearTap();
       tappedItem = item;
@@ -648,37 +838,51 @@
     }
   }
 
-  /* Clear tap when clicking outside any photo item */
+  /* Clear tap when clicking outside photo items */
   document.addEventListener('click', e => {
     if (tappedItem && !e.target.closest('.bento-item, .marquee-item, .project-card')) {
       clearTap();
     }
   });
 
-  /* Bento + marquee items (static HTML) */
-  document.querySelectorAll('.bento-item[data-src], .marquee-item[data-src]').forEach(item => {
+  /* ── Bind bento items (static HTML) ── */
+  document.querySelectorAll('.bento-item[data-project-num]').forEach(item => {
     item.style.cursor = 'zoom-in';
     item.addEventListener('click', () => handleItemClick(item));
     item.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        openLightbox(item.dataset.src, item.dataset.title, item.dataset.loc);
+        const proj = PROJECTS.find(p => p.num === parseInt(item.dataset.projectNum, 10));
+        if (proj) openCarousel(proj, 0);
       }
     });
   });
 
-  /* Project gallery cards (dynamically rendered — use event delegation) */
-  const gallery = document.getElementById('projects-gallery');
-  if (gallery) {
-    gallery.addEventListener('click', e => {
-      const card = e.target.closest('.project-card[data-src]');
-      if (card) handleItemClick(card);
+  /* ── Bind marquee items (dynamically rendered — event delegation) ── */
+  const track = document.getElementById('marquee-track');
+  if (track) {
+    track.addEventListener('click', e => {
+      const item = e.target.closest('.marquee-item[data-project-num]');
+      if (item && !item.getAttribute('aria-hidden')) handleItemClick(item);
+    });
+    track.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const item = e.target.closest('.marquee-item[data-project-num]');
+      if (!item) return;
+      e.preventDefault();
+      const proj = PROJECTS.find(p => p.num === parseInt(item.dataset.projectNum, 10));
+      if (proj) openCarousel(proj, 0);
     });
   }
 
-  backdrop.addEventListener('click', closeLightbox);
-  closeBtn.addEventListener('click', closeLightbox);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  /* ── Project gallery (dynamically rendered) ── */
+  const gallery = document.getElementById('projects-gallery');
+  if (gallery) {
+    gallery.addEventListener('click', e => {
+      const card = e.target.closest('.project-card[data-project-num]');
+      if (card) handleItemClick(card);
+    });
+  }
 })();
 
 
