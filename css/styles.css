@@ -16,7 +16,7 @@
 
   --font: 'Montserrat', sans-serif;
 
-  --nav-h:       72px;
+  --nav-h:       24px;  /* small top breathing room — glass dock is now at the bottom */
   --section-pad: 110px 0;
   --max-w:       1200px;
   --pad-x:       clamp(20px, 5vw, 60px);
@@ -33,7 +33,7 @@
 /* ── RESET ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; background: var(--black); }
 
 body {
   font-family: var(--font);
@@ -369,211 +369,133 @@ input, textarea, select { font-family: var(--font); }
 .loading-corner.br { bottom: -4px; right: -4px;  border-bottom: 1px solid rgba(255,255,255,0.3); border-right: 1px solid rgba(255,255,255,0.3); }
 
 /* ── NAVIGATION ─────────────────────────────────────────────── */
-#navbar {
+
+/* ── GLASS NAVIGATION — floating frosted-glass rounded pill ── */
+/*
+ * Centered floating pill at bottom, same on desktop and mobile.
+ * Two modes: nav (default) ↔ contact (slides in).
+ * Scroll down → compact; scroll up → full size.
+ */
+body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
+
+#glass-nav {
   position: fixed;
-  top: 0; left: 0; right: 0;
-  height: var(--nav-h);
-  background: var(--navy);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  z-index: 1000;
-  transition: background 0.4s ease, box-shadow 0.4s ease;
-}
-
-#navbar.scrolled {
-  background: rgba(1,30,62,0.97);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 2px 24px rgba(0,0,0,0.3);
-  border-color: rgba(255,255,255,0.06);
-}
-
-.nav-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 0 var(--pad-x);
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.nav-logo-icon {
-  width: 36px;
-  height: 36px;
-  background: var(--white);
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.nav-logo-icon svg { width: 20px; height: 20px; stroke: var(--navy); }
-
-.nav-logo-text { display: flex; flex-direction: column; }
-
-.nav-logo-name {
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--white);
-  letter-spacing: 1px;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.nav-logo-name span { color: rgba(255,255,255,0.5); }
-
-.nav-logo-sub {
-  font-size: 8px;
-  font-weight: 300;
-  letter-spacing: 3px;
-  color: rgba(255,255,255,0.35);
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  justify-content: center;
-}
-
-.nav-link {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
-  padding: 6px 12px;
-  border-radius: 3px;
-  transition: color var(--transition);
-  position: relative;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 2px;
-  left: 12px; right: 12px;
-  height: 1px;
-  background: var(--white);
-  transform: scaleX(0);
-  transition: transform var(--transition);
-}
-
-.nav-link:hover,
-.nav-link.active { color: var(--white); }
-
-.nav-link:hover::after,
-.nav-link.active::after { transform: scaleX(1); }
-
-.nav-cta {
-  flex-shrink: 0;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--navy);
-  background: var(--white);
-  padding: 10px 22px;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  /* Hidden by default — revealed on scroll past hero */
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-6px);
-  transition: opacity 0.35s ease, transform 0.35s ease, background var(--transition), box-shadow var(--transition);
-}
-
-/* Revealed when user scrolls past the hero section */
-#navbar.past-hero .nav-cta {
-  opacity: 1;
-  pointer-events: all;
-  transform: translateY(0);
-}
-
-.nav-cta:hover {
-  background: var(--gray-mid);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-.nav-cta svg { width: 12px; height: 12px; }
-
-/* Hamburger */
-.nav-hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  padding: 8px;
-  cursor: pointer;
-  z-index: 1100;
-}
-
-.nav-hamburger span {
-  display: block;
-  width: 24px;
-  height: 1.5px;
-  background: var(--white);
-  transition: all 0.35s ease;
-  transform-origin: center;
-}
-
-.nav-hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.nav-hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.nav-hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-.nav-mobile-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: var(--navy);
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20px;
   z-index: 999;
+}
+
+.glass-pill {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  background: rgba(12, 28, 60, 0.62);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-top-color: rgba(255, 255, 255, 0.30);  /* light-refraction top edge */
+  border-radius: 100px;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.40),
+    0 1px 0 rgba(255, 255, 255, 0.10) inset;
+}
+
+.gn-item {
+  flex: 1;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 80px 40px 40px;
-  opacity: 0;
-  transition: opacity 0.35s ease;
+  gap: 3px;
+  padding: 10px 18px;
+  color: rgba(255, 255, 255, 0.62);
+  text-decoration: none;
+  min-width: 60px;
+  min-height: 52px;
+  cursor: pointer;
+  transition: color 0.25s ease, background 0.2s ease,
+              min-height 0.3s ease, padding 0.3s ease;
 }
 
-.nav-mobile-overlay.open { display: flex; opacity: 1; }
-
-.nav-mobile-overlay .nav-link {
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  padding: 14px 24px;
-  color: rgba(255,255,255,0.65);
+.gn-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: width 0.3s ease, height 0.3s ease;
 }
 
-.nav-mobile-overlay .nav-link::after { display: none; }
+.gn-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+  transition: font-size 0.3s ease;
+}
 
-.nav-mobile-overlay .nav-cta {
-  margin-top: 24px;
-  font-size: 13px;
-  padding: 14px 36px;
+.gn-item.active { color: #00B4D8; }
+
+@media (hover: hover) {
+  .gn-item:hover:not(.active) {
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.07);
+  }
+}
+
+/* ── Compact: scroll-down shrinks pill ── */
+#glass-nav.compact .gn-item  { min-height: 40px; padding: 6px 14px; }
+#glass-nav.compact .gn-icon  { width: 16px; height: 16px; }
+#glass-nav.compact .gn-label { font-size: 7.5px; }
+
+/* ── Desktop scale-up: larger pill on non-mobile screens ── */
+@media (min-width: 768px) {
+  .gn-item  { padding: 12px 22px; min-width: 68px; min-height: 60px; }
+  .gn-icon  { width: 22px; height: 22px; }
+  .gn-label { font-size: 10px; letter-spacing: 0.8px; }
+
+  #glass-nav.compact .gn-item  { min-height: 46px; padding: 8px 17px; }
+  #glass-nav.compact .gn-icon  { width: 18px; height: 18px; }
+  #glass-nav.compact .gn-label { font-size: 8px; }
+
+  .dock-contact-panel .gn-item  { padding: 12px 12px; min-width: 52px; }
+  .dock-contact-panel .gn-icon  { width: 20px; height: 20px; }
+  .dock-contact-panel .gn-label { font-size: 8.5px; }
+
+  #glass-nav.compact .dock-contact-panel .gn-item { padding: 8px 8px; min-width: 40px; }
 }
 
 /* ── HERO SECTION ───────────────────────────────────────────── */
+
+/* Hero logo: scrolls with the page, not fixed */
+.hero-brand {
+  text-align: center;
+  padding: 0 var(--pad-x) 28px;
+  flex-shrink: 0;
+}
+
+.hero-brand-logo {
+  height: 48px;
+  width: auto;
+  display: inline-block;
+  filter: drop-shadow(0 2px 12px rgba(0,0,0,0.5));
+}
+
+@media (max-width: 768px) {
+  .hero-brand-logo { height: 36px; }
+  .hero-brand      { padding-bottom: 20px; }
+}
+
 #hero {
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  padding-top: var(--nav-h);
+  flex-direction: column;    /* stack logo above content */
+  align-items: stretch;
+  justify-content: center;
+  padding-top: var(--nav-h); /* desktop: clears glass pill at top */
   position: relative;
   overflow: hidden;
 }
@@ -2018,17 +1940,75 @@ input, textarea, select { font-family: var(--font); }
 .social-icon svg { width: 18px; height: 18px; }
 
 .contact-map {
-  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
   overflow: hidden;
-  border-radius: 3px;
+  border: 1px solid rgba(0, 180, 216, 0.28);
+  box-shadow: 0 0 28px rgba(0, 180, 216, 0.08), 0 8px 24px rgba(0,0,0,0.35);
 }
 
 .contact-map iframe {
   display: block;
   width: 100%;
-  height: 200px;
+  height: 220px;
   border: none;
   filter: none;
+}
+
+/* Navigation buttons below the map */
+.map-actions {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(1, 30, 62, 0.85);
+  border-top: 1px solid rgba(0, 180, 216, 0.14);
+}
+
+.btn-map-action {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.btn-map-action:hover {
+  transform: translateY(-2px);
+}
+
+.btn-map-action svg,
+.btn-map-action .btn-logo { width: 18px; height: 18px; flex-shrink: 0; object-fit: contain; }
+
+/* Google Maps button — outlined cyan */
+.btn-gmaps {
+  background: transparent;
+  color: #00B4D8;
+  border: 1px solid rgba(0, 180, 216, 0.55);
+}
+.btn-gmaps:hover {
+  background: rgba(0, 180, 216, 0.10);
+  border-color: #00B4D8;
+  box-shadow: 0 4px 16px rgba(0, 180, 216, 0.18);
+}
+
+/* Waze button — official Waze brand blue */
+.btn-waze {
+  background: #05C8F7;
+  color: #fff;
+  border: 1px solid #05C8F7;
+}
+.btn-waze:hover {
+  background: #04b3de;
+  border-color: #04b3de;
+  box-shadow: 0 4px 16px rgba(5, 200, 247, 0.35);
 }
 
 /* Contact form */
@@ -2157,7 +2137,7 @@ input, textarea, select { font-family: var(--font); }
 /* ── FOOTER ─────────────────────────────────────────────────── */
 #footer {
   border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 36px 0;
+  padding: 36px 0 90px;
 }
 
 .footer-inner {
@@ -2218,24 +2198,20 @@ input, textarea, select { font-family: var(--font); }
    upward naturally (fixed at bottom), lifting #widget-top.
    ══════════════════════════════════════════════════════════════ */
 
+/* House widget: storytelling only — vertically centered on right side */
 #contact-fab {
   position: fixed;
-  bottom: 32px;
-  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20px;
+  bottom: auto;
   z-index: 800;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-/* ── ① TOP GROUP ──────────────────────────────────────────────── */
-#widget-top {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
 }
+
 
 /* Section message — above %, both visible simultaneously */
 .hw-message {
@@ -2298,164 +2274,103 @@ input, textarea, select { font-family: var(--font); }
 
 #contact-fab.on-light #hw-svg path { stroke: #011E3E; }
 
-/* Bouncing arrow — always visible */
+/* ── Arrow pointing down toward Messenger button ── */
 .hw-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 14px;
-  pointer-events: none;
-  animation: hwArrowBounce 1.3s ease-in-out infinite;
-}
-
-.hw-arrow.show {
-  display: flex;
-}
-
-.hw-arrow svg { width: 18px; height: 10px; display: block; }
-
-.hw-arrow polyline {
-  stroke: white;
-  transition: stroke 0.35s ease;
-}
-
-#contact-fab.on-light .hw-arrow polyline { stroke: #011E3E; }
-
-@keyframes hwArrowBounce {
-  0%, 100% { transform: translateY(0);   opacity: 0.5; }
-  50%       { transform: translateY(5px); opacity: 1;   }
-}
-
-/* ── ② EXPANDABLE OPTIONS ─────────────────────────────────────── */
-/* Height animated 0→auto by GSAP. overflow toggled in JS so
-   hover tooltips work once fully open. */
-#fab-options {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  height: 0;
+  width: 30px;
+  height: 30px;
+  color: rgba(255,255,255,0.9);
   opacity: 0;
-  overflow: hidden;
   pointer-events: none;
+  transition: opacity 0.4s ease;
+  flex-shrink: 0;
+  margin: 4px 0;
 }
+.hw-arrow svg { width: 30px; height: 30px; display: block; }
+.hw-arrow.show {
+  opacity: 1;
+  animation: hw-bounce-arrow 0.7s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+@keyframes hw-bounce-arrow {
+  from { transform: translateY(-7px); }
+  to   { transform: translateY(7px); }
+}
+#contact-fab.on-light .hw-arrow { color: rgba(1,30,62,0.8); }
 
-/* Circle contact options — 52px tap target */
-.fab-option {
-  position: relative;
-  width: 52px;
-  height: 52px;
+/* ── Quick Messenger access button ── */
+.hw-messenger {
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-  text-decoration: none;
+  overflow: hidden;
   flex-shrink: 0;
+  text-decoration: none;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.40);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
-.fab-option:hover {
+.hw-messenger svg { width: 38px; height: 38px; display: block; }
+.hw-messenger:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.32);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.50);
 }
 
-.fab-option svg { width: 22px; height: 22px; color: white; }
+/* ── DOCK PANELS (two-mode sliding) ──────────────────────────── */
+/*
+ * dock-nav-panel: fills glass-pill, items centered.
+ * dock-contact-panel: absolute, starts off-screen to the right.
+ * glass-pill.contact-mode: nav slides out left, contact slides in.
+ */
+.dock-panel {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0;               /* gn-item handles its own padding */
+  flex-shrink: 0;
+}
 
-.fab-option.email    { background: #EA4335; }
-.fab-option.call     { background: #34A853; }
-.fab-option.viber    { background: #7360F2; }
-.fab-option.whatsapp { background: #25D366; }
+.dock-nav-panel {
+  flex: 1;
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease;
+}
 
-/* Tooltip label — floats to the LEFT of each circle on hover */
-.fab-option-label {
+.dock-contact-panel {
   position: absolute;
-  right: calc(100% + 10px);
-  top: 50%;
-  transform: translateY(-50%);
-  background: white;
-  color: var(--navy);
-  font-family: var(--font);
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
-  padding: 5px 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.14);
+  top: 0; left: 0; right: 0; bottom: 0;  /* full bar width */
+  transform: translateX(110%);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease;
 }
 
-.fab-option:hover .fab-option-label,
-.messenger-btn:hover .fab-option-label { opacity: 1; }
-
-/* ── ③ MESSENGER ──────────────────────────────────────────────── */
-.messenger-btn {
-  position: relative;
-  width: 52px;
-  height: 52px;
-  background: linear-gradient(135deg, #00B0FF 0%, #0068FF 60%, #A033FF 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px rgba(0,104,255,0.35);
-  cursor: pointer;
-  text-decoration: none;
-  flex-shrink: 0;
-  transition: transform var(--transition), box-shadow var(--transition);
-  animation: messengerPulse 3s ease-in-out infinite;
+/* Activate contact mode */
+.glass-pill.contact-mode .dock-nav-panel {
+  transform: translateX(-110%);
+  opacity: 0;
+  pointer-events: none;
+}
+.glass-pill.contact-mode .dock-contact-panel {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: all;
 }
 
-.messenger-btn:hover {
-  transform: scale(1.1);
-  animation-play-state: paused;
-  box-shadow: 0 8px 24px rgba(0,104,255,0.45);
+/* Back button always cyan */
+.dock-back-btn            { color: #00B4D8 !important; }
+.dock-back-btn:hover      { background: rgba(0,180,216,0.12) !important; transform: none !important; }
+
+/* ── Contact panel: 6 items must fit in the same pill as 5 nav items ── */
+.dock-contact-panel .gn-item  { padding: 10px 10px; min-width: 44px; }
+.dock-contact-panel .gn-icon  { width: 18px; height: 18px; }
+.dock-contact-panel .gn-label { font-size: 8px; }
+#glass-nav.compact .dock-contact-panel .gn-item { padding: 6px 6px; min-width: 36px; }
+
+@media (max-width: 420px) {
+  .dock-contact-panel .gn-item  { padding: 8px 5px; min-width: 36px; gap: 2px; }
+  .dock-contact-panel .gn-icon  { width: 15px; height: 15px; }
+  .dock-contact-panel .gn-label { font-size: 7px; letter-spacing: 0.3px; }
 }
-
-.messenger-btn svg { width: 26px; height: 26px; }
-
-/* ── ④ MORE / CLOSE BUTTON ────────────────────────────────────── */
-.fab-btn {
-  width: 52px;
-  height: 52px;
-  background: #011E3E;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 20px rgba(1,30,62,0.45);
-  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
-  position: relative;
-  flex-shrink: 0;
-  animation: fabPulse 3.5s ease-in-out infinite;
-}
-
-.fab-btn:hover {
-  background: #0a2d5a;
-  transform: scale(1.08);
-  box-shadow: 0 8px 28px rgba(1,30,62,0.55);
-  animation-play-state: paused;
-}
-
-.fab-btn.open { animation: none; }
-
-.fab-btn svg {
-  width: 20px;
-  height: 20px;
-  color: white;
-  transition: opacity 0.22s var(--ease), transform 0.32s var(--ease);
-  position: absolute;
-}
-
-.fab-btn .fab-icon-plus  { opacity: 1; transform: rotate(0)    scale(1);   }
-.fab-btn .fab-icon-close { opacity: 0; transform: rotate(-90deg) scale(0.5); }
-.fab-btn.open .fab-icon-plus  { opacity: 0; transform: rotate(90deg)  scale(0.5); }
-.fab-btn.open .fab-icon-close { opacity: 1; transform: rotate(0)    scale(1);   }
 
 /* ── COOKIE BAR ─────────────────────────────────────────────── */
 #cookie-bar {
@@ -2555,11 +2470,6 @@ input, textarea, select { font-family: var(--font); }
 /* Footer logo icon toned down on pure black */
 #footer .footer-logo-icon {
   background: rgba(255,255,255,0.08);
-}
-
-/* ── Navbar scrolled on black sections: deepen shadow ────────── */
-#navbar.scrolled {
-  background: rgba(0,0,0,0.96);
 }
 
 /* ── Loading screen uses black ────────────────────────────────── */
@@ -2734,32 +2644,114 @@ input, textarea, select { font-family: var(--font); }
 }
 
 .lightbox-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: transparent;
-  border: 1.5px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.35);
+  border: none;
   cursor: pointer;
   padding: 0;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease;
   flex-shrink: 0;
 }
 
 .lightbox-dot.active {
   background: #ffffff;
-  border-color: #ffffff;
-  transform: scale(1.2);
 }
 
 .lightbox-dot:hover:not(.active) {
-  border-color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.6);
 }
 
-/* ── Mobile: smaller arrows ── */
+/* ── Mobile swipe strip (hidden on desktop) ── */
+.lb-mobile-strip {
+  display: none;
+}
+
+.lb-mobile-slide {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Mobile: full-screen Instagram-style carousel ── */
 @media (max-width: 640px) {
-  .lightbox-arrow { width: 38px; height: 38px; }
-  .lightbox-arrow svg { width: 18px; height: 18px; }
-  .lightbox-photo-row { gap: 8px; }
-  .lightbox-img-wrap  { max-width: calc(92vw - 96px); max-height: 58vh; }
-  .lightbox-canvas    { max-width: calc(92vw - 96px); max-height: 58vh; }
+  /* Lightbox fills screen, no padding */
+  #lightbox { padding: 0; align-items: flex-start; }
+
+  /* Inner fills 100% — no scale animation */
+  .lightbox-inner {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    position: relative;
+    gap: 0;
+    transform: none !important;
+  }
+
+  /* Topbar pinned at top with gradient */
+  .lightbox-topbar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 3;
+    padding: 52px 16px 24px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.70) 0%, transparent 100%);
+  }
+
+  /* No arrows on mobile */
+  .lightbox-arrow { display: none !important; }
+
+  /* Desktop photo-row hidden on mobile */
+  .lightbox-photo-row { display: none; }
+
+  /* Mobile swipe strip: native scroll-snap strip */
+  .lb-mobile-strip {
+    display: flex;
+    position: absolute;
+    inset: 0;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    z-index: 1;
+  }
+
+  .lb-mobile-strip::-webkit-scrollbar { display: none; }
+
+  /* Caption pinned above dots */
+  .lightbox-caption {
+    position: absolute;
+    bottom: 44px;
+    left: 0; right: 0;
+    z-index: 3;
+    padding: 24px 20px 8px;
+    background: linear-gradient(to top, rgba(0,0,0,0.70) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Dots pinned at bottom with safe-area support + dark scrim */
+  .lightbox-dots {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 20px max(14px, env(safe-area-inset-bottom));
+    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .lightbox-dots .lightbox-dot {
+    pointer-events: auto;
+    width: 7px;
+    height: 7px;
+  }
 }

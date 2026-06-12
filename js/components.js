@@ -644,25 +644,24 @@ function encodeImgPath(rawPath) {
 
 /* ── LIGHTBOX CAROUSEL ──────────────────────────────────────── */
 /*
- * Opens a fullscreen carousel when any project photo is clicked.
- * - Canvas API applies watermark (logo 15% width, 20% opacity) on every photo.
- * - Fallback watermark: "© Salmo Construction Services" white text if no logo.
- * - Navigation: arrows (hidden when only 1 photo), keyboard ←/→, swipe.
- * - Dots indicate position; counter shows "N / Total".
- * - Close: X button, ESC, or clicking the dark backdrop.
- * - Desktop: single click opens. Touch: first tap highlights, second opens.
+ * Desktop : arrows + single canvas + infinite loop (modulo wrap).
+ * Mobile  : full-screen CSS scroll-snap strip, arrows hidden.
+ *           Infinite loop via clone slides: [last-clone][…photos…][first-clone].
+ *           After snapping to a clone the strip silently jumps to the real slide.
+ * Both    : Canvas watermark, dots, counter, X/ESC close.
  */
 (function initLightbox() {
-  const lightbox  = document.getElementById('lightbox');
-  const backdrop  = document.getElementById('lightbox-backdrop');
-  const closeBtn  = document.getElementById('lightbox-close');
-  const canvas    = document.getElementById('lightbox-canvas');
-  const titleEl   = document.getElementById('lightbox-title');
-  const locEl     = document.getElementById('lightbox-loc');
-  const counterEl = document.getElementById('lightbox-counter');
-  const prevBtn   = document.getElementById('lightbox-prev');
-  const nextBtn   = document.getElementById('lightbox-next');
-  const dotsEl    = document.getElementById('lightbox-dots');
+  const lightbox    = document.getElementById('lightbox');
+  const backdrop    = document.getElementById('lightbox-backdrop');
+  const closeBtn    = document.getElementById('lightbox-close');
+  const canvas      = document.getElementById('lightbox-canvas');
+  const titleEl     = document.getElementById('lightbox-title');
+  const locEl       = document.getElementById('lightbox-loc');
+  const counterEl   = document.getElementById('lightbox-counter');
+  const prevBtn     = document.getElementById('lightbox-prev');
+  const nextBtn     = document.getElementById('lightbox-next');
+  const dotsEl      = document.getElementById('lightbox-dots');
+  const mobileStrip = document.getElementById('lb-mobile-strip');
   if (!lightbox || !canvas) return;
 
   const ctx = canvas.getContext('2d');
@@ -678,69 +677,94 @@ function encodeImgPath(rawPath) {
   })(['assets/images/logo.png', 'assets/images/salmo.png']);
 
   /* ── Carousel state ── */
-  let carouselPhotos = [];  /* array of encoded URL strings */
+  let carouselPhotos = [];
   let carouselIndex  = 0;
+  let certLightbox   = false;
 
-  /* ── Render photo onto canvas with watermark ── */
-  function renderCanvas(photo) {
-    const isMobile = window.innerWidth <= 640;
-    const arrowSpace = isMobile ? 96 : 128;
-    const MAX_W = Math.max(120, window.innerWidth  * (isMobile ? 0.92 : 0.88) - arrowSpace);
-    const MAX_H = window.innerHeight * (isMobile ? 0.58 : 0.65);
-    const scale = Math.min(MAX_W / photo.naturalWidth, MAX_H / photo.naturalHeight, 1);
-    const w = Math.round(photo.naturalWidth  * scale);
-    const h = Math.round(photo.naturalHeight * scale);
-    canvas.width  = w;
-    canvas.height = h;
-    ctx.drawImage(photo, 0, 0, w, h);
-    ctx.save();
+  const isMobile = () => window.innerWidth <= 640;
+
+  /* ── Shared watermark stamp ── */
+  function stampWatermark(c, cx, w, h) {
+    cx.save();
     if (logoImg) {
       const logoW  = Math.round(w * 0.15);
       const logoH  = Math.round(logoW * logoImg.naturalHeight / logoImg.naturalWidth);
-      const margin = Math.round(Math.min(w, h) * 0.015);
-      ctx.globalAlpha = 0.20;
-      ctx.drawImage(logoImg, w - logoW - margin, h - logoH - margin, logoW, logoH);
+      const margin = Math.round(Math.min(w, h) * 0.018);
+      cx.globalAlpha = 0.20;
+      cx.drawImage(logoImg, w - logoW - margin, h - logoH - margin, logoW, logoH);
     } else {
-      const fontSize = Math.max(10, Math.round(w * 0.022));
-      const margin   = Math.round(Math.min(w, h) * 0.015);
-      ctx.globalAlpha = 0.45;
-      ctx.font        = `600 ${fontSize}px Montserrat, sans-serif`;
-      ctx.fillStyle   = '#ffffff';
-      ctx.textAlign   = 'right';
-      ctx.textBaseline = 'bottom';
-      ctx.fillText('© Salmo Construction Services', w - margin, h - margin);
+      const sz  = Math.max(10, Math.round(w * 0.022));
+      const mg  = Math.round(Math.min(w, h) * 0.018);
+      cx.globalAlpha = 0.45;
+      cx.font        = `600 ${sz}px Montserrat, sans-serif`;
+      cx.fillStyle   = '#ffffff';
+      cx.textAlign   = 'right';
+      cx.textBaseline = 'bottom';
+      cx.fillText('© Salmo Construction Services', w - mg, h - mg);
     }
-    ctx.restore();
+    cx.restore();
   }
 
-  /* ── Load and display a photo by index ── */
-  function showPhoto(index) {
-    carouselIndex = ((index % carouselPhotos.length) + carouselPhotos.length) % carouselPhotos.length;
+  /* ── Certificate watermark: centered, large, subtle ── */
+  function stampCertWatermark(c, cx, w, h) {
+    cx.save();
+    if (logoImg) {
+      const logoW = Math.round(w * 0.45);
+      const logoH = Math.round(logoW * logoImg.naturalHeight / logoImg.naturalWidth);
+      cx.globalAlpha = 0.17;
+      cx.drawImage(logoImg, Math.round((w - logoW) / 2), Math.round((h - logoH) / 2), logoW, logoH);
+    } else {
+      const sz = Math.max(14, Math.round(w * 0.035));
+      cx.globalAlpha = 0.35;
+      cx.font        = `600 ${sz}px Montserrat, sans-serif`;
+      cx.fillStyle   = '#ffffff';
+      cx.textAlign   = 'center';
+      cx.textBaseline = 'middle';
+      cx.fillText('© Salmo Construction Services', w / 2, h / 2);
+    }
+    cx.restore();
+  }
 
-    /* Counter */
-    if (counterEl) counterEl.textContent = `${carouselIndex + 1} / ${carouselPhotos.length}`;
+  /* ── Desktop: render onto shared canvas ── */
+  function renderDesktopCanvas(photo) {
+    const MAX_W = Math.max(120, window.innerWidth * 0.88 - 128);
+    const MAX_H = window.innerHeight * 0.65;
+    const scale = Math.min(MAX_W / photo.naturalWidth, MAX_H / photo.naturalHeight, 1);
+    const w = Math.round(photo.naturalWidth  * scale);
+    const h = Math.round(photo.naturalHeight * scale);
+    canvas.width = w; canvas.height = h;
+    ctx.drawImage(photo, 0, 0, w, h);
+    (certLightbox ? stampCertWatermark : stampWatermark)(canvas, ctx, w, h);
+  }
 
-    /* Arrows: hide completely when only 1 photo */
-    const multi = carouselPhotos.length > 1;
-    if (prevBtn) prevBtn.style.display = multi ? '' : 'none';
-    if (nextBtn) nextBtn.style.display = multi ? '' : 'none';
+  /* ── Mobile: render onto a slide canvas ── */
+  function renderMobileSlide(sc, photo) {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const scale = Math.min(vw / photo.naturalWidth, vh / photo.naturalHeight, 1);
+    const w = Math.round(photo.naturalWidth  * scale);
+    const h = Math.round(photo.naturalHeight * scale);
+    sc.width = w; sc.height = h;
+    const cx = sc.getContext('2d');
+    cx.drawImage(photo, 0, 0, w, h);
+    (certLightbox ? stampCertWatermark : stampWatermark)(sc, cx, w, h);
+  }
 
-    /* Dots */
+  /* ── Sync counter + dots ── */
+  function syncUI(idx) {
+    if (counterEl) counterEl.textContent = `${idx + 1} / ${carouselPhotos.length}`;
     if (dotsEl) {
       dotsEl.querySelectorAll('.lightbox-dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === carouselIndex);
+        dot.classList.toggle('active', i === idx);
       });
     }
-
-    const photo = new Image();
-    photo.onload = () => renderCanvas(photo);
-    photo.src    = carouselPhotos[carouselIndex];
   }
 
-  /* ── Build dots for a new project ── */
+  /* ── Build dots ── */
   function buildDots(count) {
     if (!dotsEl) return;
     dotsEl.innerHTML = '';
+    if (count <= 1) return;
     for (let i = 0; i < count; i++) {
       const btn = document.createElement('button');
       btn.className = 'lightbox-dot';
@@ -750,15 +774,126 @@ function encodeImgPath(rawPath) {
     }
   }
 
-  /* ── Open carousel for a project ── */
-  function openCarousel(proj, startIndex) {
-    carouselPhotos = proj.photos.map(f => encodeImgPath(proj.base + f));
+  /* ── Mobile: build strip with clone slides for infinite loop ── */
+  /*
+   * Strip layout: [clone-last] [photo-0] … [photo-N-1] [clone-first]
+   * scrollLeft:        0           1*W  …     N*W           (N+1)*W
+   * Real photos start at position 1*W; initial scroll = (startIndex+1)*W.
+   */
+  function buildMobileStrip(photos, startIndex) {
+    if (!mobileStrip) return;
+    mobileStrip.innerHTML = '';
 
-    if (titleEl) titleEl.textContent = proj.title   || '';
+    function addSlide(src) {
+      const slide = document.createElement('div');
+      slide.className = 'lb-mobile-slide';
+      const sc = document.createElement('canvas');
+      slide.appendChild(sc);
+      mobileStrip.appendChild(slide);
+      const img = new Image();
+      img.onload = () => renderMobileSlide(sc, img);
+      img.src = src;
+    }
+
+    const total = photos.length;
+    if (total === 1) { addSlide(photos[0]); return; }
+
+    addSlide(photos[total - 1]);   // clone-last at pos 0
+    photos.forEach(src => addSlide(src));
+    addSlide(photos[0]);           // clone-first at pos N+1
+
+    requestAnimationFrame(() => {
+      const slideW = mobileStrip.clientWidth || window.innerWidth;
+      mobileStrip.scrollLeft = (startIndex + 1) * slideW;
+    });
+  }
+
+  /* ── Mobile scroll handler: sync UI + infinite wrap ── */
+  let isWrapping  = false;
+  let wrapTimer   = null;
+
+  if (mobileStrip) {
+    mobileStrip.addEventListener('scroll', () => {
+      if (isWrapping || !carouselPhotos.length) return;
+      const total  = carouselPhotos.length;
+      if (total <= 1) return;
+
+      const slideW  = mobileStrip.clientWidth || window.innerWidth;
+      const pos     = mobileStrip.scrollLeft;
+      const snap    = Math.round(pos / slideW);
+
+      /* Real index maps snap → 0-based photo index */
+      const realIdx = snap <= 0          ? total - 1
+                    : snap >= total + 1  ? 0
+                    : snap - 1;
+
+      if (realIdx !== carouselIndex) { carouselIndex = realIdx; syncUI(realIdx); }
+
+      /* Detect scroll settle and silently jump from clone to real slide */
+      clearTimeout(wrapTimer);
+      wrapTimer = setTimeout(() => {
+        if (isWrapping) return;
+        const curSnap = Math.round(mobileStrip.scrollLeft / slideW);
+
+        function jumpTo(target) {
+          isWrapping = true;
+          mobileStrip.style.scrollSnapType = 'none';
+          mobileStrip.scrollLeft = target * slideW;
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            mobileStrip.style.scrollSnapType = 'x mandatory';
+            isWrapping = false;
+          }));
+        }
+
+        if (curSnap === 0)          jumpTo(total);   // clone-last → real last
+        else if (curSnap === total + 1) jumpTo(1);   // clone-first → real first
+      }, 260);
+    }, { passive: true });
+  }
+
+  /* ── Show photo by index ── */
+  function showPhoto(index) {
+    const total = carouselPhotos.length;
+    if (!total) return;
+    carouselIndex = ((index % total) + total) % total;
+    syncUI(carouselIndex);
+
+    if (isMobile() && mobileStrip) {
+      if (total > 1) {
+        const slideW = mobileStrip.clientWidth || window.innerWidth;
+        mobileStrip.scrollTo({ left: (carouselIndex + 1) * slideW, behavior: 'smooth' });
+      }
+    } else {
+      /* Desktop: arrows visible only when more than 1 photo */
+      const multi = total > 1;
+      if (prevBtn) prevBtn.style.display = multi ? '' : 'none';
+      if (nextBtn) nextBtn.style.display = multi ? '' : 'none';
+
+      const photo = new Image();
+      photo.onload = () => renderDesktopCanvas(photo);
+      photo.src    = carouselPhotos[carouselIndex];
+    }
+  }
+
+  /* ── Open carousel for a project ── */
+  function openCarousel(proj, startIndex, isCert) {
+    carouselPhotos = proj.photos.map(f => encodeImgPath(proj.base + f));
+    carouselIndex  = startIndex || 0;
+    certLightbox   = !!isCert;
+
+    if (titleEl) titleEl.textContent = proj.title    || '';
     if (locEl)   locEl.textContent   = proj.location || '';
 
     buildDots(carouselPhotos.length);
-    showPhoto(startIndex || 0);
+
+    if (isMobile()) {
+      buildMobileStrip(carouselPhotos, carouselIndex);
+      syncUI(carouselIndex);
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+    } else {
+      showPhoto(carouselIndex);
+    }
 
     lightbox.classList.add('open');
     lightbox.setAttribute('aria-hidden', 'false');
@@ -770,48 +905,36 @@ function encodeImgPath(rawPath) {
     lightbox.classList.remove('open');
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    clearTimeout(wrapTimer);
     setTimeout(() => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (mobileStrip) { mobileStrip.innerHTML = ''; isWrapping = false; }
       carouselPhotos = [];
       carouselIndex  = 0;
+      certLightbox   = false;
       if (dotsEl) dotsEl.innerHTML = '';
     }, 350);
   }
 
-  /* ── Navigation ── */
-  function prevPhoto() { if (carouselPhotos.length > 1) showPhoto(carouselIndex - 1); }
-  function nextPhoto() { if (carouselPhotos.length > 1) showPhoto(carouselIndex + 1); }
+  /* ── Desktop navigation (infinite loop via modulo in showPhoto) ── */
+  function prevPhoto() { showPhoto(carouselIndex - 1); }
+  function nextPhoto() { showPhoto(carouselIndex + 1); }
 
   if (prevBtn) prevBtn.addEventListener('click', prevPhoto);
   if (nextBtn) nextBtn.addEventListener('click', nextPhoto);
 
-  /* Keyboard */
   document.addEventListener('keydown', e => {
     if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'Escape')     { closeLightbox(); }
-    if (e.key === 'ArrowLeft')  { prevPhoto(); }
-    if (e.key === 'ArrowRight') { nextPhoto(); }
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  prevPhoto();
+    if (e.key === 'ArrowRight') nextPhoto();
   });
 
-  /* Swipe (touch) — on the canvas or the photo-row area */
-  let touchStartX = 0;
-  const photoRow = lightbox.querySelector('.lightbox-photo-row');
-  const swipeTarget = photoRow || canvas;
-  swipeTarget.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-  swipeTarget.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 40) { dx < 0 ? nextPhoto() : prevPhoto(); }
-  }, { passive: true });
-
   canvas.addEventListener('contextmenu', e => e.preventDefault());
-
-  /* Close controls */
   if (backdrop) backdrop.addEventListener('click', closeLightbox);
   if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
 
-  /* ── Two-tap state for touch devices ── */
+  /* ── Two-tap on touch devices ── */
   const isTouch = () => window.matchMedia('(hover: none)').matches;
   let tappedItem = null;
 
@@ -824,28 +947,16 @@ function encodeImgPath(rawPath) {
     const proj = PROJECTS.find(p => p.num === num);
     if (!proj) return;
 
-    if (!isTouch()) {
-      openCarousel(proj, 0);
-      return;
-    }
-    if (tappedItem === item) {
-      clearTap();
-      openCarousel(proj, 0);
-    } else {
-      clearTap();
-      tappedItem = item;
-      item.classList.add('tap-active');
-    }
+    if (!isTouch()) { openCarousel(proj, 0); return; }
+
+    if (tappedItem === item) { clearTap(); openCarousel(proj, 0); }
+    else { clearTap(); tappedItem = item; item.classList.add('tap-active'); }
   }
 
-  /* Clear tap when clicking outside photo items */
   document.addEventListener('click', e => {
-    if (tappedItem && !e.target.closest('.bento-item, .marquee-item, .project-card')) {
-      clearTap();
-    }
+    if (tappedItem && !e.target.closest('.bento-item, .marquee-item, .project-card')) clearTap();
   });
 
-  /* ── Bind bento items (static HTML) ── */
   document.querySelectorAll('.bento-item[data-project-num]').forEach(item => {
     item.style.cursor = 'zoom-in';
     item.addEventListener('click', () => handleItemClick(item));
@@ -858,7 +969,6 @@ function encodeImgPath(rawPath) {
     });
   });
 
-  /* ── Bind marquee items (dynamically rendered — event delegation) ── */
   const track = document.getElementById('marquee-track');
   if (track) {
     track.addEventListener('click', e => {
@@ -875,7 +985,6 @@ function encodeImgPath(rawPath) {
     });
   }
 
-  /* ── Project gallery (dynamically rendered) ── */
   const gallery = document.getElementById('projects-gallery');
   if (gallery) {
     gallery.addEventListener('click', e => {
@@ -883,6 +992,122 @@ function encodeImgPath(rawPath) {
       if (card) handleItemClick(card);
     });
   }
+
+  /* ── Certificate badge click → open lightbox ── */
+  const CERT_DATA = {
+    bir: { title: 'BIR Certificate of Registration', location: '', base: 'assets/images/certificates/BIR/', photos: ['BIR1.png','BIR2.png','BIR3.png'] },
+    dti: { title: 'DTI Certificate',                 location: '', base: 'assets/images/certificates/DTI/', photos: ['Dti.png'] },
+    prc: { title: 'PRC Licensed Civil Engineer',     location: '', base: 'assets/images/certificates/PRC/', photos: ['engineer1.png'] }
+  };
+
+  document.querySelectorAll('[data-cert]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      const cert = CERT_DATA[el.dataset.cert];
+      if (cert) openCarousel(cert, 0, true);
+    });
+  });
+})();
+
+
+/* ── GLASS NAVIGATION ───────────────────────────────────────── */
+/*
+ * Two modes: NAV (default) ↔ CONTACT.
+ * Tapping Contact trigger slides in the contact panel from the right.
+ * Back button slides back to nav.
+ * Scroll spy highlights active section. Compact class on scroll-down.
+ */
+(function initGlassNav() {
+  const nav          = document.getElementById('glass-nav');
+  const pillEl       = document.getElementById('glass-pill');
+  const navPanEl     = document.getElementById('dock-nav-panel');
+  const ctPanEl      = document.getElementById('dock-contact-panel');
+  const ctTriggerEl  = document.getElementById('dock-contact-trigger');
+  const backBtnEl    = document.getElementById('dock-back-btn');
+  if (!nav || !pillEl) return;
+
+  const navItems = navPanEl ? navPanEl.querySelectorAll('.gn-item[data-section]') : [];
+
+  /* Full-width bar — no width sizing needed, both panels fill 100% via CSS */
+
+  /* ── Mode switching ── */
+  let inContactMode = false;
+
+  function activateContact() {
+    if (inContactMode) return;
+    inContactMode = true;
+    pillEl.classList.add('contact-mode');
+    if (ctTriggerEl) ctTriggerEl.setAttribute('aria-expanded', 'true');
+    if (ctPanEl) ctPanEl.removeAttribute('aria-hidden');
+    if (navPanEl) navPanEl.setAttribute('aria-hidden', 'true');
+  }
+
+  function deactivateContact() {
+    if (!inContactMode) return;
+    inContactMode = false;
+    pillEl.classList.remove('contact-mode');
+    if (ctTriggerEl) ctTriggerEl.setAttribute('aria-expanded', 'false');
+    if (navPanEl) navPanEl.removeAttribute('aria-hidden');
+    if (ctPanEl) ctPanEl.setAttribute('aria-hidden', 'true');
+  }
+
+  if (ctTriggerEl) ctTriggerEl.addEventListener('click', activateContact);
+  if (backBtnEl)  backBtnEl.addEventListener('click', deactivateContact);
+
+  /* Close contact mode when clicking outside the dock */
+  document.addEventListener('click', e => {
+    if (inContactMode && !e.target.closest('#glass-nav')) deactivateContact();
+  });
+
+  /* ── Scroll spy: active section ── */
+  const TRACKED = ['hero', 'services', 'projects', 'faq', 'contact'];
+
+  function getActiveId() {
+    const scrollY = window.scrollY + window.innerHeight * 0.40;
+    let active = 'hero';
+    TRACKED.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top + window.scrollY <= scrollY) active = id;
+    });
+    return active;
+  }
+
+  function setActive(id) {
+    navItems.forEach(item => item.classList.toggle('active', item.dataset.section === id));
+  }
+
+  /* ── Compact on scroll-down ── */
+  let lastY   = window.scrollY;
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      if (y > lastY && y > 100) nav.classList.add('compact');
+      else if (y < lastY)       nav.classList.remove('compact');
+      lastY = y;
+      setActive(getActiveId());
+      ticking = false;
+    });
+  }, { passive: true });
+
+  setActive(getActiveId());
+
+  /* ── Nav item clicks: smooth scroll to section ── */
+  navItems.forEach(item => {
+    item.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.getElementById(item.dataset.section);
+      if (!target) return;
+      const navH = parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue('--nav-h')
+      ) || 24;
+      const top = target.getBoundingClientRect().top + window.scrollY - navH;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    });
+  });
 })();
 
 
@@ -897,6 +1122,7 @@ function encodeImgPath(rawPath) {
   const progressEl = document.querySelector('.hw-progress');
   const messageEl  = document.getElementById('hw-message');
   const arrowEl    = document.getElementById('hw-arrow');
+  const hwMessenger = document.getElementById('hw-messenger');
 
   /* ── Map each section to the path it draws ── */
   const STAGE_MAP = {
@@ -982,96 +1208,114 @@ function encodeImgPath(rawPath) {
   window.addEventListener('scroll', updateProgress, { passive: true });
   updateProgress();
 
-  /* ── Section triggers: draw stage + bounce + message ── */
+  /* ── Bidirectional house state — mirrors scroll position exactly ── */
   const SECTIONS = ['services','how-we-work','projects','testimonials','trust','about','faq','contact'];
-  let lastIdx = -1;
+  let currentIdx     = -1;   /* -1 = hero / empty house */
+  let suppressScroll = false;
 
-  function triggerSection(id) {
-    const idx = SECTIONS.indexOf(id);
-    if (idx <= lastIdx) return; /* scroll-down only */
-    lastIdx = idx;
+  function getPathLen(el) {
+    try { return el.getTotalLength(); } catch(e) { return 1000; }
+  }
 
-    /* Draw the matching house path */
-    const pathId = STAGE_MAP[id];
-    if (pathId) {
+  /* Set house to exactly targetIdx.
+     All stages below targetIdx: instantly drawn.
+     Stage at targetIdx: animated in if going forward, otherwise snapped.
+     All stages above targetIdx: instantly erased. */
+  function applyHouseState(targetIdx, animateLeading) {
+    if (targetIdx === currentIdx) return;
+    const wasIdx  = currentIdx;
+    currentIdx    = targetIdx;
+    const goingFwd = targetIdx > wasIdx;
+
+    SECTIONS.forEach((id, i) => {
+      const pathId = STAGE_MAP[id];
+      if (!pathId) return;
       const el = document.getElementById(pathId);
-      if (el) gsap.to(el, { strokeDashoffset: 0, duration: 1.1, ease: 'power2.out' });
-    }
-
-    /* Attention bounce */
-    hwSvg.classList.remove('house-attention');
-    void hwSvg.offsetWidth;
-    hwSvg.classList.add('house-attention');
-    setTimeout(() => hwSvg.classList.remove('house-attention'), 450);
-
-    /* Progress counter pulse */
-    if (progressEl) {
-      progressEl.classList.remove('milestone');
-      void progressEl.offsetWidth;
-      progressEl.classList.add('milestone');
-      setTimeout(() => progressEl.classList.remove('milestone'), 500);
-    }
-
-    /* Popup message — always show on scroll down */
-    const msg = MESSAGES[id];
-    if (msg) setTimeout(() => showMessage(msg, id === 'contact'), 220);
-
-    /* Section 09 extras */
-    if (id === 'contact') {
-      if (arrowEl) arrowEl.classList.add('show');
-      gsap.to(hwSvg, { filter: 'drop-shadow(0 0 5px rgba(0,180,216,0.7))', duration: 0.6, delay: 0.9 });
-    }
-  }
-
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) triggerSection(e.target.id); });
-    }, { threshold: 0.2 });
-    SECTIONS.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) io.observe(el);
-    });
-  }
-
-  /* ── Nav-click sync: snap house state to whichever section was jumped to ── */
-  function resetHouse() {
-    lastIdx = -1;
-    SECTIONS.forEach(sId => {
-      const el = document.getElementById(STAGE_MAP[sId]);
       if (!el) return;
-      try { gsap.set(el, { strokeDashoffset: el.getTotalLength() }); } catch (e) {}
+      gsap.killTweensOf(el);
+
+      if (i < targetIdx) {
+        gsap.set(el, { strokeDashoffset: 0 });
+      } else if (i === targetIdx && animateLeading && goingFwd) {
+        gsap.fromTo(el,
+          { strokeDashoffset: getPathLen(el) },
+          { strokeDashoffset: 0, duration: 1.1, ease: 'power2.out' }
+        );
+      } else if (i === targetIdx) {
+        gsap.set(el, { strokeDashoffset: 0 });
+      } else {
+        gsap.set(el, { strokeDashoffset: getPathLen(el) });
+      }
     });
+
+    /* Side-effects only when building forward */
+    if (animateLeading && goingFwd && targetIdx >= 0) {
+      const id = SECTIONS[targetIdx];
+
+      hwSvg.classList.remove('house-attention');
+      void hwSvg.offsetWidth;
+      hwSvg.classList.add('house-attention');
+      setTimeout(() => hwSvg.classList.remove('house-attention'), 450);
+
+      if (progressEl) {
+        progressEl.classList.remove('milestone');
+        void progressEl.offsetWidth;
+        progressEl.classList.add('milestone');
+        setTimeout(() => progressEl.classList.remove('milestone'), 500);
+      }
+
+      const msg = MESSAGES[id];
+      if (msg) setTimeout(() => showMessage(msg, id === 'contact'), 220);
+
+      if (id === 'contact') {
+        if (arrowEl) arrowEl.classList.add('show');
+        gsap.to(hwSvg, { filter: 'drop-shadow(0 0 5px rgba(0,180,216,0.7))', duration: 0.6, delay: 0.9 });
+      }
+    }
+
+    /* Going back above contact section: remove glow and arrow */
+    if (targetIdx < SECTIONS.indexOf('contact')) {
+      if (arrowEl) arrowEl.classList.remove('show');
+      gsap.set(hwSvg, { clearProps: 'filter' });
+    }
   }
 
-  function syncToSection(id) {
-    const targetIdx = SECTIONS.indexOf(id);
-    if (targetIdx < 0) return;
-
-    /* Reset so triggerSection will run regardless of direction */
-    lastIdx = targetIdx - 1;
-
-    /* Instantly reveal every stage before the target */
-    for (let i = 0; i < targetIdx; i++) {
-      const el = document.getElementById(STAGE_MAP[SECTIONS[i]]);
-      if (el) gsap.set(el, { strokeDashoffset: 0 });
+  /* Returns index of the highest section whose top has passed 40 % viewport height */
+  function getCurrentSectionIdx() {
+    const threshold = window.innerHeight * 0.4;
+    let idx = -1;
+    for (let i = 0; i < SECTIONS.length; i++) {
+      const el = document.getElementById(SECTIONS[i]);
+      if (el && el.getBoundingClientRect().top <= threshold) idx = i;
     }
-    /* Instantly hide every stage after the target */
-    for (let i = targetIdx + 1; i < SECTIONS.length; i++) {
-      const el = document.getElementById(STAGE_MAP[SECTIONS[i]]);
-      if (!el) continue;
-      try { gsap.set(el, { strokeDashoffset: el.getTotalLength() }); } catch (e) {}
-    }
-    /* Animate the target stage */
-    triggerSection(id);
+    return idx;
   }
 
+  /* Scroll → live bidirectional mirror */
+  window.addEventListener('scroll', () => {
+    if (suppressScroll) return;
+    applyHouseState(getCurrentSectionIdx(), true);
+  }, { passive: true });
+
+  /* Nav clicks → snap to exact state instantly, then allow scroll to take over */
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', () => {
       const hash = link.getAttribute('href').slice(1);
-      if (hash === 'hero' || hash === '') { resetHouse(); return; }
-      if (SECTIONS.includes(hash)) setTimeout(() => syncToSection(hash), 80);
+      suppressScroll = true;
+      if (hash === 'hero' || hash === '') {
+        applyHouseState(-1, false);
+      } else {
+        const targetIdx = SECTIONS.indexOf(hash);
+        if (targetIdx >= 0) applyHouseState(targetIdx, false);
+      }
+      setTimeout(() => { suppressScroll = false; }, 700);
     });
   });
+
+  /* ── Messenger button: hides arrow on click ── */
+  if (hwMessenger && arrowEl) {
+    hwMessenger.addEventListener('click', () => arrowEl.classList.remove('show'));
+  }
 
   /* ── Color: samples behind SVG, toggles on-light on #contact-fab ── */
   function updateColor() {
@@ -1094,16 +1338,6 @@ function encodeImgPath(rawPath) {
   window.addEventListener('scroll', updateColor, { passive: true });
   updateColor();
 
-  /* ── On refresh: snap house to wherever the user already is ── */
-  (function syncOnLoad() {
-    if (window.scrollY < 50) return;
-    const threshold = window.innerHeight * 0.5;
-    let current = null;
-    for (let i = 0; i < SECTIONS.length; i++) {
-      const el = document.getElementById(SECTIONS[i]);
-      if (!el) continue;
-      if (el.getBoundingClientRect().top < threshold) current = SECTIONS[i];
-    }
-    if (current) syncToSection(current);
-  })();
+  /* ── On load: snap house to current scroll position ── */
+  applyHouseState(getCurrentSectionIdx(), false);
 })();

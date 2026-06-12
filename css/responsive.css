@@ -277,8 +277,8 @@
   .hw-message  { font-size: 8px; max-width: 84px; min-height: 22px; }
   .hw-progress { font-size: 8.5px; }
 
-  .hw-arrow    { width: 40px; }
-  .hw-arrow svg { width: 14px; height: 8px; }
+  .hw-arrow     { width: 36px; height: 36px; margin: 2px 0; }
+  .hw-arrow svg { width: 36px; height: 36px; }
 
   /* Section labels / titles */
   .section-label { font-size: 9px; letter-spacing: 3px; }
@@ -325,8 +325,8 @@
   .hw-message  { font-size: 7.5px; max-width: 74px; min-height: 20px; }
   .hw-progress { font-size: 8px; }
 
-  .hw-arrow    { width: 34px; }
-  .hw-arrow svg { width: 12px; height: 7px; }
+  .hw-arrow     { width: 34px; height: 34px; margin: 2px 0; }
+  .hw-arrow svg { width: 34px; height: 34px; }
 }
 
 /* ── TOUCH DEVICE AFFORDANCES ───────────────────────────────── */

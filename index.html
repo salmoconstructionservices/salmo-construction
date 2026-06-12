@@ -58,48 +58,121 @@
 <!-- ══════════════════════════════════════════════════════════
      NAV: FIXED NAVIGATION BAR
      ══════════════════════════════════════════════════════════ -->
-<nav id="navbar" role="navigation" aria-label="Main navigation">
-  <div class="nav-inner">
+<!-- Glass dock — Apple-style bottom pill, two modes: nav ↔ contact -->
+<nav id="glass-nav" role="navigation" aria-label="Main navigation">
+  <div class="glass-pill" id="glass-pill">
 
-    <!-- Logo -->
-    <a href="#hero" class="nav-logo" aria-label="Salmo Construction Services — back to top">
-      <img src="assets/images/salmo.png" alt="Salmo Construction Services" class="nav-logo-img" />
-    </a>
+    <!-- MODE 1: Navigation (default) -->
+    <div class="dock-panel dock-nav-panel" id="dock-nav-panel">
 
-    <!-- Desktop nav links -->
-    <div class="nav-links" role="list">
-      <a href="#services"    class="nav-link" role="listitem">Services</a>
-      <a href="#how-we-work" class="nav-link" role="listitem">How We Work</a>
-      <a href="#projects"    class="nav-link" role="listitem">Projects</a>
-      <a href="#about"       class="nav-link" role="listitem">About</a>
-      <a href="#faq"         class="nav-link" role="listitem">FAQ</a>
-      <a href="#contact"     class="nav-link" role="listitem">Contact</a>
-    </div>
+      <a href="#hero" class="gn-item active" data-section="hero" aria-label="Home">
+        <svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="gn-label">Home</span>
+      </a>
 
-    <!-- Desktop CTA -->
-    <a href="#contact" class="nav-cta" aria-label="Start your dream project">
-      Start Your Dream
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-      </svg>
-    </a>
+      <a href="#services" class="gn-item" data-section="services" aria-label="Services">
+        <svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+        <span class="gn-label">Services</span>
+      </a>
 
-    <!-- Hamburger (mobile) -->
-    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
+      <a href="#projects" class="gn-item" data-section="projects" aria-label="Projects">
+        <svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        <span class="gn-label">Projects</span>
+      </a>
 
-  <!-- Mobile overlay -->
-  <div class="nav-mobile-overlay" id="nav-mobile" role="dialog" aria-label="Mobile navigation" aria-modal="true">
-    <a href="#services"    class="nav-link" onclick="closeMobileMenu()">Services</a>
-    <a href="#how-we-work" class="nav-link" onclick="closeMobileMenu()">How We Work</a>
-    <a href="#projects"    class="nav-link" onclick="closeMobileMenu()">Projects</a>
-    <a href="#about"       class="nav-link" onclick="closeMobileMenu()">About</a>
-    <a href="#faq"         class="nav-link" onclick="closeMobileMenu()">FAQ</a>
-    <a href="#contact"     class="nav-link" onclick="closeMobileMenu()">Contact</a>
-    <a href="#contact" class="nav-cta btn btn-cyan" onclick="closeMobileMenu()">Start Your Dream &rarr;</a>
-  </div>
+      <a href="#faq" class="gn-item" data-section="faq" aria-label="FAQ">
+        <svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span class="gn-label">FAQ</span>
+      </a>
+
+      <!-- Contact trigger: tapping switches to Mode 2 -->
+      <button class="gn-item" id="dock-contact-trigger" aria-label="Show contact options" aria-expanded="false">
+        <svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        <span class="gn-label">Let's Talk</span>
+      </button>
+
+    </div><!-- /dock-nav-panel -->
+
+    <!-- MODE 2: Contact options (slides in from right) -->
+    <div class="dock-panel dock-contact-panel" id="dock-contact-panel" aria-hidden="true">
+
+      <!-- Back button in cyan — tap to return to nav mode -->
+      <button class="gn-item dock-back-btn" id="dock-back-btn" aria-label="Back to navigation">
+        <svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+        <span class="gn-label">Back</span>
+      </button>
+
+      <a href="https://m.me/salmo.construction" target="_blank" rel="noopener noreferrer"
+         class="gn-item" aria-label="Chat on Messenger (opens in new tab)">
+        <svg class="gn-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <defs>
+            <linearGradient id="gn-msg" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FF5CAA"/><stop offset=".5" stop-color="#A334FA"/><stop offset="1" stop-color="#00B2FF"/>
+            </linearGradient>
+          </defs>
+          <circle cx="12" cy="12" r="11" fill="url(#gn-msg)"/>
+          <path fill="white" d="M12 5.75C8.55 5.75 5.75 8.32 5.75 11.5c0 1.83.88 3.47 2.26 4.58v2.42l2.23-1.22c.57.16 1.17.22 1.76.22 3.45 0 6.25-2.57 6.25-5.75S15.45 5.75 12 5.75zm.73 7.77-1.78-1.9-3.48 1.9 3.84-4.07 1.82 1.9 3.44-1.9-3.84 4.07z"/>
+        </svg>
+        <span class="gn-label">Messenger</span>
+      </a>
+
+      <a href="viber://chat?number=+639975747607"
+         class="gn-item" aria-label="Message on Viber">
+        <svg class="gn-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="11" fill="#7360F2"/>
+          <path fill="white" d="M16.86 7.14A6.63 6.63 0 0 0 12 5.17a6.63 6.63 0 0 0-5.74 9.96l-.92 3.12 3.2-.84A6.63 6.63 0 1 0 16.86 7.14zM12 17.08a5.5 5.5 0 0 1-2.8-.77l-.2-.12-2.08.55.55-1.89-.13-.2A5.5 5.5 0 1 1 12 17.08zm3.18-3.86c-.17-.08-.97-.48-1.12-.54-.15-.05-.26-.08-.37.09-.11.16-.42.53-.51.63-.1.1-.19.12-.36.04-.17-.08-.72-.26-1.36-.84-.52-.47-.87-1.04-.97-1.21-.09-.17 0-.26.07-.33.08-.08.17-.19.25-.28.08-.1.1-.17.15-.27.05-.11.03-.2-.01-.28-.03-.08-.36-.86-.49-1.18-.13-.31-.26-.27-.36-.27h-.32c-.1 0-.27.04-.42.19-.14.16-.56.55-.56 1.32 0 .76.57 1.5.65 1.6.08.1 1.13 1.73 2.74 2.42.38.16.68.26.91.33.38.12.72.1.99.06.3-.04.95-.39 1.08-.76.13-.37.13-.69.09-.76-.04-.07-.14-.11-.31-.19z"/>
+        </svg>
+        <span class="gn-label">Viber</span>
+      </a>
+
+      <a href="https://wa.me/639975747607" target="_blank" rel="noopener noreferrer"
+         class="gn-item" aria-label="Message on WhatsApp (opens in new tab)">
+        <svg class="gn-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="11" fill="#25D366"/>
+          <path fill="white" d="M17.04 6.95A7.1 7.1 0 0 0 4.74 14.57l-1.0 3.93 4.03-1.06A7.1 7.1 0 1 0 17.04 6.95zM12 17.5a5.85 5.85 0 0 1-2.98-.82l-.21-.13-2.22.58.59-2.14-.14-.23A5.88 5.88 0 1 1 12 17.5zm3.21-4.38c-.17-.09-1.03-.51-1.19-.57-.16-.06-.27-.08-.38.09-.11.17-.44.57-.54.68-.1.12-.2.13-.37.05-.18-.08-.72-.27-1.37-.85-.53-.47-.9-1.03-1.01-1.21-.1-.17 0-.27.07-.35.08-.08.17-.2.26-.31.08-.1.11-.17.17-.28.05-.11.03-.21-.01-.3-.04-.08-.38-.91-.51-1.24-.13-.33-.27-.27-.37-.28h-.33c-.11 0-.29.04-.45.21-.16.18-.6.59-.6 1.43s.61 1.66.7 1.77c.08.11 1.2 1.84 2.91 2.58.41.17.72.27.97.35.41.12.78.1 1.07.06.33-.04 1.01-.41 1.16-.82.14-.4.14-.74.1-.82-.04-.07-.15-.11-.33-.2z"/>
+        </svg>
+        <span class="gn-label">WhatsApp</span>
+      </a>
+
+      <a href="tel:+639975747607"
+         class="gn-item" aria-label="Call us">
+        <svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5a2 2 0 0 1 1.99-2H6.6a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.4a16 16 0 0 0 6 6l.94-.93a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17.92v-.99z"/>
+        </svg>
+        <span class="gn-label">Call</span>
+      </a>
+
+      <a href="mailto:salmoconstructionservices@gmail.com"
+         class="gn-item" aria-label="Send email">
+        <svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        <span class="gn-label">Email</span>
+      </a>
+
+    </div><!-- /dock-contact-panel -->
+
+  </div><!-- /glass-pill -->
 </nav>
 
 
@@ -107,6 +180,12 @@
      SECTION 01: HERO
      ══════════════════════════════════════════════════════════ -->
 <section id="hero" class="blueprint-bg" aria-labelledby="hero-heading">
+
+  <!-- Logo: part of hero, scrolls away with the page -->
+  <div class="hero-brand">
+    <img src="assets/images/salmo.png" alt="Salmo Construction Services" class="hero-brand-logo" />
+  </div>
+
   <div class="hero-inner">
 
     <!-- Left: Text content -->
@@ -778,7 +857,7 @@
         <div class="trust-badges-grid">
 
           <!-- Badge: Projects -->
-          <div class="trust-badge reveal">
+          <a class="trust-badge clickable reveal" href="#projects" aria-label="View our completed projects">
             <div class="trust-badge-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
@@ -789,13 +868,13 @@
             </div>
             <div class="trust-badge-label">Finished Projects</div>
             <div class="trust-badge-sub">Dreams Built</div>
-          </div>
+            <span class="trust-badge-link-hint">View Projects</span>
+          </a>
 
-          <!-- Badge: BIR (clickable) -->
+          <!-- Badge: BIR (opens certificate lightbox) -->
           <a class="trust-badge clickable reveal"
-             href="https://drive.google.com/file/d/1EyzkqAx3ksOjVHuK5keE-VSdRy4_Nztj/view?usp=drive_link"
-             target="_blank" rel="noopener noreferrer"
-             aria-label="View BIR Certificate (opens in new tab)">
+             href="#" data-cert="bir" role="button"
+             aria-label="View BIR Certificate of Registration">
             <div class="trust-badge-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
@@ -804,14 +883,13 @@
             <div class="trust-badge-num" style="font-size:28px; letter-spacing:2px;">BIR</div>
             <div class="trust-badge-label">Registered</div>
             <div class="trust-badge-sub">Bureau of Internal Revenue</div>
-            <span class="trust-badge-link-hint">View Certificate ↗</span>
+            <span class="trust-badge-link-hint">View Certificate</span>
           </a>
 
-          <!-- Badge: DTI (clickable) -->
+          <!-- Badge: DTI (opens certificate lightbox) -->
           <a class="trust-badge clickable reveal"
-             href="https://drive.google.com/file/d/1NkkJOtpVRHhpzP6osoBuNQrHeOsd1ko4/view?usp=drive_link"
-             target="_blank" rel="noopener noreferrer"
-             aria-label="View DTI Certificate (opens in new tab)">
+             href="#" data-cert="dti" role="button"
+             aria-label="View DTI Certificate">
             <div class="trust-badge-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
                 <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
@@ -820,14 +898,13 @@
             <div class="trust-badge-num" style="font-size:28px; letter-spacing:2px;">DTI</div>
             <div class="trust-badge-label">Registered</div>
             <div class="trust-badge-sub">Dept. of Trade &amp; Industry</div>
-            <span class="trust-badge-link-hint">View Certificate ↗</span>
+            <span class="trust-badge-link-hint">View Certificate</span>
           </a>
 
-          <!-- Badge: Licensed Engineers & Architects (clickable) -->
+          <!-- Badge: PRC Licensed Engineers & Architects (opens license lightbox) -->
           <a class="trust-badge clickable reveal"
-             href="https://drive.google.com/drive/folders/1YS8MamBeFBma7S6MyNbB5_kOW8tTWf2l?usp=drive_link"
-             target="_blank" rel="noopener noreferrer"
-             aria-label="View Licensed Engineers and Architects (opens in new tab)">
+             href="#" data-cert="prc" role="button"
+             aria-label="View PRC Licensed Civil Engineer License">
             <div class="trust-badge-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
                 <circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
@@ -836,7 +913,7 @@
             <div class="trust-badge-num" style="font-size:18px; font-weight:700; letter-spacing:0;">Licensed</div>
             <div class="trust-badge-label">Engineers</div>
             <div class="trust-badge-sub">&amp; Architects</div>
-            <span class="trust-badge-link-hint">View Licenses ↗</span>
+            <span class="trust-badge-link-hint">View Licenses</span>
           </a>
 
         </div><!-- /trust-badges-grid -->
@@ -884,7 +961,7 @@
             <div class="why-check" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
-            <span>Free Detailed Cost Estimates — No Obligation</span>
+            <span>Free Quotation</span>
           </li>
           <li class="why-item reveal">
             <div class="why-check" aria-hidden="true">
@@ -1264,7 +1341,7 @@
           </div>
         </div>
 
-        <!-- Google Maps embed -->
+        <!-- Google Maps embed + navigation buttons -->
         <div class="contact-map">
           <iframe
             src="https://maps.google.com/maps?q=LPAN+Building,+Gil+Fernando+Avenue,+cor+Lark,+Marikina+City,+Philippines+1800&t=&z=17&ie=UTF8&iwloc=B&output=embed"
@@ -1274,6 +1351,30 @@
             title="Salmo Construction Services location — Marikina City"
             aria-label="Google Maps showing our Marikina City office location">
           </iframe>
+
+          <div class="map-actions">
+            <!-- Google Maps button -->
+            <a href="https://maps.google.com/maps?q=LPAN+Building,+Gil+Fernando+Avenue,+Marikina+City,+Philippines+1800"
+               target="_blank" rel="noopener noreferrer"
+               class="btn-map-action btn-gmaps"
+               aria-label="Open in Google Maps (opens in new tab)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Google Maps
+            </a>
+
+            <!-- Waze button -->
+            <a href="https://waze.com/ul?q=Salmo%20Construction%20Services%20Gil%20Fernando%20Avenue%20Marikina%20City&navigate=yes"
+               target="_blank" rel="noopener noreferrer"
+               class="btn-map-action btn-waze"
+               aria-label="Navigate with Waze (opens Waze app)">
+              <img src="assets/images/logos/Waze.png" alt="" aria-hidden="true" class="btn-logo">
+              Navigate with Waze
+            </a>
+          </div>
         </div>
 
       </div><!-- /contact-details -->
@@ -1403,123 +1504,40 @@
      Top group (message+%+house+arrow) naturally rises when
      FAB options expand, because the widget grows upward.
      ══════════════════════════════════════════════════════════ -->
-<div id="contact-fab" role="complementary" aria-label="Quick contact options">
-
-  <!-- ① TOP GROUP — moves up as a unit when More is tapped -->
-  <div id="widget-top">
-
-    <!-- Section message: appears above %, both always visible simultaneously -->
-    <span id="hw-message" class="hw-message" aria-live="polite"></span>
-
-    <!-- Scroll progress percentage -->
-    <span class="hw-progress" aria-hidden="true">0%</span>
-
-    <!-- SVG house — 7 separate paths, one per section, drawn progressively -->
-    <div id="house-widget" role="img" aria-label="Construction progress indicator">
-      <svg id="hw-svg" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"
-           fill="none" stroke-width="0.85"
-           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-
-        <!--
-          TWO-STOREY HOUSE — 44×44 viewBox
-          ─────────────────────────────────────────────────────────────
-          Body:        x=5–39  (34px wide)  center x=22
-          Eave:        y=13   (taller than before)
-          Ground:      y=42
-          Floor split: y=27   (2nd floor y=13–27=14px, ground y=27–42=15px)
-          Roof peak:   y=5    (8px above eave)
-
-          2nd floor:  1 big window x=8–36, y=16–25 (28×9px) + cross lines
-          Ground floor layout — 28px span x=8–36 (matches 2nd-floor window exactly):
-            win 5px | gap 4px | door 10px | gap 4px | win 5px = 28px ✓
-            Left win: x=8–13   Door: x=17–27 (center x=22)   Right win: x=31–36
-          Windows: y=31–39 (8px)   Door: y=30–42 (12px, taller ✓, flush to ground)
-          ─────────────────────────────────────────────────────────────
-        -->
-
-        <!-- §02 Services: ground baseline -->
-        <path id="hw-ground"  d="M3,42 L41,42" stroke-width="1.1"/>
-
-        <!-- §03 How We Work: two walls + eave + floor separator -->
-        <path id="hw-walls"   d="M5,42 L5,13 L39,13 L39,42 M5,27 L39,27"/>
-
-        <!-- §04 Projects: roof — two slopes to peak -->
-        <path id="hw-roof"    d="M5,13 L22,5 L39,13"/>
-
-        <!-- §05 Testimonials: 2nd floor — 1 big window, 3 verticals (x=15,22,29) + horizontal → 8 panes -->
-        <path id="hw-win-l"   d="M8,16 L8,25 L36,25 L36,16 Z M15,16 L15,25 M22,16 L22,25 M29,16 L29,25 M8,20.5 L36,20.5" stroke-width="0.55"/>
-
-        <!-- §06 Trust: ground floor — left win x=8–13, right win x=31–36 (5px each, outer edges
-             align with 2nd-floor window x=8–36; equal 4px gaps to door x=17–27) -->
-        <path id="hw-win-r"   d="M8,31 L8,39 L13,39 L13,31 Z M10.5,31 L10.5,39 M8,35 L13,35 M31,31 L31,39 L36,39 L36,31 Z M33.5,31 L33.5,39 M31,35 L36,35" stroke-width="0.55"/>
-
-        <!-- §07 About: door — x=17–27 (10px, center x=22), y=30–42 (12px, flush to ground) -->
-        <path id="hw-door"    d="M17,42 L17,30 L27,30 L27,42" stroke-width="0.65"/>
-
-        <!-- §08 FAQ: chimney — short, left roof slope (slope: (5,13)→(22,5), at x=9 y≈11, x=13 y≈9) -->
-        <path id="hw-chimney" d="M9,11 L9,6 L13,6 L13,9"/>
-
-      </svg>
-    </div>
-
-    <!-- Bouncing arrow — Section 09 only, hidden by default -->
-    <div id="hw-arrow" class="hw-arrow" aria-hidden="true">
-      <svg viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="1,1 9,9 17,1" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-
-  </div><!-- /widget-top -->
-
-  <!-- ② EXPANDABLE OPTIONS — slides open between top group and Messenger -->
-  <div id="fab-options" class="fab-options" aria-hidden="true">
-
-    <a href="mailto:salmoconstructionservices@gmail.com" class="fab-option email"
-       aria-label="Send email">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      <span class="fab-option-label">Email</span>
-    </a>
-
-    <a href="tel:+639975747607" class="fab-option call"
-       aria-label="Call us">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5a2 2 0 0 1 1.99-2H6.6a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 10.4a16 16 0 0 0 6 6l.94-.93a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 17.91v-.99z"/></svg>
-      <span class="fab-option-label">Call</span>
-    </a>
-
-    <a href="viber://chat?number=+639975747607" class="fab-option viber"
-       aria-label="Message on Viber">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      <span class="fab-option-label">Viber</span>
-    </a>
-
-    <a href="https://wa.me/639975747607" target="_blank" rel="noopener noreferrer"
-       class="fab-option whatsapp" aria-label="Message on WhatsApp (opens in new tab)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-      <span class="fab-option-label">WhatsApp</span>
-    </a>
-
-  </div><!-- /fab-options -->
-
-  <!-- ③ MESSENGER — always visible above More button -->
+<!-- House widget: storytelling only — message + percentage + animated SVG house -->
+<div id="contact-fab" role="complementary" aria-label="Scroll progress indicator">
+  <span id="hw-message" class="hw-message" aria-live="polite"></span>
+  <span class="hw-progress" aria-hidden="true">0%</span>
+  <div id="house-widget" role="img" aria-label="Construction progress indicator">
+    <svg id="hw-svg" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"
+         fill="none" stroke-width="0.85"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path id="hw-ground"  d="M3,42 L41,42" stroke-width="1.1"/>
+      <path id="hw-walls"   d="M5,42 L5,13 L39,13 L39,42 M5,27 L39,27"/>
+      <path id="hw-roof"    d="M5,13 L22,5 L39,13"/>
+      <path id="hw-win-l"   d="M8,16 L8,25 L36,25 L36,16 Z M15,16 L15,25 M22,16 L22,25 M29,16 L29,25 M8,20.5 L36,20.5" stroke-width="0.55"/>
+      <path id="hw-win-r"   d="M8,31 L8,39 L13,39 L13,31 Z M10.5,31 L10.5,39 M8,35 L13,35 M31,31 L31,39 L36,39 L36,31 Z M33.5,31 L33.5,39 M31,35 L36,35" stroke-width="0.55"/>
+      <path id="hw-door"    d="M17,42 L17,30 L27,30 L27,42" stroke-width="0.65"/>
+      <path id="hw-chimney" d="M9,11 L9,6 L13,6 L13,9"/>
+    </svg>
+  </div>
+  <!-- Arrow shown at 99% pointing toward Messenger button -->
+  <div id="hw-arrow" class="hw-arrow" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+  <!-- Quick Messenger access -->
   <a href="https://m.me/salmo.construction" target="_blank" rel="noopener noreferrer"
-     class="messenger-btn" id="messenger-bubble" aria-label="Chat on Facebook Messenger (opens in new tab)">
-    <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
-      <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.908 1.438 5.504 3.688 7.21V22l3.37-1.853c.9.25 1.854.383 2.942.383 5.523 0 10-4.145 10-9.243C22 6.145 17.523 2 12 2zm1.088 12.445l-2.548-2.72-4.972 2.72 5.474-5.808 2.61 2.72 4.91-2.72-5.474 5.808z"/>
+     id="hw-messenger" class="hw-messenger" aria-label="Chat on Messenger (opens in new tab)">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <linearGradient id="hw-msg-g" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#FF5CAA"/><stop offset=".5" stop-color="#A334FA"/><stop offset="1" stop-color="#00B2FF"/>
+        </linearGradient>
+      </defs>
+      <circle cx="12" cy="12" r="12" fill="url(#hw-msg-g)"/>
+      <path fill="white" d="M12 5.75C8.55 5.75 5.75 8.32 5.75 11.5c0 1.83.88 3.47 2.26 4.58v2.42l2.23-1.22c.57.16 1.17.22 1.76.22 3.45 0 6.25-2.57 6.25-5.75S15.45 5.75 12 5.75zm.73 7.77-1.78-1.9-3.48 1.9 3.84-4.07 1.82 1.9 3.44-1.9-3.84 4.07z"/>
     </svg>
-    <span class="fab-option-label">Messenger</span>
   </a>
-
-  <!-- ④ MORE / CLOSE button — navy circle, + becomes × -->
-  <button class="fab-btn" id="fab-btn" aria-label="Open contact options" aria-expanded="false" aria-controls="fab-options">
-    <svg class="fab-icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-    </svg>
-    <svg class="fab-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-    </svg>
-  </button>
-
 </div><!-- /contact-fab -->
 
 
@@ -1558,6 +1576,9 @@
         </svg>
       </button>
     </div>
+
+    <!-- Mobile only: full-screen horizontal swipe strip (JS-populated) -->
+    <div class="lb-mobile-strip" id="lb-mobile-strip"></div>
 
     <!-- Photo row with prev/next arrows -->
     <div class="lightbox-photo-row">
