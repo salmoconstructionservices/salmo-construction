@@ -2281,7 +2281,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   color: rgba(255,255,255,0.9);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease, color 0.35s ease;
   flex-shrink: 0;
   margin: 4px 0;
 }
@@ -2294,7 +2294,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   from { transform: translateY(-7px); }
   to   { transform: translateY(7px); }
 }
-#contact-fab.on-light .hw-arrow { color: rgba(1,30,62,0.8); }
+#contact-fab.on-light .hw-arrow { color: #011E3E; }
 
 /* ── Quick Messenger access button ── */
 .hw-messenger {
