@@ -439,6 +439,10 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 
 .gn-item.active { color: #00B4D8; }
 
+/* Logo-only nav item — no icon+label stack, just the image */
+.gn-logo-item { padding: 8px 14px; }
+.gn-logo-img  { height: 28px; width: auto; display: block; object-fit: contain; flex-shrink: 0; }
+
 @media (hover: hover) {
   .gn-item:hover:not(.active) {
     color: rgba(255, 255, 255, 0.95);
@@ -456,6 +460,8 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   .gn-item  { padding: 12px 22px; min-width: 68px; min-height: 60px; }
   .gn-icon  { width: 22px; height: 22px; }
   .gn-label { font-size: 10px; letter-spacing: 0.8px; }
+  .gn-logo-item { padding: 10px 16px; }
+  .gn-logo-img  { height: 32px; }
 
   #glass-nav.compact .gn-item  { min-height: 46px; padding: 8px 17px; }
   #glass-nav.compact .gn-icon  { width: 18px; height: 18px; }
