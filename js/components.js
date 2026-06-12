@@ -1203,6 +1203,9 @@ function encodeImgPath(rawPath) {
   function updateProgress() {
     const raw = Math.min(1, Math.max(0, window.scrollY / getMaxScroll()));
     if (progressEl) progressEl.textContent = Math.round(raw * 99) + '%';
+    const reveal = raw >= 0.9;
+    if (arrowEl)    arrowEl.classList.toggle('hw-revealed', reveal);
+    if (hwMessenger) hwMessenger.classList.toggle('hw-revealed', reveal);
   }
 
   window.addEventListener('scroll', updateProgress, { passive: true });
