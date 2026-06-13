@@ -2765,18 +2765,19 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
     padding-bottom: 0;
   }
 
-  /* Dots pinned at bottom with safe-area support + dark scrim */
+  /* Dots sit just below the image — JS sets exact top; this is the CSS fallback */
   .lightbox-dots {
     position: absolute;
-    bottom: 0;
+    top: calc(50% + 155px);
+    bottom: auto;
     left: 0; right: 0;
     z-index: 4;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 6px;
-    padding: 14px 20px max(14px, env(safe-area-inset-bottom));
-    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+    padding: 8px 20px;
+    background: none;
     pointer-events: none;
   }
 
