@@ -384,6 +384,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   transform: translateX(-50%);
   bottom: 20px;
   z-index: 999;
+  max-width: calc(100vw - 24px);
 }
 
 .glass-pill {
@@ -440,9 +441,9 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 .gn-item.active { color: #00B4D8; }
 
 /* Logo-only nav item — no icon+label stack, just the image */
-.gn-logo-item { padding: 8px 14px; }
-.gn-logo-img  { height: 32px; width: auto; display: block; object-fit: contain; flex-shrink: 0; }
-#glass-nav.compact .gn-logo-img { height: 24px; }
+.gn-logo-item { flex: 0 0 auto; padding: 8px 14px; }
+.gn-logo-img  { height: 32px; width: auto; max-width: 110px; display: block; object-fit: contain; flex-shrink: 0; }
+#glass-nav.compact .gn-logo-img { height: 24px; max-width: 91px; }
 
 @media (hover: hover) {
   .gn-item:hover:not(.active) {
@@ -462,8 +463,8 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   .gn-icon  { width: 22px; height: 22px; }
   .gn-label { font-size: 10px; letter-spacing: 0.8px; }
   .gn-logo-item { padding: 10px 16px; }
-  .gn-logo-img  { height: 36px; }
-  #glass-nav.compact .gn-logo-img { height: 28px; }
+  .gn-logo-img  { height: 36px; max-width: 137px; }
+  #glass-nav.compact .gn-logo-img { height: 28px; max-width: 106px; }
 
   #glass-nav.compact .gn-item  { min-height: 46px; padding: 8px 17px; }
   #glass-nav.compact .gn-icon  { width: 18px; height: 18px; }
