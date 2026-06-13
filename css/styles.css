@@ -2644,6 +2644,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   align-items: center;
   gap: 4px;
   text-align: center;
+  padding-bottom: 6px;
 }
 
 .lightbox-title {
@@ -2751,15 +2752,17 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 
   .lb-mobile-strip::-webkit-scrollbar { display: none; }
 
-  /* Caption pinned above dots */
+  /* Caption pinned at top — above the image */
   .lightbox-caption {
     position: absolute;
-    bottom: 44px;
+    top: 0;
+    bottom: auto;
     left: 0; right: 0;
-    z-index: 3;
-    padding: 24px 20px 8px;
-    background: linear-gradient(to top, rgba(0,0,0,0.70) 0%, transparent 100%);
+    z-index: 2;
+    padding: 96px 20px 24px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.60) 0%, transparent 100%);
     pointer-events: none;
+    padding-bottom: 0;
   }
 
   /* Dots pinned at bottom with safe-area support + dark scrim */

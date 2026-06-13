@@ -725,29 +725,51 @@ function encodeImgPath(rawPath) {
     cx.restore();
   }
 
-  /* ── Desktop: render onto shared canvas ── */
+  /* ── Desktop: render at display size × DPR — sharp on all screens ── */
   function renderDesktopCanvas(photo) {
+    const dpr   = window.devicePixelRatio || 1;
+    const nw    = photo.naturalWidth;
+    const nh    = photo.naturalHeight;
     const MAX_W = Math.max(120, window.innerWidth * 0.88 - 128);
     const MAX_H = window.innerHeight * 0.65;
-    const scale = Math.min(MAX_W / photo.naturalWidth, MAX_H / photo.naturalHeight, 1);
-    const w = Math.round(photo.naturalWidth  * scale);
-    const h = Math.round(photo.naturalHeight * scale);
-    canvas.width = w; canvas.height = h;
-    ctx.drawImage(photo, 0, 0, w, h);
-    (certLightbox ? stampCertWatermark : stampWatermark)(canvas, ctx, w, h);
+    const ds    = Math.min(MAX_W / nw, MAX_H / nh, 1);  // display scale
+    const dw    = Math.round(nw * ds);
+    const dh    = Math.round(nh * ds);
+
+    canvas.width  = dw * dpr;
+    canvas.height = dh * dpr;
+    canvas.style.width  = dw + 'px';
+    canvas.style.height = dh + 'px';
+
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.scale(dpr, dpr);
+    ctx.drawImage(photo, 0, 0, dw, dh);
+    (certLightbox ? stampCertWatermark : stampWatermark)(canvas, ctx, dw, dh);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
 
-  /* ── Mobile: render onto a slide canvas ── */
+  /* ── Mobile: render at display size × DPR — sharp on retina ── */
   function renderMobileSlide(sc, photo) {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const scale = Math.min(vw / photo.naturalWidth, vh / photo.naturalHeight, 1);
-    const w = Math.round(photo.naturalWidth  * scale);
-    const h = Math.round(photo.naturalHeight * scale);
-    sc.width = w; sc.height = h;
+    const dpr = window.devicePixelRatio || 1;
+    const nw  = photo.naturalWidth;
+    const nh  = photo.naturalHeight;
+    const ds  = Math.min(window.innerWidth / nw, window.innerHeight / nh, 1);
+    const dw  = Math.round(nw * ds);
+    const dh  = Math.round(nh * ds);
+
+    sc.width  = dw * dpr;
+    sc.height = dh * dpr;
+    sc.style.width  = dw + 'px';
+    sc.style.height = dh + 'px';
+
     const cx = sc.getContext('2d');
-    cx.drawImage(photo, 0, 0, w, h);
-    (certLightbox ? stampCertWatermark : stampWatermark)(sc, cx, w, h);
+    cx.imageSmoothingEnabled = true;
+    cx.imageSmoothingQuality = 'high';
+    cx.scale(dpr, dpr);
+    cx.drawImage(photo, 0, 0, dw, dh);
+    (certLightbox ? stampCertWatermark : stampWatermark)(sc, cx, dw, dh);
+    cx.setTransform(1, 0, 0, 1, 0, 0);
   }
 
   /* ── Sync counter + dots ── */
