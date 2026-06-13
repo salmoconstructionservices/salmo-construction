@@ -442,8 +442,8 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 
 /* Logo-only nav item — no icon+label stack, just the image */
 .gn-logo-item { flex: 1; padding: 10px 18px; }
-.gn-logo-img  { height: 32px; width: 100%; display: block; object-fit: contain; }
-#glass-nav.compact .gn-logo-img { height: 22px; }
+.gn-logo-img  { height: 28px; width: 100%; display: block; object-fit: contain; }
+#glass-nav.compact .gn-logo-img { height: 20px; }
 
 @media (hover: hover) {
   .gn-item:hover:not(.active) {
@@ -463,8 +463,8 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   .gn-icon  { width: 22px; height: 22px; }
   .gn-label { font-size: 10px; letter-spacing: 0.8px; }
   .gn-logo-item { flex: 1; padding: 12px 22px; }
-  .gn-logo-img  { height: 34px; }
-  #glass-nav.compact .gn-logo-img { height: 25px; }
+  .gn-logo-img  { height: 32px; }
+  #glass-nav.compact .gn-logo-img { height: 23px; }
 
   #glass-nav.compact .gn-item  { min-height: 46px; padding: 8px 17px; }
   #glass-nav.compact .gn-icon  { width: 18px; height: 18px; }
