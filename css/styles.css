@@ -520,21 +520,6 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   margin: 0 auto;
 }
 
-.hero-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 5px;
-  color: rgba(255,255,255,0.4);
-  text-transform: uppercase;
-  margin-bottom: 24px;
-  opacity: 0;
-}
-
-.hero-label-bracket { opacity: 0.5; }
-
 .hero-title {
   font-size: clamp(36px, 5.5vw, 68px);
   font-weight: 900;
@@ -1297,6 +1282,30 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 
 /* IG feed */
 .ig-section { text-align: center; }
+
+.ig-header {
+  margin-bottom: 36px;
+}
+
+.ig-eyebrow {
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.ig-handle-link {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: color 0.2s;
+}
+
+.ig-handle-link:hover { color: var(--cyan); }
 
 .ig-feed-placeholder {
   background: rgba(255,255,255,0.02);

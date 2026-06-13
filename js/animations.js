@@ -29,16 +29,6 @@ function initAnimations() {
       duration: 1.1
     }, 0);
 
-    // Label
-    tl.fromTo('#hero-label', {
-      opacity: 0,
-      y: 20
-    }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.7
-    }, 0.15);
-
     // Headline
     tl.fromTo('.hero-title', {
       opacity: 0,
