@@ -226,18 +226,6 @@ function initAnimations() {
   initReveal();
 
 
-  /* ── SERVICES CARDS STAGGER ────────────────────────────────── */
-  (function initServiceCards() {
-    const cards = document.querySelectorAll('.service-card');
-    if (!cards.length) return;
-
-    cards.forEach((card, i) => {
-      // Each card's reveal is already handled by .reveal above.
-      // Add an additional subtle stagger override
-      const st = card._gsapST;
-      if (st) st.delay(i * 0.08);
-    });
-  })();
 
 
   /* ── STEP ITEMS STAGGER ─────────────────────────────────────── */

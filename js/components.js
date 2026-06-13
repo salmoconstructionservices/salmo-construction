@@ -727,6 +727,7 @@ function encodeImgPath(rawPath) {
 
   /* ── Desktop: render at display size × DPR — sharp on all screens ── */
   function renderDesktopCanvas(photo) {
+    if (!photo.naturalWidth || !photo.naturalHeight) return;
     const dpr   = window.devicePixelRatio || 1;
     const nw    = photo.naturalWidth;
     const nh    = photo.naturalHeight;
@@ -751,6 +752,7 @@ function encodeImgPath(rawPath) {
 
   /* ── Mobile: render at display size × DPR — sharp on retina ── */
   function renderMobileSlide(sc, photo) {
+    if (!photo.naturalWidth || !photo.naturalHeight) return;
     const dpr = window.devicePixelRatio || 1;
     const nw  = photo.naturalWidth;
     const nh  = photo.naturalHeight;

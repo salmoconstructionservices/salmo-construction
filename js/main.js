@@ -32,116 +32,13 @@
 })();
 
 
-/* ── NAVBAR SCROLL EFFECT + CTA REVEAL ─────────────────────── */
-(function initNavbar() {
-  const navbar  = document.getElementById('navbar');
-  const hero    = document.getElementById('hero');
-  if (!navbar) return;
 
-  let ticking = false;
 
-  function updateNav() {
-    const scrollY    = window.scrollY;
-    const heroBottom = hero ? hero.offsetTop + hero.offsetHeight : window.innerHeight;
-
-    navbar.classList.toggle('scrolled',   scrollY > 20);
-    navbar.classList.toggle('past-hero',  scrollY >= heroBottom - 80);
-  }
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        updateNav();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
-
-  // Run once on load so state is correct if page is refreshed mid-scroll
-  updateNav();
+/* ── FOOTER YEAR ────────────────────────────────────────────── */
+(function() {
+  const el = document.getElementById('footer-year');
+  if (el) el.textContent = new Date().getFullYear();
 })();
-
-
-/* ── ACTIVE NAV LINK (scroll spy) ──────────────────────────── */
-(function initScrollSpy() {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
-  if (!sections.length || !navLinks.length) return;
-
-  const sectionMap = {};
-  sections.forEach(s => { sectionMap[s.id] = s; });
-
-  function getActiveSection() {
-    const scrollY = window.scrollY;
-    const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
-    let current = '';
-
-    sections.forEach(section => {
-      const top = section.offsetTop - navH - 80;
-      if (scrollY >= top) current = section.id;
-    });
-
-    return current;
-  }
-
-  let lastActive = '';
-  let ticking = false;
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        const active = getActiveSection();
-        if (active !== lastActive) {
-          lastActive = active;
-          navLinks.forEach(link => {
-            const href = link.getAttribute('href')?.replace('#', '');
-            link.classList.toggle('active', href === active);
-          });
-        }
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
-})();
-
-
-/* ── MOBILE MENU ────────────────────────────────────────────── */
-const hamburger    = document.getElementById('hamburger');
-const mobileOverlay = document.getElementById('nav-mobile');
-
-function openMobileMenu() {
-  hamburger.classList.add('active');
-  mobileOverlay.classList.add('open');
-  hamburger.setAttribute('aria-expanded', 'true');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeMobileMenu() {
-  hamburger.classList.remove('active');
-  mobileOverlay.classList.remove('open');
-  hamburger.setAttribute('aria-expanded', 'false');
-  document.body.style.overflow = '';
-}
-
-if (hamburger) {
-  hamburger.addEventListener('click', () => {
-    if (hamburger.classList.contains('active')) {
-      closeMobileMenu();
-    } else {
-      openMobileMenu();
-    }
-  });
-}
-
-// Close on Escape key
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeMobileMenu();
-});
-
-// Expose closeMobileMenu globally (used in HTML onclick attributes)
-window.closeMobileMenu = closeMobileMenu;
 
 
 /* ── COOKIE BAR ─────────────────────────────────────────────── */
