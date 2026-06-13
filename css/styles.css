@@ -442,7 +442,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 
 /* Logo-only nav item — no icon+label stack, just the image */
 .gn-logo-item { flex: 0 0 auto; padding: 8px 14px; }
-.gn-logo-img  { height: 38px; width: auto; max-width: 144px; display: block; object-fit: contain; }
+.gn-logo-img  { height: 38px; width: auto; max-width: 144px; display: block; object-fit: contain; transform: scale(0.992); }
 #glass-nav.compact .gn-logo-img { height: 28px; max-width: 106px; }
 
 @media (hover: hover) {
