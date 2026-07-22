@@ -382,7 +382,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 28px;
+  bottom: 20px;
   z-index: 999;
   max-width: calc(100vw - 24px);
 }
