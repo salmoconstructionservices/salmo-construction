@@ -1,7 +1,7 @@
 /* ============================================================
    SALMO CONSTRUCTION SERVICES — Main JS
    General interactions: loading screen, navbar, scroll spy,
-   mobile menu, cookie bar
+   mobile menu
    ============================================================ */
 
 'use strict';
@@ -38,25 +38,6 @@
 (function() {
   const el = document.getElementById('footer-year');
   if (el) el.textContent = new Date().getFullYear();
-})();
-
-
-/* ── COOKIE BAR ─────────────────────────────────────────────── */
-(function initCookieBar() {
-  const bar    = document.getElementById('cookie-bar');
-  const btn    = document.getElementById('cookie-accept');
-  if (!bar || !btn) return;
-
-  // Show only on first visit (localStorage persists across sessions)
-  if (localStorage.getItem('salmo_cookies_accepted')) {
-    bar.classList.add('hidden');
-    return;
-  }
-
-  btn.addEventListener('click', () => {
-    bar.classList.add('hidden');
-    localStorage.setItem('salmo_cookies_accepted', '1');
-  });
 })();
 
 

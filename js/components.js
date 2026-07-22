@@ -1070,6 +1070,7 @@ function encodeImgPath(rawPath) {
   const ctPanEl      = document.getElementById('dock-contact-panel');
   const ctTriggerEl  = document.getElementById('dock-contact-trigger');
   const backBtnEl    = document.getElementById('dock-back-btn');
+  const houseTriggerEl = document.getElementById('house-widget');
   if (!nav || !pillEl) return;
 
   const navItems = navPanEl ? navPanEl.querySelectorAll('.gn-item[data-section]') : [];
@@ -1084,6 +1085,7 @@ function encodeImgPath(rawPath) {
     inContactMode = true;
     pillEl.classList.add('contact-mode');
     if (ctTriggerEl) ctTriggerEl.setAttribute('aria-expanded', 'true');
+    if (houseTriggerEl) houseTriggerEl.setAttribute('aria-expanded', 'true');
     if (ctPanEl) ctPanEl.removeAttribute('aria-hidden');
     if (navPanEl) navPanEl.setAttribute('aria-hidden', 'true');
   }
@@ -1093,6 +1095,7 @@ function encodeImgPath(rawPath) {
     inContactMode = false;
     pillEl.classList.remove('contact-mode');
     if (ctTriggerEl) ctTriggerEl.setAttribute('aria-expanded', 'false');
+    if (houseTriggerEl) houseTriggerEl.setAttribute('aria-expanded', 'false');
     if (navPanEl) navPanEl.removeAttribute('aria-hidden');
     if (ctPanEl) ctPanEl.setAttribute('aria-hidden', 'true');
   }
@@ -1100,9 +1103,19 @@ function encodeImgPath(rawPath) {
   if (ctTriggerEl) ctTriggerEl.addEventListener('click', activateContact);
   if (backBtnEl)  backBtnEl.addEventListener('click', deactivateContact);
 
-  /* Close contact mode when clicking outside the dock */
+  /* House widget (bottom-right FAB) is a second entry point into the
+     same contact panel — see initHouseWidget below, which dispatches
+     this event instead of calling activateContact() directly since
+     the two live in separate IIFEs. */
+  document.addEventListener('salmo:open-contact', activateContact);
+
+  /* Close contact mode when clicking outside the dock — the house
+     widget is excluded because a click there is the *open* trigger,
+     not a dismiss click, and would otherwise close it in the same tick. */
   document.addEventListener('click', e => {
-    if (inContactMode && !e.target.closest('#glass-nav')) deactivateContact();
+    if (inContactMode && !e.target.closest('#glass-nav') && !e.target.closest('#house-widget')) {
+      deactivateContact();
+    }
   });
 
   /* ── Scroll spy: active section ── */
@@ -1164,6 +1177,31 @@ function encodeImgPath(rawPath) {
   const fab      = document.getElementById('contact-fab');
   const hwSvg    = document.getElementById('hw-svg');
   if (!fab || !hwSvg) return;
+
+  /* ── Tap/click the house → pop feedback + open the Let's Talk panel ──
+     Also reveals the quick Messenger button early (normally it only pops
+     in once scroll progress hits 90%) — once a visitor has found the
+     house is interactive, Messenger stays available regardless of scroll. */
+  const houseWidgetEl = document.getElementById('house-widget');
+  let manuallyRevealed = false;
+  if (houseWidgetEl) {
+    const openContact = () => {
+      houseWidgetEl.classList.remove('hw-pop');
+      void houseWidgetEl.offsetWidth; /* restart animation on repeat clicks */
+      houseWidgetEl.classList.add('hw-pop');
+      manuallyRevealed = true;
+      updateProgress();
+      document.dispatchEvent(new CustomEvent('salmo:open-contact'));
+    };
+    houseWidgetEl.addEventListener('click', openContact);
+    houseWidgetEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openContact();
+      }
+    });
+    houseWidgetEl.addEventListener('animationend', () => houseWidgetEl.classList.remove('hw-pop'));
+  }
 
   const progressEl = document.querySelector('.hw-progress');
   const messageEl  = document.getElementById('hw-message');
@@ -1249,7 +1287,7 @@ function encodeImgPath(rawPath) {
   function updateProgress() {
     const raw = Math.min(1, Math.max(0, window.scrollY / getMaxScroll()));
     if (progressEl) progressEl.textContent = Math.round(raw * 99) + '%';
-    const reveal = raw >= 0.9;
+    const reveal = raw >= 0.9 || manuallyRevealed;
     if (arrowEl)    arrowEl.classList.toggle('hw-revealed', reveal);
     if (hwMessenger) hwMessenger.classList.toggle('hw-revealed', reveal);
   }

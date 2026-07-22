@@ -264,9 +264,6 @@
 
   .contact-form-wrap { padding: 28px 20px; }
 
-  /* Cookie bar */
-  #cookie-bar { flex-direction: column; text-align: center; gap: 12px; }
-
   /* FAB — smaller house + tighter stack on mobile */
   #contact-fab { bottom: 20px; right: 16px; gap: 7px; }
   #widget-top  { gap: 3px; }
@@ -412,8 +409,7 @@
 @media print {
   #loading-screen,
   #navbar,
-  #contact-fab,
-  #cookie-bar { display: none !important; }
+  #contact-fab { display: none !important; }
 
   body { color: #000; background: #fff; }
 
