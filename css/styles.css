@@ -2766,11 +2766,13 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
     padding-bottom: 0;
   }
 
-  /* Dots sit just below the image — JS sets exact top; this is the CSS fallback */
+  /* Pinned near the bottom of the screen, independent of each photo's
+     aspect ratio — computing this from image height (old approach) made
+     the dots jump up/down between portrait and landscape photos. */
   .lightbox-dots {
     position: absolute;
-    top: calc(50% + 155px);
-    bottom: auto;
+    top: auto;
+    bottom: 28px;
     left: 0; right: 0;
     z-index: 4;
     display: flex;

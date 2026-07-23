@@ -773,26 +773,6 @@ function encodeImgPath(rawPath) {
     (certLightbox ? stampCertWatermark : stampWatermark)(sc, cx, dw, dh);
     cx.setTransform(1, 0, 0, 1, 0, 0);
 
-    /* Store display height so syncUI can position dots under this image */
-    sc.parentElement.dataset.dh = String(dh);
-    positionDotsUnderSlide(carouselIndex);
-  }
-
-  /* Position dots 12 px below the active image's bottom edge */
-  function positionDotsUnderSlide(idx) {
-    if (!dotsEl || !mobileStrip || !isMobile()) return;
-    const total = carouselPhotos.length;
-    if (total <= 1) return;
-    const slides = mobileStrip.querySelectorAll('.lb-mobile-slide');
-    const slide  = slides[idx + 1]; /* +1 skips clone-last */
-    const dh     = slide ? parseInt(slide.dataset.dh || '0') : 0;
-    if (!dh) return;
-    const top = Math.min(
-      Math.round((window.innerHeight + dh) / 2) + 12,
-      window.innerHeight - 50
-    );
-    dotsEl.style.top    = top + 'px';
-    dotsEl.style.bottom = 'auto';
   }
 
   /* ── Sync counter + dots ── */
@@ -803,7 +783,6 @@ function encodeImgPath(rawPath) {
         dot.classList.toggle('active', i === idx);
       });
     }
-    positionDotsUnderSlide(idx);
   }
 
   /* ── Build dots ── */
