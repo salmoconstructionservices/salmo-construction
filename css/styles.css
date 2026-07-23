@@ -2580,14 +2580,22 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 
 .lightbox-close svg { width: 15px; height: 15px; }
 
-/* ── Photo row: arrow | photo | arrow ── */
+/* ── Photo row: just the photo now — arrows are pinned to the
+   viewport edges below, independent of this row's width ── */
 .lightbox-photo-row {
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
 }
 
+/* Pinned to the viewport, not inline with the image — otherwise a
+   narrower/wider photo reflows the row and the arrows visibly jump
+   left/right and up/down between clicks. */
 .lightbox-arrow {
+  position: fixed;
+  top: 50%;
+  left: 24px;
+  transform: translateY(-50%);
   width: 48px;
   height: 48px;
   background: rgba(255,255,255,0.08);
@@ -2600,7 +2608,10 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   color: #ffffff;
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
   flex-shrink: 0;
+  z-index: 2;
 }
+
+.lightbox-next { left: auto; right: 24px; }
 
 .lightbox-arrow svg { width: 22px; height: 22px; }
 
@@ -2609,7 +2620,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   border-color: rgba(255,255,255,0.4);
 }
 
-.lightbox-arrow:active { transform: scale(0.92); }
+.lightbox-arrow:active { transform: translateY(-50%) scale(0.92); }
 
 .lightbox-arrow[style*="none"] { visibility: hidden; pointer-events: none; }
 
