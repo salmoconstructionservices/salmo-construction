@@ -1079,7 +1079,22 @@ function encodeImgPath(rawPath) {
     if (ctPanEl) ctPanEl.setAttribute('aria-hidden', 'true');
   }
 
-  if (ctTriggerEl) ctTriggerEl.addEventListener('click', activateContact);
+  /* Smooth-scroll to a section, offset for the fixed nav height. */
+  function scrollToSection(target) {
+    if (!target) return;
+    const navH = parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue('--nav-h')
+    ) || 24;
+    const top = target.getBoundingClientRect().top + window.scrollY - navH;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  }
+
+  if (ctTriggerEl) ctTriggerEl.addEventListener('click', () => {
+    activateContact();
+    /* Also jump to the Contact section (right after FAQ) so the
+       options being opened here have context on screen. */
+    scrollToSection(document.getElementById('contact'));
+  });
   if (backBtnEl)  backBtnEl.addEventListener('click', deactivateContact);
 
   /* House widget (bottom-right FAB) is a second entry point into the
@@ -1137,13 +1152,7 @@ function encodeImgPath(rawPath) {
   navItems.forEach(item => {
     item.addEventListener('click', e => {
       e.preventDefault();
-      const target = document.getElementById(item.dataset.section);
-      if (!target) return;
-      const navH = parseInt(
-        getComputedStyle(document.documentElement).getPropertyValue('--nav-h')
-      ) || 24;
-      const top = target.getBoundingClientRect().top + window.scrollY - navH;
-      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      scrollToSection(document.getElementById(item.dataset.section));
     });
   });
 })();
