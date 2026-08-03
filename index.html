@@ -1638,43 +1638,42 @@
 
 <div id="lightbox" aria-modal="true" aria-label="Project photo viewer" role="dialog" aria-hidden="true">
   <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+
+  <!-- Top chrome: close (left) + counter (right) — Facebook-style overlay -->
+  <div class="lightbox-topbar">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close photo viewer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <span class="lightbox-counter" id="lightbox-counter">1 / 1</span>
+  </div>
+
+  <!-- Edge navigation arrows (desktop) -->
+  <button class="lightbox-arrow lightbox-prev" id="lightbox-prev" aria-label="Previous photo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="lightbox-arrow lightbox-next" id="lightbox-next" aria-label="Next photo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+
+  <!-- Stage: centered image (desktop) + swipe strip (mobile) -->
   <div class="lightbox-inner">
-
-    <!-- Top bar: counter + close -->
-    <div class="lightbox-topbar">
-      <span class="lightbox-counter" id="lightbox-counter">1 / 1</span>
-      <button class="lightbox-close" id="lightbox-close" aria-label="Close photo viewer">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Caption: title + location — above the image -->
-    <div class="lightbox-caption">
-      <span class="lightbox-title" id="lightbox-title"></span>
-      <span class="lightbox-loc"   id="lightbox-loc"></span>
-    </div>
-
     <!-- Mobile only: full-screen horizontal swipe strip (JS-populated) -->
     <div class="lb-mobile-strip" id="lb-mobile-strip"></div>
 
-    <!-- Photo row with prev/next arrows -->
+    <!-- Desktop: single canvas -->
     <div class="lightbox-photo-row">
-      <button class="lightbox-arrow lightbox-prev" id="lightbox-prev" aria-label="Previous photo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
       <div class="lightbox-img-wrap">
         <canvas id="lightbox-canvas" class="lightbox-canvas"></canvas>
       </div>
-      <button class="lightbox-arrow lightbox-next" id="lightbox-next" aria-label="Next photo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
     </div>
+  </div>
 
-    <!-- Dots indicator — below the image -->
-    <div class="lightbox-dots" id="lightbox-dots"></div>
-
+  <!-- Bottom caption: title + location on gradient — Facebook-style -->
+  <div class="lightbox-caption">
+    <span class="lightbox-title" id="lightbox-title"></span>
+    <span class="lightbox-loc"   id="lightbox-loc"></span>
   </div>
 </div>
 

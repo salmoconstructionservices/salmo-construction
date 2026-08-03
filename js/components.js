@@ -660,7 +660,6 @@ function encodeImgPath(rawPath) {
   const counterEl   = document.getElementById('lightbox-counter');
   const prevBtn     = document.getElementById('lightbox-prev');
   const nextBtn     = document.getElementById('lightbox-next');
-  const dotsEl      = document.getElementById('lightbox-dots');
   const mobileStrip = document.getElementById('lb-mobile-strip');
   if (!lightbox || !canvas) return;
 
@@ -731,8 +730,10 @@ function encodeImgPath(rawPath) {
     const dpr   = window.devicePixelRatio || 1;
     const nw    = photo.naturalWidth;
     const nh    = photo.naturalHeight;
-    const MAX_W = Math.max(120, window.innerWidth * 0.88 - 128);
-    const MAX_H = window.innerHeight * 0.65;
+    /* Fill most of the viewport (Facebook theater), leaving room for the
+       edge arrows (~100px each side) and top/bottom chrome (~70px). */
+    const MAX_W = Math.max(120, window.innerWidth - 200);
+    const MAX_H = Math.max(120, window.innerHeight - 140);
     const ds    = Math.min(MAX_W / nw, MAX_H / nh, 1);  // display scale
     const dw    = Math.round(nw * ds);
     const dh    = Math.round(nh * ds);
@@ -775,28 +776,9 @@ function encodeImgPath(rawPath) {
 
   }
 
-  /* ── Sync counter + dots ── */
+  /* ── Sync counter (Facebook "X / Y") ── */
   function syncUI(idx) {
     if (counterEl) counterEl.textContent = `${idx + 1} / ${carouselPhotos.length}`;
-    if (dotsEl) {
-      dotsEl.querySelectorAll('.lightbox-dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === idx);
-      });
-    }
-  }
-
-  /* ── Build dots ── */
-  function buildDots(count) {
-    if (!dotsEl) return;
-    dotsEl.innerHTML = '';
-    if (count <= 1) return;
-    for (let i = 0; i < count; i++) {
-      const btn = document.createElement('button');
-      btn.className = 'lightbox-dot';
-      btn.setAttribute('aria-label', `Photo ${i + 1}`);
-      btn.addEventListener('click', () => showPhoto(i));
-      dotsEl.appendChild(btn);
-    }
   }
 
   /* ── Mobile: build strip with clone slides for infinite loop ── */
@@ -909,7 +891,8 @@ function encodeImgPath(rawPath) {
     if (titleEl) titleEl.textContent = proj.title    || '';
     if (locEl)   locEl.textContent   = proj.location || '';
 
-    buildDots(carouselPhotos.length);
+    /* Counter only meaningful for multi-photo sets */
+    if (counterEl) counterEl.style.display = carouselPhotos.length > 1 ? '' : 'none';
 
     if (isMobile()) {
       buildMobileStrip(carouselPhotos, carouselIndex);
@@ -937,7 +920,6 @@ function encodeImgPath(rawPath) {
       carouselPhotos = [];
       carouselIndex  = 0;
       certLightbox   = false;
-      if (dotsEl) dotsEl.innerHTML = '';
     }, 350);
   }
 
