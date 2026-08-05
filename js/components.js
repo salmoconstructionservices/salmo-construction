@@ -171,14 +171,14 @@ const PROJECTS = [
   { num: 1,  title: 'Two Storey Mixed-Use Building',
              location: 'San Jose City, Nueva Ecija',
              base: 'assets/images/marquee/Project 1/',
-             photos: ['Project 1.png', 'Project 1.1.png'],
+             photos: ['Project 1.jpg', 'Project 1.1.jpg'],
              featured: false },
 
   // PROJECT 2
   { num: 2,  title: 'Two Storey House Renovation and Extension',
              location: 'San Jose City, Nueva Ecija',
              base: 'assets/images/marquee/Project 2/',
-             photos: ['Project 2.png', 'Project 2.1.png'],
+             photos: ['Project 2.jpg', 'Project 2.1.jpg'],
              featured: false },
 
   // PROJECT 3
@@ -194,7 +194,7 @@ const PROJECTS = [
   { num: 4,  title: 'Two Storey Mixed-Use Building',
              location: 'Imus City, Cavite',
              base: 'assets/images/marquee/Project 4/',
-             photos: ['Project 4.png', 'Project 4.1.png'],
+             photos: ['Project 4.jpg', 'Project 4.1.jpg'],
              featured: false },
 
   // PROJECT 5
@@ -251,21 +251,21 @@ const PROJECTS = [
   { num: 11, title: 'Two Storey Residential Building',
              location: 'Antipolo City, Rizal',
              base: 'assets/images/marquee/Project 11/',
-             photos: ['Project 11.png','Project 11.1.png'],
+             photos: ['Project 11.jpg','Project 11.1.jpg'],
              featured: false },
 
   // PROJECT 12
   { num: 12, title: 'Multifamily Dwelling Units',
              location: 'Parañaque City, Metro Manila',
              base: 'assets/images/marquee/Project 12/',
-             photos: ['Project 12.JPG','Project 12.1.png','Project 12.2.png'],
+             photos: ['Project 12.JPG','Project 12.1.jpg','Project 12.2.jpg'],
              featured: false },
 
   // PROJECT 13
   { num: 13, title: 'One Storey Residential Building',
              location: 'Antipolo City, Rizal',
              base: 'assets/images/marquee/Project 13/',
-             photos: ['Project 13.png','Project 13.1.png'],
+             photos: ['Project 13.jpg','Project 13.1.jpg'],
              featured: false },
 
   // PROJECT 14
@@ -295,7 +295,7 @@ const PROJECTS = [
   { num: 17, title: 'Renovation of One Storey Residential Bldg',
              location: 'Parañaque City, Metro Manila',
              base: 'assets/images/marquee/Project 17/',
-             photos: ['Project 17.png','Project 17.1.png'],
+             photos: ['Project 17.jpg','Project 17.1.jpg'],
              featured: false },
 
   // PROJECT 18
@@ -319,21 +319,21 @@ const PROJECTS = [
   { num: 20, title: 'One Storey with Roof Deck',
              location: 'Quezon City, Metro Manila',
              base: 'assets/images/marquee/Project 20/',
-             photos: ['Project 20.png'],
+             photos: ['Project 20.jpg'],
              featured: false },
 
   // PROJECT 21
   { num: 21, title: '',
              location: '',
              base: 'assets/images/marquee/Project 21/',
-             photos: ['Project 21.png','Project 21.1.png'],
+             photos: ['Project 21.jpg','Project 21.1.jpg'],
              featured: false },
 
   // PROJECT 22
   { num: 22, title: '',
              location: '',
              base: 'assets/images/marquee/Project 22/',
-             photos: ['Project 22.png'],
+             photos: ['Project 22.jpg'],
              featured: false },
 ];
 
@@ -1047,9 +1047,9 @@ function encodeImgPath(rawPath) {
 
   /* ── Certificate badge click → open lightbox ── */
   const CERT_DATA = {
-    bir: { title: 'BIR Certificate of Registration', location: '', base: 'assets/images/certificates/BIR/', photos: ['BIR1.png','BIR2.png','BIR3.png'] },
-    dti: { title: 'DTI Certificate',                 location: '', base: 'assets/images/certificates/DTI/', photos: ['Dti.png'] },
-    prc: { title: 'PRC Licensed Civil Engineer',     location: '', base: 'assets/images/certificates/PRC/', photos: ['engineer1.png'] }
+    bir: { title: 'BIR Certificate of Registration', location: '', base: 'assets/images/certificates/BIR/', photos: ['BIR1.jpg','BIR2.jpg','BIR3.jpg'] },
+    dti: { title: 'DTI Certificate',                 location: '', base: 'assets/images/certificates/DTI/', photos: ['Dti.jpg'] },
+    prc: { title: 'PRC Licensed Civil Engineer',     location: '', base: 'assets/images/certificates/PRC/', photos: ['engineer1.jpg'] }
   };
 
   document.querySelectorAll('[data-cert]').forEach(el => {
