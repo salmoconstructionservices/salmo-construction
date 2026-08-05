@@ -2501,18 +2501,17 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
    LIGHTBOX
    ══════════════════════════════════════════════════════════════ */
 /* ══════════════════════════════════════════════════════════════
-   LIGHTBOX — Facebook-style photo theater
-   Desktop : dark theater, large centered image, circular edge
-             arrows, X top-left, counter top-right, caption bottom.
-   Mobile  : full-screen swipe strip, chrome top + caption bottom.
+   LIGHTBOX — Facebook-style photo viewer (two-pane)
+   Desktop : image stage (left) + Facebook post panel (right, with
+             avatar + poster + location + title). Circular edge
+             arrows, pill dots, X top-left.
+   Mobile  : full-screen swipe strip on top, compact info bar below.
+   Certs   : panel hidden (documents, not "posts") — .lb--cert.
    ══════════════════════════════════════════════════════════════ */
 #lightbox {
   position: fixed;
   inset: 0;
   z-index: 9000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.25s ease, visibility 0.25s ease;
@@ -2526,160 +2525,228 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 .lightbox-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.96);
+  background: rgba(0,0,0,0.94);
   cursor: zoom-out;
 }
 
-/* Stage fills the viewport; JS caps the canvas size. pointer-events
-   fall through the empty margins to the backdrop so clicking the dark
-   area closes (Facebook behaviour); only the image itself is solid. */
-.lightbox-inner {
+/* Two-pane row: stage + panel */
+.lb {
   position: relative;
   z-index: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  transform: scale(0.97);
+  width: 100%;
+  height: 100%;
+  transform: scale(0.98);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+#lightbox.open .lb { transform: scale(1); }
 
-#lightbox.open .lightbox-inner {
-  transform: scale(1);
+/* ── Image stage (left) ── */
+.lb__stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: zoom-out;              /* click empty area closes */
 }
 
 .lightbox-photo-row {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: clamp(1rem, 3.5vw, 3rem);
 }
 
 .lightbox-img-wrap {
   line-height: 0;
-  pointer-events: auto;
+  cursor: default;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 24px 70px -24px rgba(0,0,0,0.8);
 }
 
 .lightbox-canvas { display: block; }
 
-/* ── Top chrome: close (left) + counter (right) ── */
-.lightbox-topbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 18px;
-  pointer-events: none;
-}
-.lightbox-topbar > * { pointer-events: auto; }
+/* Cert mode: no post panel, image centred across the whole viewport */
+.lb--cert .lb__panel { display: none; }
 
-.lightbox-close {
-  width: 40px;
-  height: 40px;
-  background: rgba(0,0,0,0.45);
-  border: none;
+/* ── Close (top-left, Facebook) ── */
+.lb__close {
+  position: fixed;
+  top: 16px; left: 16px;
+  z-index: 6;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
+  background: rgba(255,255,255,0.13);
+  border: none;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #ffffff;
   transition: background 0.2s ease;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
-  flex-shrink: 0;
 }
+.lb__close:hover { background: rgba(255,255,255,0.26); }
+.lb__close svg { width: 20px; height: 20px; }
 
-.lightbox-close:hover { background: rgba(0,0,0,0.72); }
-
-.lightbox-close svg { width: 18px; height: 18px; }
-
-.lightbox-counter {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.92);
-  letter-spacing: 0.5px;
-  background: rgba(0,0,0,0.45);
-  padding: 8px 14px;
-  border-radius: 20px;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-
-/* ── Edge arrows: circular, pinned to viewport edges ── */
-.lightbox-arrow {
-  position: fixed;
+/* ── Circular nav arrows ── */
+.lb__nav {
+  position: absolute;
   top: 50%;
-  left: 18px;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  background: rgba(0,0,0,0.45);
-  border: none;
+  z-index: 4;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
+  background: rgba(255,255,255,0.13);
+  border: none;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #ffffff;
-  transition: background 0.2s ease, transform 0.12s ease;
+  transition: background 0.2s ease, transform 0.15s ease;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
-  z-index: 3;
+}
+.lb__nav:hover { background: rgba(255,255,255,0.26); }
+.lb__nav:active { transform: translateY(-50%) scale(0.93); }
+.lb__nav.prev { left: 16px; }
+.lb__nav.next { right: 16px; }
+.lb__nav svg { width: 22px; height: 22px; }
+.lb__nav[style*="none"] { visibility: hidden; pointer-events: none; }
+
+/* ── Photo dots (pill active) ── */
+.lb__count {
+  position: absolute;
+  bottom: 18px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  gap: 0.4rem;
+  max-width: 70%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.lb__count span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+.lb__count span.on {
+  background: #ffffff;
+  width: 22px;
+  border-radius: 4px;
 }
 
-.lightbox-next { left: auto; right: 18px; }
-
-.lightbox-arrow svg { width: 24px; height: 24px; }
-
-.lightbox-arrow:hover { background: rgba(0,0,0,0.72); }
-
-.lightbox-arrow:active { transform: translateY(-50%) scale(0.9); }
-
-.lightbox-arrow[style*="none"] { visibility: hidden; pointer-events: none; }
-
-/* ── Bottom caption: title + location on gradient ── */
-.lightbox-caption {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  z-index: 3;
+/* ── Right info panel — Facebook post ── */
+.lb__panel {
+  flex: 0 0 clamp(320px, 26vw, 384px);
+  background: #10233f;                       /* Salmo deep navy */
+  color: rgba(255,255,255,0.82);
+  padding: 1.6rem 1.4rem;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
+  gap: 1.15rem;
+  border-left: 1px solid rgba(255,255,255,0.07);
+}
+
+.lb__post {
+  display: flex;
   align-items: center;
-  gap: 3px;
-  text-align: center;
-  padding: 44px 20px 22px;
-  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
-  pointer-events: none;
+  gap: 0.7rem;
 }
-
-.lightbox-caption:empty { display: none; }
-
-.lightbox-title {
-  font-size: 13px;
+.lb__avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(140deg, #00B4D8, #0077A3);
+  border: 1px solid rgba(255,255,255,0.16);
+}
+.lb__avatar svg { width: 20px; height: 20px; }
+.lb__posthead {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.lb__poster {
+  font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  color: var(--white);
-  letter-spacing: 1.2px;
+  font-size: 0.92rem;
+  color: #ffffff;
+  letter-spacing: 0.2px;
+}
+.lb__sub {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.55);
+  margin-top: 0.1rem;
+}
+.lb__sub:empty::before { content: "Metro Manila"; }
+
+.lb__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.12rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  line-height: 1.3;
+  text-transform: none;
+}
+.lb__title:empty { display: none; }
+
+.lb__facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 0;
+  padding-top: 1.15rem;
+  border-top: 1px solid rgba(255,255,255,0.09);
+}
+.lb__fact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.lb__fact dt {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+.lb__fact dd { margin: 0; }
+.lb__fact .lb__val {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #00B4D8;
+  font-size: 0.95rem;
 }
 
-.lightbox-loc {
-  font-size: 12px;
-  font-weight: 400;
-  color: #00B4D8;
-  letter-spacing: 0.4px;
-}
+/* Location fact is redundant on desktop (shown in the post header) */
+.lb__fact--loc { display: none; }
 
 /* ── Mobile swipe strip (hidden on desktop) ── */
 .lb-mobile-strip { display: none; }
 
 .lb-mobile-slide {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   flex-shrink: 0;
   scroll-snap-align: start;
   display: flex;
@@ -2687,25 +2754,24 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   justify-content: center;
 }
 
-/* ── Mobile: full-screen Facebook-style swipe viewer ── */
+/* ── Mobile: full image on top + compact info bar below ── */
 @media (max-width: 640px) {
-  /* Fully opaque on mobile — image is letterboxed, so any page
-     bleed-through would show in the black margins (Facebook is solid). */
+  /* Solid black — image is letterboxed, avoid page bleed-through */
   .lightbox-backdrop { background: #000; }
 
-  .lightbox-inner {
-    width: 100vw;
-    height: 100vh;
-    transform: none !important;
-  }
+  .lb { flex-direction: column; }
+
+  /* Stage fills remaining height above the info bar */
+  .lb__stage { flex: 1 1 auto; }
 
   /* No edge arrows on mobile — swipe instead */
-  .lightbox-arrow { display: none !important; }
+  .lb__nav { display: none !important; }
 
   /* Desktop photo-row hidden on mobile */
   .lightbox-photo-row { display: none; }
 
-  /* Mobile swipe strip: native scroll-snap strip */
+  /* Mobile swipe strip fills the stage (not the whole screen, so the
+     info bar below stays visible) */
   .lb-mobile-strip {
     display: flex;
     position: absolute;
@@ -2715,15 +2781,35 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    pointer-events: auto;
     z-index: 1;
   }
-
   .lb-mobile-strip::-webkit-scrollbar { display: none; }
 
-  /* Top chrome sits below the status bar / notch */
-  .lightbox-topbar { padding: 46px 14px 14px; }
+  /* Dots sit just above the info bar */
+  .lb__count { bottom: 12px; }
 
-  /* Caption gets a taller gradient on mobile */
-  .lightbox-caption { padding: 60px 20px 32px; }
+  /* Compact info bar: hide the post header, keep title + location row */
+  .lb__panel {
+    flex: 0 0 auto;
+    gap: 0.5rem;
+    padding: 0.9rem 1.1rem calc(0.9rem + env(safe-area-inset-bottom));
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.09);
+  }
+  .lb__post { display: none; }
+  .lb__title { font-size: 1rem; }
+  .lb__facts {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 0;
+    border-top: none;
+  }
+  .lb__fact {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+  .lb__fact--loc { display: flex; }   /* location visible on mobile */
+  .lb__close { top: 12px; left: 12px; }
 }

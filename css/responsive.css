@@ -375,13 +375,6 @@
   .marquee-track { animation: none !important; }
 }
 
-/* ── LIGHTBOX ON MOBILE ─────────────────────────────────────── */
-/* Extra top padding ensures the close button (top: -48px) stays
-   inside the visible viewport even on small portrait screens. */
-@media (max-width: 767px) {
-  #lightbox { padding: 64px 16px 20px; }
-}
-
 /* ── REDUCED MOTION ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

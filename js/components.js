@@ -660,7 +660,10 @@ function encodeImgPath(rawPath) {
   const counterEl   = document.getElementById('lightbox-counter');
   const prevBtn     = document.getElementById('lightbox-prev');
   const nextBtn     = document.getElementById('lightbox-next');
+  const dotsEl      = document.getElementById('lightbox-dots');
   const mobileStrip = document.getElementById('lb-mobile-strip');
+  const stageEl     = document.getElementById('lb-stage');
+  const counterFact = counterEl ? counterEl.closest('.lb__fact') : null;
   if (!lightbox || !canvas) return;
 
   const ctx = canvas.getContext('2d');
@@ -730,10 +733,12 @@ function encodeImgPath(rawPath) {
     const dpr   = window.devicePixelRatio || 1;
     const nw    = photo.naturalWidth;
     const nh    = photo.naturalHeight;
-    /* Fill most of the viewport (Facebook theater), leaving room for the
-       edge arrows (~100px each side) and top/bottom chrome (~70px). */
-    const MAX_W = Math.max(120, window.innerWidth - 200);
-    const MAX_H = Math.max(120, window.innerHeight - 140);
+    /* Fit within the image stage (excludes the right post panel),
+       leaving room for the circular edge arrows and breathing space. */
+    const stageW = stageEl && stageEl.clientWidth  ? stageEl.clientWidth  : (window.innerWidth - 384);
+    const stageH = stageEl && stageEl.clientHeight ? stageEl.clientHeight : window.innerHeight;
+    const MAX_W = Math.max(120, stageW - 130);
+    const MAX_H = Math.max(120, stageH - 90);
     const ds    = Math.min(MAX_W / nw, MAX_H / nh, 1);  // display scale
     const dw    = Math.round(nw * ds);
     const dh    = Math.round(nh * ds);
@@ -757,7 +762,11 @@ function encodeImgPath(rawPath) {
     const dpr = window.devicePixelRatio || 1;
     const nw  = photo.naturalWidth;
     const nh  = photo.naturalHeight;
-    const ds  = Math.min(window.innerWidth / nw, window.innerHeight / nh, 1);
+    /* Fit within the strip (the stage area above the info bar), not the
+       whole window — the compact info bar occupies the bottom. */
+    const availW = (mobileStrip && mobileStrip.clientWidth)  || window.innerWidth;
+    const availH = (mobileStrip && mobileStrip.clientHeight) || window.innerHeight;
+    const ds  = Math.min(availW / nw, availH / nh, 1);
     const dw  = Math.round(nw * ds);
     const dh  = Math.round(nh * ds);
 
@@ -776,9 +785,29 @@ function encodeImgPath(rawPath) {
 
   }
 
-  /* ── Sync counter (Facebook "X / Y") ── */
+  /* ── Sync counter + dots ── */
   function syncUI(idx) {
     if (counterEl) counterEl.textContent = `${idx + 1} / ${carouselPhotos.length}`;
+    if (dotsEl) {
+      dotsEl.querySelectorAll('span').forEach((dot, i) => {
+        dot.classList.toggle('on', i === idx);
+      });
+    }
+  }
+
+  /* ── Build the pill dots (Facebook / Artsons style) ── */
+  function buildDots(count) {
+    if (!dotsEl) return;
+    dotsEl.innerHTML = '';
+    if (count <= 1) return;
+    for (let i = 0; i < count; i++) {
+      const span = document.createElement('span');
+      if (i === 0) span.className = 'on';
+      span.setAttribute('role', 'button');
+      span.setAttribute('aria-label', `Photo ${i + 1}`);
+      span.addEventListener('click', () => showPhoto(i));
+      dotsEl.appendChild(span);
+    }
   }
 
   /* ── Mobile: build strip with clone slides for infinite loop ── */
@@ -890,9 +919,21 @@ function encodeImgPath(rawPath) {
 
     if (titleEl) titleEl.textContent = proj.title    || '';
     if (locEl)   locEl.textContent   = proj.location || '';
+    const locFactEl = document.getElementById('lightbox-loc2');
+    if (locFactEl) locFactEl.textContent = proj.location || '—';
 
-    /* Counter only meaningful for multi-photo sets */
-    if (counterEl) counterEl.style.display = carouselPhotos.length > 1 ? '' : 'none';
+    /* Cert = document, not a "post" → hide the FB panel */
+    lightbox.classList.toggle('lb--cert', certLightbox);
+
+    /* Photo-count fact only meaningful for multi-photo sets */
+    if (counterFact) counterFact.style.display = carouselPhotos.length > 1 ? '' : 'none';
+
+    buildDots(carouselPhotos.length);
+
+    /* Reveal first so the stage has real dimensions to size the image to */
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
 
     if (isMobile()) {
       buildMobileStrip(carouselPhotos, carouselIndex);
@@ -902,10 +943,6 @@ function encodeImgPath(rawPath) {
     } else {
       showPhoto(carouselIndex);
     }
-
-    lightbox.classList.add('open');
-    lightbox.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
   }
 
   /* ── Close ── */
@@ -917,6 +954,7 @@ function encodeImgPath(rawPath) {
     setTimeout(() => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (mobileStrip) { mobileStrip.innerHTML = ''; isWrapping = false; }
+      if (dotsEl) dotsEl.innerHTML = '';
       carouselPhotos = [];
       carouselIndex  = 0;
       certLightbox   = false;
@@ -940,6 +978,13 @@ function encodeImgPath(rawPath) {
   canvas.addEventListener('contextmenu', e => e.preventDefault());
   if (backdrop) backdrop.addEventListener('click', closeLightbox);
   if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+
+  /* Click the empty dark stage area (not the image / arrows / dots) closes */
+  if (stageEl) stageEl.addEventListener('click', e => {
+    if (e.target === stageEl || e.target.classList.contains('lightbox-photo-row')) {
+      closeLightbox();
+    }
+  });
 
   /* ── Two-tap on touch devices ── */
   const isTouch = () => window.matchMedia('(hover: none)').matches;

@@ -1636,44 +1636,60 @@
 </div>
 
 
-<div id="lightbox" aria-modal="true" aria-label="Project photo viewer" role="dialog" aria-hidden="true">
+<div id="lightbox" class="lightbox" aria-modal="true" aria-label="Project photo viewer" role="dialog" aria-hidden="true">
   <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
 
-  <!-- Top chrome: close (left) + counter (right) — Facebook-style overlay -->
-  <div class="lightbox-topbar">
-    <button class="lightbox-close" id="lightbox-close" aria-label="Close photo viewer">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
-    </button>
-    <span class="lightbox-counter" id="lightbox-counter">1 / 1</span>
-  </div>
-
-  <!-- Edge navigation arrows (desktop) -->
-  <button class="lightbox-arrow lightbox-prev" id="lightbox-prev" aria-label="Previous photo">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-  </button>
-  <button class="lightbox-arrow lightbox-next" id="lightbox-next" aria-label="Next photo">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+  <!-- Close (top-left, Facebook) -->
+  <button class="lb__close" id="lightbox-close" aria-label="Close photo viewer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
   </button>
 
-  <!-- Stage: centered image (desktop) + swipe strip (mobile) -->
-  <div class="lightbox-inner">
-    <!-- Mobile only: full-screen horizontal swipe strip (JS-populated) -->
-    <div class="lb-mobile-strip" id="lb-mobile-strip"></div>
+  <!-- Two-pane Facebook layout: image stage (left) + post panel (right) -->
+  <div class="lb">
+    <div class="lb__stage" id="lb-stage">
 
-    <!-- Desktop: single canvas -->
-    <div class="lightbox-photo-row">
-      <div class="lightbox-img-wrap">
-        <canvas id="lightbox-canvas" class="lightbox-canvas"></canvas>
+      <!-- Circular nav arrows -->
+      <button class="lb__nav prev" id="lightbox-prev" aria-label="Previous photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="lb__nav next" id="lightbox-next" aria-label="Next photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+
+      <!-- Mobile: full-screen horizontal swipe strip (JS-populated) -->
+      <div class="lb-mobile-strip" id="lb-mobile-strip"></div>
+
+      <!-- Desktop: single canvas -->
+      <div class="lightbox-photo-row">
+        <div class="lightbox-img-wrap">
+          <canvas id="lightbox-canvas" class="lightbox-canvas"></canvas>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Bottom caption: title + location on gradient — Facebook-style -->
-  <div class="lightbox-caption">
-    <span class="lightbox-title" id="lightbox-title"></span>
-    <span class="lightbox-loc"   id="lightbox-loc"></span>
+      <!-- Photo dots -->
+      <div class="lb__count" id="lightbox-dots"></div>
+    </div>
+
+    <!-- Right info panel — styled like a Facebook post -->
+    <aside class="lb__panel" id="lb-panel">
+      <div class="lb__post">
+        <span class="lb__avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 20V10l8-7 8 7v10"/><rect x="9" y="14" width="6" height="6"/></svg>
+        </span>
+        <div class="lb__posthead">
+          <span class="lb__poster">Salmo Construction Services</span>
+          <span class="lb__sub" id="lightbox-loc"></span>
+        </div>
+      </div>
+      <h4 class="lb__title" id="lightbox-title"></h4>
+      <dl class="lb__facts">
+        <!-- Location shown here only on mobile (post header is hidden there) -->
+        <div class="lb__fact lb__fact--loc"><dt>Location</dt><dd class="lb__val" id="lightbox-loc2"></dd></div>
+        <div class="lb__fact"><dt>Photo</dt><dd class="lb__val" id="lightbox-counter">1 / 1</dd></div>
+      </dl>
+    </aside>
   </div>
 </div>
 
