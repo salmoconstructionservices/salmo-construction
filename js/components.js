@@ -684,6 +684,8 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
   const dotsEl      = document.getElementById('lightbox-dots');
   const mobileStrip = document.getElementById('lb-mobile-strip');
   const stageEl     = document.getElementById('lb-stage');
+  const shareBtn    = document.getElementById('lightbox-share');
+  const saveBtn     = document.getElementById('lightbox-save');
   const counterFact = counterEl ? counterEl.closest('.lb__fact') : null;
   if (!lightbox || !canvas) return;
 
@@ -704,6 +706,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
   let carouselIndex  = 0;
   let certLightbox   = false;
   let openProjectSlug = null;   /* slug of the open project, for deep links */
+  let openFileBase    = 'salmo-photo';  /* filename stem for Save */
 
   const isMobile = () => window.innerWidth <= 640;
 
@@ -933,6 +936,71 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     }
   }
 
+  /* ── Toast (Save / Share feedback) ── */
+  let toastEl, toastTimer;
+  function showToast(msg) {
+    if (!toastEl) {
+      toastEl = document.createElement('div');
+      toastEl.className = 'lb-toast';
+      toastEl.setAttribute('role', 'status');
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2200);
+  }
+
+  /* ── Share the current project via its deep link ── */
+  function shareCurrent() {
+    if (!openProjectSlug) return;
+    const url = location.origin + location.pathname + '#project=' + encodeURIComponent(openProjectSlug);
+    const title = 'Salmo Construction Services — ' + (titleEl ? titleEl.textContent : 'Project');
+    if (navigator.share) { navigator.share({ title, url }).catch(() => {}); return; }
+    const done = ok => showToast(ok ? 'Link copied' : 'Could not copy — check the address bar');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(() => done(true), () => done(false));
+    } else {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = url; ta.style.position = 'fixed'; ta.style.top = '-9999px';
+        document.body.appendChild(ta); ta.select();
+        done(document.execCommand('copy')); ta.remove();
+      } catch (e) { done(false); }
+    }
+  }
+
+  /* ── The watermarked canvas currently on screen ── */
+  function currentCanvas() {
+    if (isMobile() && mobileStrip) {
+      const slides = mobileStrip.querySelectorAll('.lb-mobile-slide');
+      const slide  = slides[carouselIndex + 1];   /* +1 skips the clone-last */
+      return slide ? slide.querySelector('canvas') : null;
+    }
+    return canvas;
+  }
+
+  /* ── Save the current photo (exports the already-watermarked canvas) ── */
+  function saveCurrent() {
+    const cv = currentCanvas();
+    if (!cv || !cv.width || cv.width <= 300) { showToast('Photo still loading — try again'); return; }
+    const filename = openFileBase + '-' + String(carouselIndex + 1).padStart(2, '0') + '.jpg';
+    try {
+      cv.toBlob(blob => {
+        if (!blob) { showToast('Could not save the photo'); return; }
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+        showToast('Photo saved');
+      }, 'image/jpeg', 0.92);
+    } catch (e) { showToast('Could not save the photo'); }
+  }
+
+  if (shareBtn) shareBtn.addEventListener('click', shareCurrent);
+  if (saveBtn)  saveBtn.addEventListener('click', saveCurrent);
+
   /* ── Open carousel for a project ── */
   /* fromHistory = the open was driven by Back/Forward or a shared link,
      so we must NOT push another history entry. */
@@ -956,7 +1024,12 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     const locFactEl = document.getElementById('lightbox-loc2');
     if (locFactEl) locFactEl.textContent = proj.location || '—';
 
-    /* Cert = document, not a "post" → hide the FB panel */
+    /* Save filename stem + tool visibility (Share = projects only, Save = all) */
+    openFileBase = 'Salmo-' + (slugifyTitle(proj.title) || (certLightbox ? 'certificate' : 'photo'));
+    if (shareBtn) shareBtn.style.display = certLightbox ? 'none' : '';
+    if (saveBtn)  saveBtn.style.display  = '';
+
+    /* Cert = document; keep the flag for the centered watermark + no deep link */
     lightbox.classList.toggle('lb--cert', certLightbox);
 
     /* Photo-count fact only meaningful for multi-photo sets */

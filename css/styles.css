@@ -2613,6 +2613,57 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 .lb__close:hover { background: rgba(255,255,255,0.26); }
 .lb__close svg { width: 20px; height: 20px; }
 
+/* ── Top-right tools: Save + Share ── */
+.lb__tool {
+  position: fixed;
+  top: 16px;
+  z-index: 6;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.13);
+  border: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.12s ease;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.lb__tool:hover  { background: rgba(255,255,255,0.26); }
+.lb__tool:active { transform: scale(0.93); }
+.lb__tool svg    { width: 18px; height: 18px; }
+/* Float over the image's top-right (just left of the post panel), so the
+   panel keeps full width for the "Salmo Construction Services" name. */
+.lb__share { right: calc(clamp(320px, 26vw, 384px) + 16px); }
+.lb__save  { right: calc(clamp(320px, 26vw, 384px) + 64px); }
+.lb__tool[style*="none"] { display: none !important; }
+
+/* ── Toast (Save / Share feedback) ── */
+.lb-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(28px + env(safe-area-inset-bottom));
+  transform: translateX(-50%) translateY(10px);
+  z-index: 10000;
+  background: rgba(1,30,62,0.96);
+  color: #ffffff;
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s var(--ease);
+}
+.lb-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
 /* ── Circular nav arrows ── */
 .lb__nav {
   position: absolute;
@@ -2830,4 +2881,8 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   }
   .lb__fact--loc { display: flex; }   /* location visible on mobile */
   .lb__close { top: 12px; left: 12px; }
+  /* Panel is a bottom bar on mobile → tools return to the screen's top-right */
+  .lb__tool  { top: 12px; }
+  .lb__share { right: 12px; }
+  .lb__save  { right: 60px; }
 }
