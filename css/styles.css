@@ -2562,6 +2562,16 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 }
 #lightbox.open .lb { transform: scale(1); }
 
+/* Swipe-to-dismiss exit: the viewer slides out in the swipe direction. */
+@media (prefers-reduced-motion: no-preference) {
+  #lightbox.lb-exit .lb {
+    opacity: 0;
+    transform: translateY(var(--lb-exit-y, 30vh)) scale(0.92);
+    transition: transform 0.34s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  }
+  #lightbox.lb-exit .lightbox-backdrop { opacity: 0; transition: opacity 0.3s ease; }
+}
+
 /* ── Image stage (left) ── */
 .lb__stage {
   position: relative;
@@ -2881,6 +2891,8 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   }
   .lb__fact--loc { display: flex; }   /* location visible on mobile */
   .lb__close { top: 12px; left: 12px; }
+  /* Projects on mobile: no X — swipe up/down to close (certs keep the X) */
+  #lightbox:not(.lb--cert) .lb__close { display: none; }
   /* Panel is a bottom bar on mobile → tools return to the screen's top-right */
   .lb__tool  { top: 12px; }
   .lb__share { right: 12px; }

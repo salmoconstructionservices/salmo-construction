@@ -1027,7 +1027,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     /* Save filename stem + tool visibility (Share = projects only, Save = all) */
     openFileBase = 'Salmo-' + (slugifyTitle(proj.title) || (certLightbox ? 'certificate' : 'photo'));
     if (shareBtn) shareBtn.style.display = certLightbox ? 'none' : '';
-    if (saveBtn)  saveBtn.style.display  = '';
+    if (saveBtn)  saveBtn.style.display  = certLightbox ? 'none' : '';  /* no download for certificates */
 
     /* Cert = document; keep the flag for the centered watermark + no deep link */
     lightbox.classList.toggle('lb--cert', certLightbox);
@@ -1053,7 +1053,8 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
   }
 
   /* ── Close ── */
-  function closeLightbox(fromHistory) {
+  /* exitDir: -1 = swiped up, 1 = swiped down → animate the viewer out that way. */
+  function closeLightbox(fromHistory, exitDir) {
     /* Restore the URL when dismissing a deep-linked project (unless Back
        itself drove the close, which already popped our entry). */
     if (openProjectSlug && !fromHistory) {
@@ -1062,11 +1063,20 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     }
     openProjectSlug = null;
 
-    lightbox.classList.remove('open');
+    if (exitDir) {
+      /* Keep .open on so the viewer stays visible while .lb slides out.
+         The CSS animation is itself gated on prefers-reduced-motion. */
+      lightbox.style.setProperty('--lb-exit-y', exitDir < 0 ? '-30vh' : '30vh');
+      lightbox.classList.add('lb-exit');
+    } else {
+      lightbox.classList.remove('open');
+    }
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     clearTimeout(wrapTimer);
     setTimeout(() => {
+      lightbox.classList.remove('open', 'lb-exit');
+      lightbox.style.removeProperty('--lb-exit-y');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (mobileStrip) { mobileStrip.innerHTML = ''; isWrapping = false; }
       if (dotsEl) dotsEl.innerHTML = '';
@@ -1101,6 +1111,26 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
       closeLightbox();
     }
   });
+
+  /* Mobile: swipe up or down on the photo to dismiss (like a photo app).
+     Passive listeners — the horizontal swipe carousel keeps working; a
+     gesture only dismisses when it's clearly vertical. */
+  if (stageEl) {
+    let sx = null, sy = null, st = 0;
+    stageEl.addEventListener('touchstart', e => {
+      if (!lightbox.classList.contains('open')) return;
+      const t = e.changedTouches[0]; sx = t.clientX; sy = t.clientY; st = Date.now();
+    }, { passive: true });
+    stageEl.addEventListener('touchend', e => {
+      if (sy === null || !lightbox.classList.contains('open')) { sx = sy = null; return; }
+      const t = e.changedTouches[0], dy = t.clientY - sy, dx = t.clientX - sx;
+      const vy = Math.abs(dy) / (Date.now() - st || 1);
+      if (Math.abs(dy) > Math.abs(dx) * 1.3 && (Math.abs(dy) > 70 || vy > 0.35)) {
+        closeLightbox(false, dy < 0 ? -1 : 1);
+      }
+      sx = sy = null;
+    }, { passive: true });
+  }
 
   /* ── Two-tap on touch devices ── */
   const isTouch = () => window.matchMedia('(hover: none)').matches;
