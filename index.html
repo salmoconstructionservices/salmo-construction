@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-PH">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ── FAVICON / ICON ────────────────────────────────────── -->
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/images/salmo-mark.png" />
 
   <!-- ── SEO META ──────────────────────────────────────────── -->
   <title>Salmo Construction Services | Metro Manila Contractor</title>
@@ -12,16 +16,21 @@
   <meta name="robots" content="index, follow" />
 
   <!-- ── OPEN GRAPH ─────────────────────────────────────────── -->
-  <meta property="og:title" content="Salmo Construction Services" />
-  <meta property="og:description" content="Your Dreams, Our Passion, Let's Build It Together." />
-  <meta property="og:image" content="https://salmo-construction.vercel.app/assets/images/bento/Project%203/Project%203.JPG" />
+  <meta property="og:title" content="Salmo Construction Services | Metro Manila Contractor" />
+  <meta property="og:description" content="Your Dreams, Our Passion — professional construction, planning, design & permit assistance across Metro Manila. 22+ projects. BIR &amp; DTI Registered." />
+  <meta property="og:image" content="https://salmoconstruction.com/assets/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:url" content="https://salmo-construction.vercel.app" />
+  <meta property="og:image:alt" content="A completed two-storey residential building by Salmo Construction Services" />
+  <meta property="og:url" content="https://salmoconstruction.com/" />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Salmo Construction Services" />
+  <meta property="og:locale" content="en_PH" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://salmo-construction.vercel.app/assets/images/bento/Project%203/Project%203.JPG" />
-  <link rel="canonical" href="https://salmo-construction.vercel.app" />
+  <meta name="twitter:title" content="Salmo Construction Services | Metro Manila Contractor" />
+  <meta name="twitter:description" content="Professional construction, planning, design & permit assistance across Metro Manila. 22+ projects completed." />
+  <meta name="twitter:image" content="https://salmoconstruction.com/assets/og-image.jpg" />
+  <link rel="canonical" href="https://salmoconstruction.com/" />
 
   <!-- ── FONTS ─────────────────────────────────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,13 +48,21 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "LocalBusiness",
-        "@id": "https://salmoconstruction.vercel.app/#business",
+        "@type": "GeneralContractor",
+        "@id": "https://salmoconstruction.com/#business",
         "name": "Salmo Construction Services",
         "description": "Professional construction, planning, design, and permit services across Metro Manila.",
-        "url": "https://salmoconstruction.vercel.app",
+        "url": "https://salmoconstruction.com",
+        "logo": "https://salmoconstruction.com/assets/images/salmo-mark.png",
+        "image": "https://salmoconstruction.com/assets/og-image.jpg",
         "telephone": "+63-997-574-7607",
         "email": "salmoconstructionservices@gmail.com",
+        "sameAs": [
+          "https://www.facebook.com/salmo.construction/",
+          "https://www.instagram.com/salmo.construction",
+          "https://www.tiktok.com/@salmo.construction",
+          "https://www.youtube.com/@salmo.construction"
+        ],
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "2F LPAN Building, Block 1 Lot 16, Gil Fernando Avenue, cor Lark",
@@ -74,6 +91,7 @@
           "@type": "AdministrativeArea",
           "name": "Metro Manila"
         },
+        "hasMap": "https://maps.google.com/?q=LPAN+Building,+Gil+Fernando+Avenue,+cor+Lark,+Marikina+City",
         "priceRange": "$$"
       },
       {
@@ -380,8 +398,8 @@
         <path class="house-path hp-detail" d="M588,470 L576,470 M588,470 L588,458" stroke-width="0.9" stroke-opacity="0.3"/>
 
         <!-- ── GRID REFERENCE LINES (very faint) ── -->
-        <line x1="300" y1="0" x2="300" y2="520" stroke-width="0.4" stroke="rgba(0,180,216,0.07)"/>
-        <line x1="0"   y1="297" x2="860" y2="297" stroke-width="0.4" stroke="rgba(0,180,216,0.07)"/>
+        <line x1="300" y1="0" x2="300" y2="520" stroke-width="0.4" stroke="rgba(255,255,255,0.07)"/>
+        <line x1="0"   y1="297" x2="860" y2="297" stroke-width="0.4" stroke="rgba(255,255,255,0.07)"/>
 
       </svg>
     </div><!-- /hero-right -->
@@ -413,7 +431,6 @@
 
       <!-- 01: Construction Services -->
       <article class="service-card reveal">
-        <span class="service-num">[ 01 ]</span>
         <div class="service-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
@@ -427,12 +444,10 @@
           <li>Modular Cabinet Installation</li>
           <li>Roofing Services</li>
         </ul>
-        <span class="service-card-bg-num" aria-hidden="true">01</span>
       </article>
 
       <!-- 02: Planning & Design -->
       <article class="service-card reveal">
-        <span class="service-num">[ 02 ]</span>
         <div class="service-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
@@ -448,12 +463,10 @@
           <li>Structural Analysis and Design</li>
           <li>Signing and Sealing of Plans and Permit Documents</li>
         </ul>
-        <span class="service-card-bg-num" aria-hidden="true">02</span>
       </article>
 
       <!-- 03: Building Permit Assistance -->
       <article class="service-card reveal">
-        <span class="service-num">[ 03 ]</span>
         <div class="service-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
@@ -466,12 +479,10 @@
           <li>Signing and Sealing of Plans</li>
           <li>Processing of Building Permit Documents</li>
         </ul>
-        <span class="service-card-bg-num" aria-hidden="true">03</span>
       </article>
 
       <!-- 04: Project Management -->
       <article class="service-card reveal">
-        <span class="service-num">[ 04 ]</span>
         <div class="service-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
@@ -486,12 +497,10 @@
           <li>Preparation of Shop Drawings</li>
           <li>Full Supervision of Project Flow</li>
         </ul>
-        <span class="service-card-bg-num" aria-hidden="true">04</span>
       </article>
 
       <!-- 05: Project Consultancy -->
       <article class="service-card reveal">
-        <span class="service-num">[ 05 ]</span>
         <div class="service-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
@@ -505,12 +514,10 @@
           <li>Preparation of Project Progress Reports</li>
           <li>Review and Evaluation of Contractor Billings</li>
         </ul>
-        <span class="service-card-bg-num" aria-hidden="true">05</span>
       </article>
 
       <!-- 06: Cost Estimation -->
       <article class="service-card reveal">
-        <span class="service-num">[ 06 ]</span>
         <div class="service-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
@@ -522,7 +529,6 @@
           <li>Bill of Materials for Pag-IBIG Loan Applications</li>
           <li>Bill of Materials for Construction Loan Applications</li>
         </ul>
-        <span class="service-card-bg-num" aria-hidden="true">06</span>
       </article>
 
     </div><!-- /services-grid -->
@@ -1560,9 +1566,24 @@
         &copy; <span id="footer-year">2025</span> Salmo Construction Services. All Rights Reserved.
       </p>
 
-      <a href="#hero" class="footer-back" aria-label="Scroll back to top">
-        Back to Top &uarr;
-      </a>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/salmo.construction/" target="_blank" rel="noopener noreferrer"
+           class="social-icon" aria-label="Facebook (opens in new tab)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/salmo.construction?igsi=NzdtZGFwNWExc205" target="_blank" rel="noopener noreferrer"
+           class="social-icon" aria-label="Instagram (opens in new tab)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@salmo.construction" target="_blank" rel="noopener noreferrer"
+           class="social-icon" aria-label="TikTok (opens in new tab)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@salmo.construction" target="_blank" rel="noopener noreferrer"
+           class="social-icon" aria-label="YouTube (opens in new tab)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+        </a>
+      </div>
 
     </div>
   </div>
@@ -1676,7 +1697,7 @@
     <aside class="lb__panel" id="lb-panel">
       <div class="lb__post">
         <span class="lb__avatar" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 20V10l8-7 8 7v10"/><rect x="9" y="14" width="6" height="6"/></svg>
+          <img src="assets/images/salmo-mark.png" alt="" />
         </span>
         <div class="lb__posthead">
           <span class="lb__poster">Salmo Construction Services</span>

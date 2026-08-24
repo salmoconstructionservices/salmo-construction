@@ -20,3 +20,7 @@ ehthumbs.db
 # Environment
 .env
 .env.local
+
+# Impeccable design-hook runtime (keep shared config.json, ignore local cache)
+.impeccable/hook.cache.json
+.impeccable/config.local.json

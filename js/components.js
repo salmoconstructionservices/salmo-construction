@@ -342,6 +342,27 @@ function encodeImgPath(rawPath) {
   return rawPath.replace(/ /g, '%20');
 }
 
+/* ── Per-project deep-link slugs — stable, readable, unique ──
+ * Each project gets a shareable URL (#project=<slug>). Titles repeat
+ * across projects, so a duplicated title falls back to appending its
+ * stable project number; empty titles use "project-<num>". */
+function slugifyTitle(s) {
+  return String(s || '').toLowerCase().trim()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+(function assignProjectSlugs() {
+  const counts = {};
+  PROJECTS.forEach(p => { const b = slugifyTitle(p.title); if (b) counts[b] = (counts[b] || 0) + 1; });
+  PROJECTS.forEach(p => {
+    const b = slugifyTitle(p.title);
+    p.slug = !b ? ('project-' + p.num) : (counts[b] > 1 ? (b + '-' + p.num) : b);
+  });
+})();
+const PROJECT_BY_SLUG = {};
+PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
+
 
 /* ── MARQUEE STRIP ──────────────────────────────────────────── */
 /*
@@ -682,6 +703,7 @@ function encodeImgPath(rawPath) {
   let carouselPhotos = [];
   let carouselIndex  = 0;
   let certLightbox   = false;
+  let openProjectSlug = null;   /* slug of the open project, for deep links */
 
   const isMobile = () => window.innerWidth <= 640;
 
@@ -912,10 +934,22 @@ function encodeImgPath(rawPath) {
   }
 
   /* ── Open carousel for a project ── */
-  function openCarousel(proj, startIndex, isCert) {
+  /* fromHistory = the open was driven by Back/Forward or a shared link,
+     so we must NOT push another history entry. */
+  function openCarousel(proj, startIndex, isCert, fromHistory) {
     carouselPhotos = proj.photos.map(f => encodeImgPath(proj.base + f));
     carouselIndex  = startIndex || 0;
     certLightbox   = !!isCert;
+
+    /* Reflect the open project in the URL so it can be shared/deep-linked.
+       Certificates are documents, not projects → no deep link. */
+    openProjectSlug = certLightbox ? null : (proj.slug || null);
+    if (openProjectSlug && !fromHistory) {
+      const url = '#project=' + encodeURIComponent(openProjectSlug);
+      if ((location.hash || '') !== url) {
+        history.pushState({ salmoProject: openProjectSlug }, '', url);
+      }
+    }
 
     if (titleEl) titleEl.textContent = proj.title    || '';
     if (locEl)   locEl.textContent   = proj.location || '';
@@ -946,7 +980,15 @@ function encodeImgPath(rawPath) {
   }
 
   /* ── Close ── */
-  function closeLightbox() {
+  function closeLightbox(fromHistory) {
+    /* Restore the URL when dismissing a deep-linked project (unless Back
+       itself drove the close, which already popped our entry). */
+    if (openProjectSlug && !fromHistory) {
+      if (history.state && history.state.salmoProject) history.back();
+      else history.replaceState(null, '', '#projects');
+    }
+    openProjectSlug = null;
+
     lightbox.classList.remove('open');
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
@@ -976,8 +1018,9 @@ function encodeImgPath(rawPath) {
   });
 
   canvas.addEventListener('contextmenu', e => e.preventDefault());
-  if (backdrop) backdrop.addEventListener('click', closeLightbox);
-  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+  /* Wrap so the click Event isn't passed as the fromHistory argument */
+  if (backdrop) backdrop.addEventListener('click', () => closeLightbox());
+  if (closeBtn) closeBtn.addEventListener('click', () => closeLightbox());
 
   /* Click the empty dark stage area (not the image / arrows / dots) closes */
   if (stageEl) stageEl.addEventListener('click', e => {
@@ -1059,6 +1102,60 @@ function encodeImgPath(rawPath) {
       if (cert) openCarousel(cert, 0, true);
     });
   });
+
+  /* ── Deep linking: #project=<slug> opens that project (shareable URLs) ── */
+  function projectFromHash() {
+    const m = /^#project=(.+)$/.exec(location.hash || '');
+    if (!m) return null;
+    return PROJECT_BY_SLUG[decodeURIComponent(m[1])] || null;
+  }
+
+  /* Back / Forward drives the viewer: a project URL opens it; leaving closes it. */
+  window.addEventListener('popstate', () => {
+    const proj = projectFromHash();
+    const open = lightbox.classList.contains('open');
+    if (proj) {
+      if (!open || openProjectSlug !== proj.slug) openCarousel(proj, 0, false, true);
+    } else if (open && openProjectSlug) {
+      closeLightbox(true);
+    }
+  });
+
+  /* Opened directly from a shared link: seed a #projects entry underneath so
+     Back / dismiss lands on the live site, then open the project over it. */
+  (function openFromInitialHash() {
+    const proj = projectFromHash();
+    if (!proj) return;
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    history.replaceState(null, '', '#projects');
+    history.pushState({ salmoProject: proj.slug }, '', '#project=' + encodeURIComponent(proj.slug));
+    openCarousel(proj, 0, false, true);
+  })();
+
+  /* ── Hover a bento project → cycle through its photos (desktop only) ── */
+  (function initBentoHoverCycle() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(hover: hover)').matches) return;
+    document.querySelectorAll('.bento-item[data-project-num]').forEach(item => {
+      const proj = PROJECTS.find(p => p.num === parseInt(item.dataset.projectNum, 10));
+      if (!proj || !proj.photos || proj.photos.length < 2) return;
+      const img = item.querySelector('.bento-img');
+      if (!img) return;
+      const srcs  = proj.photos.map(f => encodeImgPath(proj.base + f));
+      const cover = srcs[0];
+      let timer = null, idx = 0, preloaded = false;
+      item.addEventListener('mouseenter', () => {
+        /* Preload the rest only on first hover — keeps the initial load light. */
+        if (!preloaded) { preloaded = true; srcs.forEach(s => { const pre = new Image(); pre.src = s; }); }
+        if (timer) return;
+        timer = setInterval(() => { idx = (idx + 1) % srcs.length; img.src = srcs[idx]; }, 1100);
+      });
+      item.addEventListener('mouseleave', () => {
+        if (timer) { clearInterval(timer); timer = null; }
+        idx = 0; img.src = cover;
+      });
+    });
+  })();
 })();
 
 
@@ -1371,7 +1468,7 @@ function encodeImgPath(rawPath) {
 
       if (id === 'contact') {
         if (arrowEl) arrowEl.classList.add('show');
-        gsap.to(hwSvg, { filter: 'drop-shadow(0 0 5px rgba(0,180,216,0.7))', duration: 0.6, delay: 0.9 });
+        gsap.to(hwSvg, { filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.5))', duration: 0.6, delay: 0.9 });
       }
     }
 

@@ -74,7 +74,7 @@
 /* ── PROGRESS COUNTER MILESTONE PULSE ──────────────────────── */
 @keyframes progressPulse {
   0%   { opacity: 1; }
-  40%  { opacity: 0.2; color: #00B4D8; }
+  40%  { opacity: 0.2; color: #ffffff; }
   100% { opacity: 1; }
 }
 .hw-progress.milestone {
