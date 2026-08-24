@@ -1205,29 +1205,109 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     openCarousel(proj, 0, false, true);
   })();
 
-  /* ── Hover a bento project → cycle through its photos (desktop only) ── */
-  (function initBentoHoverCycle() {
+  /* ── Project photo cyclers ─────────────────────────────────────
+     Crossfade through each project's photos. Desktop: while hovering a
+     bento or moving-marquee item. Mobile (no hover): when scrolling
+     stops, whatever's on screen cycles; it resets the moment you scroll. */
+  (function initPhotoCyclers() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!window.matchMedia('(hover: hover)').matches) return;
-    document.querySelectorAll('.bento-item[data-project-num]').forEach(item => {
-      const proj = PROJECTS.find(p => p.num === parseInt(item.dataset.projectNum, 10));
-      if (!proj || !proj.photos || proj.photos.length < 2) return;
-      const img = item.querySelector('.bento-img');
-      if (!img) return;
-      const srcs  = proj.photos.map(f => encodeImgPath(proj.base + f));
-      const cover = srcs[0];
-      let timer = null, idx = 0, preloaded = false;
-      item.addEventListener('mouseenter', () => {
-        /* Preload the rest only on first hover — keeps the initial load light. */
-        if (!preloaded) { preloaded = true; srcs.forEach(s => { const pre = new Image(); pre.src = s; }); }
-        if (timer) return;
-        timer = setInterval(() => { idx = (idx + 1) % srcs.length; img.src = srcs[idx]; }, 1100);
+
+    const HOLD = 2000;   /* ms each photo is held */
+    const FADE = 0.64;   /* s crossfade */
+    const cyclers = [];
+
+    function makeCycler(item, baseImg, srcs, mode) {
+      /* Overlay image used for the crossfade (fades in over the base, then
+         the base is committed underneath and the overlay snaps back to 0). */
+      const layer = document.createElement('img');
+      layer.alt = ''; layer.setAttribute('aria-hidden', 'true');
+      if (mode === 'bento') {
+        layer.className = 'bento-img';   /* inherits cover sizing + hover-scale */
+        layer.style.cssText = 'position:absolute;top:0;left:0;opacity:0;pointer-events:none;' +
+          'transition:opacity ' + FADE + 's ease, transform 0.6s cubic-bezier(0.23,1,0.32,1);';
+      } else {
+        layer.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;' +
+          'filter:saturate(0.85) brightness(0.95);opacity:0;pointer-events:none;transition:opacity ' + FADE + 's ease;';
+      }
+      baseImg.insertAdjacentElement('afterend', layer);
+
+      let idx = 0, timer = null, commit = null;
+
+      /* Each step loads only the next photo (just-in-time) so we never
+         burst-download a whole project's set — matters on mobile data. */
+      function step() {
+        const next = (idx + 1) % srcs.length;
+        const pre = new Image();
+        pre.onload = () => {
+          layer.src = srcs[next];
+          requestAnimationFrame(() => { layer.style.opacity = '1'; });
+          commit = setTimeout(() => { baseImg.src = srcs[next]; layer.style.opacity = '0'; idx = next; }, FADE * 1000);
+        };
+        pre.src = srcs[next];
+      }
+
+      return {
+        item,
+        start() {
+          if (timer) return;
+          /* Marquee items are width:auto — lock the width and cover-fill so
+             different photo aspect ratios don't reflow the strip. */
+          if (mode === 'marquee' && item.offsetWidth) {
+            item.style.width = item.offsetWidth + 'px';
+            baseImg.style.width = '100%'; baseImg.style.height = '100%'; baseImg.style.objectFit = 'cover';
+          }
+          step();
+          timer = setInterval(step, HOLD);
+        },
+        stop() {
+          if (!timer && idx === 0) return;
+          if (timer) { clearInterval(timer); timer = null; }
+          clearTimeout(commit);
+          layer.style.opacity = '0';
+          if (idx !== 0) { idx = 0; baseImg.src = srcs[0]; }
+          if (mode === 'marquee') {
+            item.style.width = ''; baseImg.style.width = ''; baseImg.style.height = ''; baseImg.style.objectFit = '';
+          }
+        }
+      };
+    }
+
+    function collect(sel, imgSel, mode) {
+      document.querySelectorAll(sel).forEach(item => {
+        const proj = PROJECTS.find(p => p.num === parseInt(item.dataset.projectNum, 10));
+        if (!proj || !proj.photos || proj.photos.length < 2) return;
+        const img = item.querySelector(imgSel);
+        if (!img) return;
+        cyclers.push(makeCycler(item, img, proj.photos.map(f => encodeImgPath(proj.base + f)), mode));
       });
-      item.addEventListener('mouseleave', () => {
-        if (timer) { clearInterval(timer); timer = null; }
-        idx = 0; img.src = cover;
+    }
+
+    collect('.bento-item[data-project-num]', '.bento-img', 'bento');
+    collect('.marquee-item[data-project-num]', 'img', 'marquee');
+    if (!cyclers.length) return;
+
+    if (window.matchMedia('(hover: hover)').matches) {
+      cyclers.forEach(c => {
+        c.item.addEventListener('mouseenter', c.start);
+        c.item.addEventListener('mouseleave', c.stop);
       });
-    });
+    } else {
+      /* Mobile: cycle whatever's visible once scrolling settles. */
+      const inView = el => {
+        const r = el.getBoundingClientRect();
+        return r.bottom > 8 && r.top < window.innerHeight - 8 && r.right > 8 && r.left < window.innerWidth - 8;
+      };
+      let idle = null;
+      const onMove = () => {
+        cyclers.forEach(c => c.stop());
+        clearTimeout(idle);
+        idle = setTimeout(() => cyclers.forEach(c => { if (inView(c.item)) c.start(); }), 450);
+      };
+      window.addEventListener('scroll', onMove, { passive: true });
+      const mq = document.querySelector('.marquee-wrap');
+      if (mq) mq.addEventListener('scroll', onMove, { passive: true });
+      setTimeout(() => cyclers.forEach(c => { if (inView(c.item)) c.start(); }), 900);
+    }
   })();
 })();
 
