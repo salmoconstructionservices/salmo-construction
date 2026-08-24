@@ -1090,9 +1090,9 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
 
   /* ── Certificate badge click → open lightbox ── */
   const CERT_DATA = {
-    bir: { title: 'BIR Certificate of Registration', location: '', base: 'assets/images/certificates/BIR/', photos: ['BIR1.jpg','BIR2.jpg','BIR3.jpg'] },
-    dti: { title: 'DTI Certificate',                 location: '', base: 'assets/images/certificates/DTI/', photos: ['Dti.jpg'] },
-    prc: { title: 'PRC Licensed Civil Engineer',     location: '', base: 'assets/images/certificates/PRC/', photos: ['engineer1.jpg'] }
+    bir: { title: 'BIR Certificate of Registration', location: 'Bureau of Internal Revenue',      base: 'assets/images/certificates/BIR/', photos: ['BIR1.jpg','BIR2.jpg','BIR3.jpg'] },
+    dti: { title: 'DTI Certificate',                 location: 'Department of Trade and Industry', base: 'assets/images/certificates/DTI/', photos: ['Dti.jpg'] },
+    prc: { title: 'PRC Licensed Civil Engineer',     location: 'Professional Regulation Commission', base: 'assets/images/certificates/PRC/', photos: ['engineer1.jpg'] }
   };
 
   document.querySelectorAll('[data-cert]').forEach(el => {

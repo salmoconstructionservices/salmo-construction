@@ -290,6 +290,7 @@ input, textarea, select { font-family: var(--font); }
 #loading-screen {
   position: fixed;
   inset: 0;
+  font-family: var(--font);   /* explicit Montserrat for the loading tagline */
   background: var(--navy);
   background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
   background-size: 30px 30px;
@@ -2526,7 +2527,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
              avatar + poster + location + title). Circular edge
              arrows, pill dots, X top-left.
    Mobile  : full-screen swipe strip on top, compact info bar below.
-   Certs   : panel hidden (documents, not "posts") — .lb--cert.
+   Certs   : same two-pane style as projects (issuing body as the sub).
    ══════════════════════════════════════════════════════════════ */
 #lightbox {
   position: fixed;
@@ -2589,9 +2590,6 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 }
 
 .lightbox-canvas { display: block; }
-
-/* Cert mode: no post panel, image centred across the whole viewport */
-.lb--cert .lb__panel { display: none; }
 
 /* ── Close (top-left, Facebook) ── */
 .lb__close {
