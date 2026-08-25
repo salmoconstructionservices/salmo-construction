@@ -908,7 +908,13 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
         function jumpTo(target) {
           isWrapping = true;
           mobileStrip.style.scrollSnapType = 'none';
+          /* Toggling overflow to hidden cancels iOS fling momentum, so the
+             silent teleport isn't dragged back — otherwise the carousel feels
+             stuck on the first photo after wrapping past the last. */
+          mobileStrip.style.overflowX = 'hidden';
+          void mobileStrip.offsetWidth;                 // force reflow
           mobileStrip.scrollLeft = target * slideW;
+          mobileStrip.style.overflowX = 'scroll';
           const release = () => {
             mobileStrip.style.scrollSnapType = 'x mandatory';
             isWrapping = false;
