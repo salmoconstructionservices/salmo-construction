@@ -58,6 +58,40 @@
 })();
 
 
+/* ── SECTION DEEP-LINKS ─────────────────────────────────────────
+   Landing via a shared link like salmoconstruction.com/#book should
+   scroll to that section. The loading screen locks scroll (~2.2s) and
+   lazy images shift layout, so the browser's native jump misses — we
+   re-assert the position once things settle, but never fight the user
+   if they've already started scrolling. (Project deep-links #project=…
+   are handled separately in components.js.) */
+(function initSectionDeepLink() {
+  const hash = location.hash;
+  if (!hash || hash.indexOf('=') !== -1) return;      // skip #project=slug etc.
+  const target = document.getElementById(hash.slice(1));
+  if (!target) return;
+
+  let userScrolled = false;
+  const mark = () => { userScrolled = true; };
+  window.addEventListener('wheel', mark, { passive: true, once: true });
+  window.addEventListener('touchmove', mark, { passive: true, once: true });
+  window.addEventListener('keydown', e => {
+    if (['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(e.key)) mark();
+  }, { once: true });
+
+  function go() {
+    if (userScrolled) return;
+    const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 24;
+    const top = target.getBoundingClientRect().top + window.scrollY - navH;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+  }
+
+  document.addEventListener('salmo:loaded', () => { go(); setTimeout(go, 300); }); // first visit (after loader)
+  window.addEventListener('load', () => { go(); setTimeout(go, 300); });           // repeat visit / resources done
+  setTimeout(go, 400);                                                             // fallback
+})();
+
+
 /* ── CONTACT FORM SUBMISSION ────────────────────────────────── */
 (function initContactForm() {
   const form    = document.getElementById('contact-form');
