@@ -2861,6 +2861,66 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   border-radius: 4px;
 }
 
+/* ── Mobile gesture guide (shown briefly when the viewer opens) ── */
+.lb-guide {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  pointer-events: none;                         /* never blocks the swipe underneath */
+  background: rgba(4, 14, 30, 0.46);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.lb-guide.show { display: flex; opacity: 1; }
+.lb-guide.hide { opacity: 0; }
+
+.lb-guide__cross {
+  display: grid;
+  grid-template-columns: repeat(3, 46px);
+  grid-template-rows: repeat(3, 46px);
+  place-items: center;
+  color: #fff;
+}
+.lb-guide__arrow,
+.lb-guide__hand { display: flex; align-items: center; justify-content: center; }
+.lb-guide__arrow svg { width: 26px; height: 26px; opacity: 0.9; }
+.lb-guide__hand  svg { width: 30px; height: 30px; opacity: 0.95; }
+.lb-guide__arrow.up    { grid-area: 1 / 2; animation: lbG-up    1.6s ease-in-out infinite; }
+.lb-guide__arrow.down  { grid-area: 3 / 2; animation: lbG-down  1.6s ease-in-out infinite; }
+.lb-guide__arrow.left  { grid-area: 2 / 1; animation: lbG-left  1.6s ease-in-out infinite; }
+.lb-guide__arrow.right { grid-area: 2 / 3; animation: lbG-right 1.6s ease-in-out infinite; }
+.lb-guide__hand        { grid-area: 2 / 2; }
+
+@keyframes lbG-up    { 0%,100% { transform: translateY(3px);  opacity: .5; } 50% { transform: translateY(-3px); opacity: 1; } }
+@keyframes lbG-down  { 0%,100% { transform: translateY(-3px); opacity: .5; } 50% { transform: translateY(3px);  opacity: 1; } }
+@keyframes lbG-left  { 0%,100% { transform: translateX(3px);  opacity: .5; } 50% { transform: translateX(-3px); opacity: 1; } }
+@keyframes lbG-right { 0%,100% { transform: translateX(-3px); opacity: .5; } 50% { transform: translateX(3px);  opacity: 1; } }
+
+.lb-guide__labels {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: rgba(255,255,255,0.9);
+  text-align: center;
+}
+.lb-guide__labels b { font-weight: 700; letter-spacing: 1px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lb-guide__arrow { animation: none; opacity: 0.85; }
+}
+
 /* ── Right info panel — Facebook post ── */
 .lb__panel {
   flex: 0 0 clamp(320px, 26vw, 384px);

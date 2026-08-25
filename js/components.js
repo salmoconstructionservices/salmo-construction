@@ -684,6 +684,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
   const dotsEl      = document.getElementById('lightbox-dots');
   const mobileStrip = document.getElementById('lb-mobile-strip');
   const stageEl     = document.getElementById('lb-stage');
+  const guideEl     = document.getElementById('lb-guide');
   const shareBtn    = document.getElementById('lightbox-share');
   const saveBtn     = document.getElementById('lightbox-save');
   const counterFact = counterEl ? counterEl.closest('.lb__fact') : null;
@@ -1047,9 +1048,30 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
       syncUI(carouselIndex);
       if (prevBtn) prevBtn.style.display = 'none';
       if (nextBtn) nextBtn.style.display = 'none';
+      showGuide();
     } else {
       showPhoto(carouselIndex);
     }
+  }
+
+  /* ── Mobile gesture guide — a brief swipe hint each time the viewer opens.
+     pointer-events:none, so it never blocks the swipe it's teaching; it fades
+     on the first touch or after a short delay. ── */
+  let guideTimer = null;
+  function showGuide() {
+    if (!guideEl || !isMobile()) return;
+    clearTimeout(guideTimer);
+    guideEl.classList.remove('hide');
+    guideEl.classList.add('show');
+    guideEl.setAttribute('aria-hidden', 'false');
+    guideTimer = setTimeout(hideGuide, 2600);
+  }
+  function hideGuide() {
+    if (!guideEl || !guideEl.classList.contains('show')) return;
+    clearTimeout(guideTimer);
+    guideEl.classList.add('hide');
+    guideEl.setAttribute('aria-hidden', 'true');
+    setTimeout(() => guideEl.classList.remove('show', 'hide'), 400);
   }
 
   /* ── Close ── */
@@ -1079,6 +1101,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
       lightbox.style.removeProperty('--lb-exit-y');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (mobileStrip) { mobileStrip.innerHTML = ''; isWrapping = false; }
+      if (guideEl) { clearTimeout(guideTimer); guideEl.classList.remove('show', 'hide'); }
       if (dotsEl) dotsEl.innerHTML = '';
       carouselPhotos = [];
       carouselIndex  = 0;
@@ -1119,6 +1142,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     let sx = null, sy = null, st = 0;
     stageEl.addEventListener('touchstart', e => {
       if (!lightbox.classList.contains('open')) return;
+      hideGuide();                       /* first touch dismisses the swipe hint */
       const t = e.changedTouches[0]; sx = t.clientX; sy = t.clientY; st = Date.now();
     }, { passive: true });
     stageEl.addEventListener('touchend', e => {
