@@ -337,9 +337,12 @@ const PROJECTS = [
              featured: false },
 ];
 
-/* Helper: encode spaces in a file path so Image() loads correctly */
+/* Helper: point project photos at their WebP version and encode spaces so
+   Image() loads correctly. Project photos ship as .webp; the PROJECTS data
+   still lists the original .jpg/.png names, so we swap the extension here —
+   the single funnel every project image path passes through. */
 function encodeImgPath(rawPath) {
-  return rawPath.replace(/ /g, '%20');
+  return rawPath.replace(/\.(jpe?g|png)$/i, '.webp').replace(/ /g, '%20');
 }
 
 /* ── Per-project deep-link slugs — stable, readable, unique ──
