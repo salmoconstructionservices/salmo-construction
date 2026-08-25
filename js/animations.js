@@ -13,6 +13,10 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 
 function initAnimations() {
 
+  /* On phones, reveals fire earlier (as soon as an element peeks in) and run
+     faster, so content appears with the slightest scroll instead of lagging. */
+  const MOBILE = window.matchMedia('(max-width: 640px)').matches;
+
   /* ── HERO ANIMATIONS ──────────────────────────────────────── */
   function runHeroAnimations() {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -151,7 +155,7 @@ function initAnimations() {
         ease: 'power2.out',
         scrollTrigger: {
           trigger: el,
-          start: 'top 88%',
+          start: MOBILE ? 'top 98%' : 'top 88%',
           toggleActions: 'play none none none'
         },
         delay: (i % 4) * 0.06
@@ -170,7 +174,7 @@ function initAnimations() {
         ease: 'power3.out',
         scrollTrigger: {
           trigger: el,
-          start: 'top 85%',
+          start: MOBILE ? 'top 98%' : 'top 85%',
           toggleActions: 'play none none none'
         }
       });
@@ -188,7 +192,7 @@ function initAnimations() {
         ease: 'power3.out',
         scrollTrigger: {
           trigger: el,
-          start: 'top 85%',
+          start: MOBILE ? 'top 98%' : 'top 85%',
           toggleActions: 'play none none none'
         }
       });
@@ -206,7 +210,7 @@ function initAnimations() {
         ease: 'back.out(1.5)',
         scrollTrigger: {
           trigger: el,
-          start: 'top 88%',
+          start: MOBILE ? 'top 98%' : 'top 88%',
           toggleActions: 'play none none none'
         }
       });
@@ -234,7 +238,7 @@ function initAnimations() {
         ease: 'power2.out',
         scrollTrigger: {
           trigger: step,
-          start: 'top 88%',
+          start: MOBILE ? 'top 98%' : 'top 88%',
           toggleActions: 'play none none none'
         },
         delay: i * 0.12
@@ -253,7 +257,7 @@ function initAnimations() {
 
       ScrollTrigger.create({
         trigger: counter,
-        start: 'top 85%',
+        start: MOBILE ? 'top 98%' : 'top 85%',
         once: true,
         onEnter: () => {
           gsap.fromTo({ val: 0 }, { val: target }, {
@@ -289,7 +293,7 @@ function initAnimations() {
         ease: 'back.out(1.4)',
         scrollTrigger: {
           trigger: badge,
-          start: 'top 88%',
+          start: MOBILE ? 'top 98%' : 'top 88%',
           toggleActions: 'play none none none'
         },
         delay: i * 0.1
@@ -314,7 +318,7 @@ function initAnimations() {
         ease: 'power2.out',
         scrollTrigger: {
           trigger: item,
-          start: 'top 90%',
+          start: MOBILE ? 'top 98%' : 'top 90%',
           toggleActions: 'play none none none'
         },
         delay: i * 0.07
@@ -339,7 +343,7 @@ function initAnimations() {
         ease: 'power2.out',
         scrollTrigger: {
           trigger: card,
-          start: 'top 90%',
+          start: MOBILE ? 'top 98%' : 'top 90%',
           toggleActions: 'play none none none'
         },
         delay: i * 0.1
@@ -364,7 +368,7 @@ function initAnimations() {
         ease: 'power2.out',
         scrollTrigger: {
           trigger: item,
-          start: 'top 90%',
+          start: MOBILE ? 'top 98%' : 'top 90%',
           toggleActions: 'play none none none'
         },
         delay: i * 0.06
@@ -389,7 +393,7 @@ function initAnimations() {
         ease: 'power2.out',
         scrollTrigger: {
           trigger: item,
-          start: 'top 88%',
+          start: MOBILE ? 'top 98%' : 'top 88%',
           toggleActions: 'play none none none'
         },
         delay: i * 0.1
@@ -414,12 +418,36 @@ function initAnimations() {
         ease: 'power2.out',
         scrollTrigger: {
           trigger: item,
-          start: 'top 90%',
+          start: MOBILE ? 'top 98%' : 'top 90%',
           toggleActions: 'play none none none'
         },
         delay: i * 0.07
       });
     });
   })();
+
+
+  /* ── MOBILE SPEED-UP ────────────────────────────────────────────
+     Run every scroll-reveal tween ~2x quicker and trim the stagger so
+     content snaps in with the slightest scroll rather than lingering.
+     Re-applied on load in case the mobile viewport settles after this
+     script first runs (idempotent — the < 2 guard skips already-sped tweens). */
+  function applyMobileSpeedup() {
+    if (!window.matchMedia('(max-width: 640px)').matches) return;
+    ScrollTrigger.getAll().forEach(st => {
+      const tween = st.animation;
+      if (!tween || typeof tween.timeScale !== 'function' || tween.timeScale() >= 2) return;
+      tween.timeScale(2.2);
+      if (typeof tween.delay === 'function' && tween.delay() > 0.03) tween.delay(0.03);
+    });
+  }
+  /* Apply across several settle points so it lands regardless of when the
+     mobile viewport / loading screen resolves (idempotent). */
+  applyMobileSpeedup();
+  window.addEventListener('load', applyMobileSpeedup);
+  document.addEventListener('salmo:loaded', applyMobileSpeedup);
+  setTimeout(applyMobileSpeedup, 2500);
+  const mq = window.matchMedia('(max-width: 640px)');
+  if (mq.addEventListener) mq.addEventListener('change', applyMobileSpeedup);
 
 } // end initAnimations
