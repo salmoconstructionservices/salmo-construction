@@ -512,10 +512,10 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   align-items: center;
   justify-content: center;
   gap: 3px;
-  padding: 10px 18px;
+  padding: 10px 13px;
   color: rgba(255, 255, 255, 0.62);
   text-decoration: none;
-  min-width: 60px;
+  min-width: 52px;
   min-height: 52px;
   cursor: pointer;
   transition: color 0.25s ease, background 0.2s ease,
@@ -555,20 +555,20 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 }
 
 /* ── Compact: scroll-down shrinks pill ── */
-#glass-nav.compact .gn-item  { min-height: 40px; padding: 6px 14px; }
+#glass-nav.compact .gn-item  { min-height: 40px; padding: 6px 11px; }
 #glass-nav.compact .gn-icon  { width: 16px; height: 16px; }
 #glass-nav.compact .gn-label { font-size: 7.5px; }
 
 /* ── Desktop scale-up: larger pill on non-mobile screens ── */
 @media (min-width: 768px) {
-  .gn-item  { padding: 12px 22px; min-width: 68px; min-height: 60px; }
+  .gn-item  { padding: 12px 16px; min-width: 56px; min-height: 60px; }
   .gn-icon  { width: 22px; height: 22px; }
   .gn-label { font-size: 10px; letter-spacing: 0.8px; }
-  .gn-logo-item { flex: 0 0 auto; padding: 10px 16px; }
+  .gn-logo-item { flex: 0 0 auto; padding: 10px 14px; }
   .gn-logo-img  { height: 42px; max-width: 160px; }
   #glass-nav.compact .gn-logo-img { height: 32px; max-width: 122px; }
 
-  #glass-nav.compact .gn-item  { min-height: 46px; padding: 8px 17px; }
+  #glass-nav.compact .gn-item  { min-height: 46px; padding: 8px 13px; }
   #glass-nav.compact .gn-icon  { width: 18px; height: 18px; }
   #glass-nav.compact .gn-label { font-size: 8px; }
 
