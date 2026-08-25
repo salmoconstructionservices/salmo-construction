@@ -1420,7 +1420,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
   });
 
   /* ── Scroll spy: active section ── */
-  const TRACKED = ['hero', 'services', 'projects', 'faq', 'contact'];
+  const TRACKED = ['hero', 'services', 'projects', 'faq', 'book', 'contact'];
 
   function getActiveId() {
     const scrollY = window.scrollY + window.innerHeight * 0.40;
