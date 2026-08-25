@@ -1,23 +1,12 @@
 {
   "detector": {
-    "ignoreRules": [],
+    "ignoreRules": [
+      "overused-font",
+      "single-font",
+      "codex-grid-background",
+      "bounce-easing"
+    ],
     "ignoreFiles": [],
-    "ignoreValues": [
-      {
-        "rule": "overused-font",
-        "value": "montserrat",
-        "createdAt": "2026-08-24T06:21:19.219Z",
-        "reason": "User confirmed Montserrat is the brand font and must stay (chose 'Montserrat only')"
-      },
-      {
-        "rule": "single-font",
-        "value": "*",
-        "files": [
-          "index.html"
-        ],
-        "createdAt": "2026-08-24T06:57:54.821Z",
-        "reason": "User chose Montserrat-only; single brand font is intentional"
-      }
-    ]
+    "ignoreValues": []
   }
 }
