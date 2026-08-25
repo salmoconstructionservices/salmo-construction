@@ -1045,14 +1045,15 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   background: linear-gradient(90deg, rgba(1,30,62,0.15) 0%, rgba(1,30,62,0.05) 100%);
 }
 
+/* End cap: a small filled node so the track resolves cleanly at step 04
+   instead of an arrow crammed against the number. */
 .steps-line::after {
   content: '';
   position: absolute;
-  right: -6px; top: -3px;
-  width: 7px; height: 7px;
-  border-right: 1px solid rgba(1,30,62,0.3);
-  border-top: 1px solid rgba(1,30,62,0.3);
-  transform: rotate(45deg);
+  right: -3px; top: -2px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(1,30,62,0.25);
 }
 
 .step {
@@ -1071,7 +1072,11 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   margin-bottom: 24px;
   position: relative;
   z-index: 1;
-  /* purely typographic — no box, no border, no button */
+  /* Section-colored background so the connector line is masked behind each
+     number and only shows in the gaps — a connected stepper, not a line
+     struck through the numerals. */
+  background: var(--gray-light);
+  padding: 0 22px;
 }
 
 .step-num {
@@ -2342,9 +2347,21 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 
 .footer-back:hover { color: var(--white); gap: 10px; }
 
-/* Footer social row (replaces the old Back to Top link) */
-.footer-social { display: flex; align-items: center; gap: 10px; }
+/* Footer social block (replaces the old Back to Top link) */
+.footer-social { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+.footer-social-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+}
+.footer-social-icons { display: flex; align-items: center; gap: 10px; }
 .footer-social .social-icon:active { transform: scale(0.94); transition-duration: 0.1s; }
+
+@media (max-width: 640px) {
+  .footer-social { align-items: center; }
+}
 
 /* ── FLOATING FAB ───────────────────────────────────────────── */
 /* ══════════════════════════════════════════════════════════════
