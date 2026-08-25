@@ -529,6 +529,15 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   transition: width 0.3s ease, height 0.3s ease;
 }
 
+/* Home mark — Salmo "S" image sized to sit inline with the line icons */
+.gn-mark {
+  width: auto;
+  height: 20px;
+  flex-shrink: 0;
+  object-fit: contain;
+  transition: height 0.3s ease;
+}
+
 .gn-label {
   font-family: 'Montserrat', sans-serif;
   font-size: 9px;
@@ -557,12 +566,15 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 /* ── Compact: scroll-down shrinks pill ── */
 #glass-nav.compact .gn-item  { min-height: 40px; padding: 6px 11px; }
 #glass-nav.compact .gn-icon  { width: 16px; height: 16px; }
+#glass-nav.compact .gn-mark  { height: 16px; }
 #glass-nav.compact .gn-label { font-size: 7.5px; }
 
 /* ── Desktop scale-up: larger pill on non-mobile screens ── */
 @media (min-width: 768px) {
   .gn-item  { padding: 12px 13px; min-width: 52px; min-height: 60px; }
   .gn-icon  { width: 22px; height: 22px; }
+  .gn-mark  { height: 22px; }
+  #glass-nav.compact .gn-mark { height: 18px; }
   .gn-label { font-size: 10px; letter-spacing: 0.8px; }
   .gn-logo-item { flex: 0 0 auto; padding: 10px 11px; }
   .gn-logo-img  { height: 36px; max-width: 138px; }
@@ -586,6 +598,8 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   .gn-logo-img  { max-width: 56px; height: 20px; }
   #glass-nav.compact .gn-logo-img { max-width: 48px; height: 17px; }
   .gn-icon      { width: 17px; height: 17px; }
+  .gn-mark      { height: 17px; }
+  #glass-nav.compact .gn-mark { height: 16px; }
   .gn-label     { font-size: 7px; letter-spacing: 0; }
   #glass-nav.compact .gn-label { font-size: 6.5px; }
 }
