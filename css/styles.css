@@ -2927,7 +2927,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 /* ── Right info panel — Facebook post ── */
 .lb__panel {
   flex: 0 0 clamp(320px, 26vw, 384px);
-  background: #10233f;                       /* Salmo deep navy */
+  background: #000000;                       /* Facebook-style black behind the caption */
   color: rgba(255,255,255,0.82);
   padding: 1.6rem 1.4rem;
   overflow-y: auto;
