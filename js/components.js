@@ -786,15 +786,21 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
   }
 
   /* ── Mobile: render at display size × DPR — sharp on retina ── */
-  function renderMobileSlide(sc, photo) {
+  function renderMobileSlide(sc, photo, tries) {
     if (!photo.naturalWidth || !photo.naturalHeight) return;
+    /* Fit within the strip (stage area above the info bar). Cached WebP fire
+       onload during buildMobileStrip, before the strip is laid out — so if it
+       has no size yet, wait a frame instead of falling back to the full window
+       (which sizes the image too tall and leaves it looking broken). */
+    const availW = mobileStrip ? mobileStrip.clientWidth  : 0;
+    const availH = mobileStrip ? mobileStrip.clientHeight : 0;
+    if (!availW || !availH) {
+      if ((tries || 0) < 60) requestAnimationFrame(() => renderMobileSlide(sc, photo, (tries || 0) + 1));
+      return;
+    }
     const dpr = window.devicePixelRatio || 1;
     const nw  = photo.naturalWidth;
     const nh  = photo.naturalHeight;
-    /* Fit within the strip (the stage area above the info bar), not the
-       whole window — the compact info bar occupies the bottom. */
-    const availW = (mobileStrip && mobileStrip.clientWidth)  || window.innerWidth;
-    const availH = (mobileStrip && mobileStrip.clientHeight) || window.innerHeight;
     const ds  = Math.min(availW / nw, availH / nh, 1);
     const dw  = Math.round(nw * ds);
     const dh  = Math.round(nh * ds);
