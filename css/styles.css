@@ -581,12 +581,13 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 
 /* ── Small screens: shrink logo + tighten items so all 6 dock items fit ── */
 @media (max-width: 767px) {
-  .gn-item      { min-width: 0; padding: 10px 5px; }
-  .gn-logo-item { padding: 8px 6px; }
-  .gn-logo-img  { max-width: 74px; height: 26px; }
-  .gn-icon      { width: 18px; height: 18px; }
-  .gn-label     { font-size: 8px; letter-spacing: 0.2px; }
-  #glass-nav.compact .gn-label { font-size: 7px; }
+  .gn-item      { min-width: 0; padding: 9px 9px; gap: 4px; }
+  .gn-logo-item { padding: 8px 5px; }
+  .gn-logo-img  { max-width: 56px; height: 20px; }
+  #glass-nav.compact .gn-logo-img { max-width: 48px; height: 17px; }
+  .gn-icon      { width: 17px; height: 17px; }
+  .gn-label     { font-size: 7px; letter-spacing: 0; }
+  #glass-nav.compact .gn-label { font-size: 6.5px; }
 }
 
 /* ── HERO SECTION ───────────────────────────────────────────── */
