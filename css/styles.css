@@ -529,14 +529,18 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   transition: width 0.3s ease, height 0.3s ease;
 }
 
-/* Home mark — Salmo "S" image sized to sit inline with the line icons */
+/* Home mark — Salmo "S" image sized to sit inline with the line icons.
+   It's a white PNG, so it can't inherit currentColor like the SVG icons;
+   we mirror their dim/active states with opacity instead. */
 .gn-mark {
   width: auto;
   height: 20px;
   flex-shrink: 0;
   object-fit: contain;
-  transition: height 0.3s ease;
+  opacity: 0.62;                       /* matches inactive icon color */
+  transition: height 0.3s ease, opacity 0.25s ease;
 }
+.gn-item.active .gn-mark { opacity: 1; }
 
 .gn-label {
   font-family: 'Montserrat', sans-serif;
@@ -561,6 +565,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
     color: rgba(255, 255, 255, 0.95);
     background: rgba(255, 255, 255, 0.07);
   }
+  .gn-item:hover:not(.active) .gn-mark { opacity: 0.95; }
 }
 
 /* ── Compact: scroll-down shrinks pill ── */
