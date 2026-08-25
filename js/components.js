@@ -1777,7 +1777,13 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     let idx = -1;
     for (let i = 0; i < SECTIONS.length; i++) {
       const el = document.getElementById(SECTIONS[i]);
-      if (el && el.getBoundingClientRect().top <= threshold) idx = i;
+      if (!el) continue;
+      const r = el.getBoundingClientRect();
+      /* Skip hidden sections (e.g. testimonials is display:none) — their rect
+         collapses to top:0, which would otherwise read as "already scrolled
+         past" and draw the house at the very top of the page. */
+      if (r.height === 0) continue;
+      if (r.top <= threshold) idx = i;
     }
     return idx;
   }
