@@ -512,10 +512,10 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   align-items: center;
   justify-content: center;
   gap: 3px;
-  padding: 10px 13px;
+  padding: 10px 10px;
   color: rgba(255, 255, 255, 0.62);
   text-decoration: none;
-  min-width: 52px;
+  min-width: 48px;
   min-height: 52px;
   cursor: pointer;
   transition: color 0.25s ease, background 0.2s ease,
@@ -543,9 +543,9 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 .gn-item.active { color: #ffffff; }
 
 /* Logo-only nav item — no icon+label stack, just the image */
-.gn-logo-item { flex: 0 0 auto; padding: 8px 14px; }
-.gn-logo-img  { height: 38px; width: auto; max-width: 144px; display: block; object-fit: contain; transform: scale(0.992); }
-#glass-nav.compact .gn-logo-img { height: 28px; max-width: 106px; }
+.gn-logo-item { flex: 0 0 auto; padding: 8px 10px; }
+.gn-logo-img  { height: 32px; width: auto; max-width: 122px; display: block; object-fit: contain; transform: scale(0.992); }
+#glass-nav.compact .gn-logo-img { height: 24px; max-width: 92px; }
 
 @media (hover: hover) {
   .gn-item:hover:not(.active) {
@@ -561,14 +561,14 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 
 /* ── Desktop scale-up: larger pill on non-mobile screens ── */
 @media (min-width: 768px) {
-  .gn-item  { padding: 12px 16px; min-width: 56px; min-height: 60px; }
+  .gn-item  { padding: 12px 13px; min-width: 52px; min-height: 60px; }
   .gn-icon  { width: 22px; height: 22px; }
   .gn-label { font-size: 10px; letter-spacing: 0.8px; }
-  .gn-logo-item { flex: 0 0 auto; padding: 10px 14px; }
-  .gn-logo-img  { height: 42px; max-width: 160px; }
-  #glass-nav.compact .gn-logo-img { height: 32px; max-width: 122px; }
+  .gn-logo-item { flex: 0 0 auto; padding: 10px 11px; }
+  .gn-logo-img  { height: 36px; max-width: 138px; }
+  #glass-nav.compact .gn-logo-img { height: 28px; max-width: 106px; }
 
-  #glass-nav.compact .gn-item  { min-height: 46px; padding: 8px 13px; }
+  #glass-nav.compact .gn-item  { min-height: 46px; padding: 8px 11px; }
   #glass-nav.compact .gn-icon  { width: 18px; height: 18px; }
   #glass-nav.compact .gn-label { font-size: 8px; }
 
