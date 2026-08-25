@@ -35,6 +35,9 @@
   <!-- ── FONTS ─────────────────────────────────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Speed up the third-party scripts (GSAP animation, Cal.com booking) -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="dns-prefetch" href="https://app.cal.com" />
   <!-- Preload Montserrat 300 (loading-screen tagline) so it paints in-font, no fallback flash.
        If Google bumps the version this URL simply no-ops; the font still loads via the stylesheet. -->
   <link rel="preload" as="font" type="font/woff2" crossorigin
@@ -1790,10 +1793,6 @@
 <!-- ══════════════════════════════════════════════════════════
      SCRIPTS
      ══════════════════════════════════════════════════════════ -->
-
-<!-- GSAP + ScrollTrigger (free CDN) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
 <!-- Cal.com embed — powers the "Book an Appointment" popup (buttons use data-cal-link) -->
 <script type="text/javascript">
