@@ -867,10 +867,15 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     photos.forEach(src => addSlide(src));
     addSlide(photos[0]);           // clone-first at pos N+1
 
-    requestAnimationFrame(() => {
-      const slideW = mobileStrip.clientWidth || window.innerWidth;
-      mobileStrip.scrollLeft = (startIndex + 1) * slideW;
-    });
+    /* Land on the real start photo (pos startIndex+1). Wait until the strip
+       has a real width, else scrollLeft clamps to 0 and the viewer opens on
+       the clone-last slide — which makes swiping feel reversed / non-looping. */
+    let tries = 0;
+    (function positionStrip() {
+      const slideW = mobileStrip.clientWidth;
+      if (!slideW && tries++ < 30) { requestAnimationFrame(positionStrip); return; }
+      mobileStrip.scrollLeft = (startIndex + 1) * (slideW || window.innerWidth);
+    })();
   }
 
   /* ── Mobile scroll handler: sync UI + infinite wrap ── */
@@ -904,10 +909,12 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
           isWrapping = true;
           mobileStrip.style.scrollSnapType = 'none';
           mobileStrip.scrollLeft = target * slideW;
-          requestAnimationFrame(() => requestAnimationFrame(() => {
+          const release = () => {
             mobileStrip.style.scrollSnapType = 'x mandatory';
             isWrapping = false;
-          }));
+          };
+          requestAnimationFrame(() => requestAnimationFrame(release));
+          setTimeout(release, 120);   // safety: never leave the loop flag stuck
         }
 
         if (curSnap === 0)          jumpTo(total);   // clone-last → real last
@@ -1171,11 +1178,9 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     const num  = parseInt(item.dataset.projectNum, 10);
     const proj = PROJECTS.find(p => p.num === num);
     if (!proj) return;
-
-    if (!isTouch()) { openCarousel(proj, 0); return; }
-
-    if (tappedItem === item) { clearTap(); openCarousel(proj, 0); }
-    else { clearTap(); tappedItem = item; item.classList.add('tap-active'); }
+    /* Single tap opens the viewer — on touch and desktop alike. */
+    clearTap();
+    openCarousel(proj, 0);
   }
 
   document.addEventListener('click', e => {
