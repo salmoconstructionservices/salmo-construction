@@ -384,23 +384,32 @@
         <line class="house-path hp-detail" x1="447" y1="318" x2="447" y2="416" stroke-width="1"/>
         <line class="house-path hp-detail" x1="384" y1="367" x2="510" y2="367" stroke-width="1" stroke-opacity="0.5"/>
 
-        <!-- ── GARAGE — FLAT ROOF (attached right) ── -->
-        <line class="house-path hp-roof"   x1="545" y1="220" x2="824" y2="220" stroke-width="2.5"/>
-        <line class="house-path hp-roof"   x1="545" y1="233" x2="824" y2="233" stroke-width="1.5"/>
+        <!-- ── GARAGE — FLAT ROOF (attached right, expanded, 4px overhang) ── -->
+        <line class="house-path hp-roof"   x1="545" y1="220" x2="842" y2="220" stroke-width="2.5"/>
+        <line class="house-path hp-roof"   x1="545" y1="233" x2="842" y2="233" stroke-width="1.5"/>
         <line class="house-path hp-roof"   x1="545" y1="220" x2="545" y2="233" stroke-width="1.5"/>
-        <line class="house-path hp-roof"   x1="824" y1="220" x2="824" y2="233" stroke-width="1.5"/>
+        <line class="house-path hp-roof"   x1="842" y1="220" x2="842" y2="233" stroke-width="1.5"/>
 
         <!-- ── GARAGE — RIGHT OUTER WALL ── -->
-        <line class="house-path hp-wall"   x1="820" y1="233" x2="820" y2="450" stroke-width="2.2"/>
+        <line class="house-path hp-wall"   x1="838" y1="233" x2="838" y2="450" stroke-width="2.2"/>
 
-        <!-- ── GARAGE DOOR ── -->
-        <rect class="house-path hp-garage" x="560" y="250" width="170" height="200" stroke-width="2"/>
-        <!-- Horizontal panel lines -->
-        <line class="house-path hp-detail" x1="560" y1="300" x2="730" y2="300" stroke-width="1"/>
-        <line class="house-path hp-detail" x1="560" y1="350" x2="730" y2="350" stroke-width="1"/>
-        <line class="house-path hp-detail" x1="560" y1="400" x2="730" y2="400" stroke-width="1"/>
-        <!-- Garage center divider -->
-        <line class="house-path hp-detail" x1="645" y1="250" x2="645" y2="450" stroke-width="0.8" stroke-opacity="0.4"/>
+        <!-- ── GARAGE DOOR — 6×6 grid, 30px cells (180×180) ──
+             Bay: shared wall x=548 → outer wall x=838 (width 290).
+             Door is centered at x=693 with equal 55px reveals each side and
+             seated on the ground line (y=450); top at y=270 clears the roof. -->
+        <rect class="house-path hp-garage" x="603" y="270" width="180" height="180" stroke-width="2"/>
+        <!-- 5 interior column dividers (30px pitch: 633…753) -->
+        <line class="house-path hp-detail" x1="633" y1="270" x2="633" y2="450" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="663" y1="270" x2="663" y2="450" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="693" y1="270" x2="693" y2="450" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="723" y1="270" x2="723" y2="450" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="753" y1="270" x2="753" y2="450" stroke-width="1"/>
+        <!-- 5 interior row dividers (30px pitch: 300…420) -->
+        <line class="house-path hp-detail" x1="603" y1="300" x2="783" y2="300" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="603" y1="330" x2="783" y2="330" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="603" y1="360" x2="783" y2="360" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="603" y1="390" x2="783" y2="390" stroke-width="1"/>
+        <line class="house-path hp-detail" x1="603" y1="420" x2="783" y2="420" stroke-width="1"/>
 
         <!-- ── BLUEPRINT DIMENSION LINES ── -->
         <line class="house-path hp-dim"    x1="55"  y1="490" x2="548" y2="490" stroke-width="0.8" stroke-opacity="0.22"/>
