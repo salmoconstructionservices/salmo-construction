@@ -796,14 +796,17 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 }
 
 .service-card {
-  background: var(--navy);
+  background: var(--black);                 /* match the section background — seamless grid */
   padding: 40px 36px;
   position: relative;
   /* overflow hidden: internal content never escapes the fixed cell */
   overflow: hidden;
-  transition: box-shadow 0.35s ease;
+  transition: background 0.35s ease, box-shadow 0.35s ease;
   cursor: default;
 }
+
+/* Faint lift on the active card so it still reads without a boxed fill */
+.service-card:hover { background: rgba(255,255,255,0.03); }
 
 .service-card::before {
   content: '';
@@ -2608,7 +2611,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 }
 
 #services .service-card {
-  background: var(--navy);
+  background: var(--black);                 /* match the section background — seamless grid */
 }
 
 #services .service-card:hover {
