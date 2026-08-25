@@ -103,7 +103,7 @@
   if (!cards.length || !modal) return;
 
   const backdrop = modal.querySelector('.service-modal-backdrop');
-  const closeBtn = modal.querySelector('.service-modal-close');
+  const panel    = modal.querySelector('.service-modal-panel');
   const iconEl   = modal.querySelector('.service-modal-icon');
   const titleEl  = modal.querySelector('.service-modal-title');
   const listEl   = modal.querySelector('.service-modal-list');
@@ -126,6 +126,7 @@
       listEl.appendChild(item);
     });
 
+    if (panel) { panel.style.transition = ''; panel.style.transform = ''; }
     modal.setAttribute('aria-hidden', 'false');
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -145,11 +146,42 @@
   });
 
   backdrop?.addEventListener('click', closeModal);
-  closeBtn?.addEventListener('click', closeModal);
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
+
+  /* ── Swipe down to dismiss — only when the sheet is scrolled to the top,
+     so a downward drag on scrolled content still scrolls normally. ── */
+  if (panel) {
+    let sy = 0, dy = 0, dragging = false, atTop = false;
+
+    panel.addEventListener('touchstart', e => {
+      sy = e.touches[0].clientY;
+      atTop = panel.scrollTop <= 0;
+      dragging = false; dy = 0;
+    }, { passive: true });
+
+    panel.addEventListener('touchmove', e => {
+      dy = e.touches[0].clientY - sy;
+      if (!dragging) {
+        if (dy > 4 && atTop) dragging = true;   // downward drag from the top → drag the sheet
+        else return;
+      }
+      if (dy < 0) dy = 0;
+      if (e.cancelable) e.preventDefault();      // stop content scroll while dragging the sheet
+      panel.style.transition = 'none';
+      panel.style.transform  = 'translateY(' + dy + 'px)';
+    }, { passive: false });
+
+    panel.addEventListener('touchend', () => {
+      if (!dragging) return;
+      panel.style.transition = '';               // restore the CSS transition
+      panel.style.transform  = '';               // snap back, or slide out if closing
+      if (dy > 100) closeModal();
+      dragging = false; dy = 0;
+    }, { passive: true });
+  }
 })();
 
 
