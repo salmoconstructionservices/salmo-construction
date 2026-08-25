@@ -861,71 +861,104 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     }
 
     const total = photos.length;
-    if (total === 1) { addSlide(photos[0]); return; }
+    mSingle = (total === 1);
+    if (mSingle) { addSlide(photos[0]); mPos = 0; setTranslate(0, false); return; }
 
     addSlide(photos[total - 1]);   // clone-last at pos 0
     photos.forEach(src => addSlide(src));
     addSlide(photos[0]);           // clone-first at pos N+1
 
-    /* Land on the real start photo (pos startIndex+1). Wait until the strip
-       has a real width, else scrollLeft clamps to 0 and the viewer opens on
-       the clone-last slide — which makes swiping feel reversed / non-looping. */
+    /* Land on the real start photo (pos startIndex+1) once the strip has width. */
     let tries = 0;
     (function positionStrip() {
-      const slideW = mobileStrip.clientWidth;
-      if (!slideW && tries++ < 30) { requestAnimationFrame(positionStrip); return; }
-      mobileStrip.scrollLeft = (startIndex + 1) * (slideW || window.innerWidth);
+      mW = mobileStrip.clientWidth;
+      if (!mW && tries++ < 30) { requestAnimationFrame(positionStrip); return; }
+      if (!mW) mW = window.innerWidth;
+      goToPos(startIndex + 1, false);
     })();
   }
 
-  /* ── Mobile scroll handler: sync UI + infinite wrap ── */
-  let isWrapping  = false;
-  let wrapTimer   = null;
+  /* ── Mobile: transform-based infinite carousel ──
+     We drive the strip with translateX and control the clone→real wrap
+     ourselves, so it never fights iOS scroll momentum (the old native-scroll
+     teleport did, which made the loop feel stuck / non-infinite). */
+  let isWrapping = false;   // kept for closeLightbox compatibility
+  let wrapTimer  = null;    // reused as the clone→real reset timer
+  let mPos = 0, mW = 0, mSingle = false;
+
+  function setTranslate(x, animate) {
+    if (!mobileStrip) return;
+    mobileStrip.style.transition = animate ? 'transform 0.32s cubic-bezier(0.22,1,0.36,1)' : 'none';
+    mobileStrip.style.transform  = 'translateX(' + x + 'px)';
+  }
+
+  function posToRealIdx(pos) {
+    const total = carouselPhotos.length;
+    if (pos <= 0)           return total - 1;
+    if (pos >= total + 1)   return 0;
+    return pos - 1;
+  }
+
+  /* Move to a strip position; if it's a clone, silently snap to its real twin
+     once the slide-in finishes so the loop is seamless in both directions. */
+  function goToPos(pos, animate) {
+    if (!mobileStrip || mSingle) return;
+    const total = carouselPhotos.length;
+    mPos = pos;
+    const real = posToRealIdx(pos);
+    if (real !== carouselIndex) { carouselIndex = real; syncUI(real); }
+    setTranslate(-pos * mW, animate);
+
+    clearTimeout(wrapTimer);
+    if (pos === 0 || pos === total + 1) {
+      wrapTimer = setTimeout(() => {
+        mPos = (pos === 0) ? total : 1;
+        setTranslate(-mPos * mW, false);
+      }, animate ? 340 : 0);
+    }
+  }
 
   if (mobileStrip) {
-    mobileStrip.addEventListener('scroll', () => {
-      if (isWrapping || !carouselPhotos.length) return;
-      const total  = carouselPhotos.length;
-      if (total <= 1) return;
+    let sx = 0, sy = 0, startX = 0, dragging = false, axis = null, t0 = 0;
 
-      const slideW  = mobileStrip.clientWidth || window.innerWidth;
-      const pos     = mobileStrip.scrollLeft;
-      const snap    = Math.round(pos / slideW);
-
-      /* Real index maps snap → 0-based photo index */
-      const realIdx = snap <= 0          ? total - 1
-                    : snap >= total + 1  ? 0
-                    : snap - 1;
-
-      if (realIdx !== carouselIndex) { carouselIndex = realIdx; syncUI(realIdx); }
-
-      /* Detect scroll settle and silently jump from clone to real slide */
+    mobileStrip.addEventListener('touchstart', e => {
+      if (mSingle || !carouselPhotos.length) return;
+      const total = carouselPhotos.length;
       clearTimeout(wrapTimer);
-      wrapTimer = setTimeout(() => {
-        if (isWrapping) return;
-        const curSnap = Math.round(mobileStrip.scrollLeft / slideW);
+      if (mPos === 0)             mPos = total;   // normalize off a clone before dragging
+      else if (mPos === total + 1) mPos = 1;
+      const t = e.touches[0];
+      sx = t.clientX; sy = t.clientY;
+      startX = -mPos * mW;
+      setTranslate(startX, false);
+      dragging = false; axis = null; t0 = Date.now();
+    }, { passive: true });
 
-        function jumpTo(target) {
-          isWrapping = true;
-          mobileStrip.style.scrollSnapType = 'none';
-          /* Toggling overflow to hidden cancels iOS fling momentum, so the
-             silent teleport isn't dragged back — otherwise the carousel feels
-             stuck on the first photo after wrapping past the last. */
-          mobileStrip.style.overflowX = 'hidden';
-          void mobileStrip.offsetWidth;                 // force reflow
-          mobileStrip.scrollLeft = target * slideW;
-          mobileStrip.style.overflowX = 'scroll';
-          const release = () => {
-            mobileStrip.style.scrollSnapType = 'x mandatory';
-            isWrapping = false;
-          };
-          requestAnimationFrame(() => requestAnimationFrame(release));
-          setTimeout(release, 120);   // safety: never leave the loop flag stuck
-        }
+    mobileStrip.addEventListener('touchmove', e => {
+      if (mSingle || !carouselPhotos.length) return;
+      const t = e.touches[0];
+      const dx = t.clientX - sx, dy = t.clientY - sy;
+      if (!axis) {
+        if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+        axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      }
+      if (axis !== 'x') return;                 // vertical → let the stage dismiss handle it
+      dragging = true;
+      if (e.cancelable) e.preventDefault();     // block page scroll while swiping photos
+      setTranslate(startX + dx, false);
+    }, { passive: false });
 
-        if (curSnap === 0)          jumpTo(total);   // clone-last → real last
-        else if (curSnap === total + 1) jumpTo(1);   // clone-first → real first
-      }, 260);
+    mobileStrip.addEventListener('touchend', e => {
+      if (mSingle || !dragging) { dragging = false; axis = null; return; }
+      const t  = e.changedTouches[0];
+      const dx = t.clientX - sx;
+      const dt = Math.max(1, Date.now() - t0);
+      const vx = dx / dt;                        // px/ms
+      let target = mPos;
+      if (dx < -mW * 0.18 || vx < -0.3)      target = mPos + 1;   // next
+      else if (dx > mW * 0.18 || vx > 0.3)   target = mPos - 1;   // prev
+      goToPos(target, true);
+      dragging = false; axis = null;
     }, { passive: true });
   }
 
@@ -938,8 +971,8 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
 
     if (isMobile() && mobileStrip) {
       if (total > 1) {
-        const slideW = mobileStrip.clientWidth || window.innerWidth;
-        mobileStrip.scrollTo({ left: (carouselIndex + 1) * slideW, behavior: 'smooth' });
+        if (!mW) mW = mobileStrip.clientWidth || window.innerWidth;
+        goToPos(carouselIndex + 1, true);
       }
     } else {
       /* Desktop: arrows visible only when more than 1 photo */
