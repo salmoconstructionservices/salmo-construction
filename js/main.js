@@ -65,7 +65,7 @@
    e.g. scroll to the booking area → URL becomes /#book. Skipped while
    a project lightbox is open (its hash is #project=…). */
 (function initScrollHashSpy() {
-  const ids = ['services','how-we-work','projects','testimonials','trust','about','faq','book','contact'];
+  const ids = ['services','how-we-work','projects','trust','about','faq','book','contact']; // 'testimonials' omitted while that section is hidden
   const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
   if (!sections.length) return;
 
