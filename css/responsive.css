@@ -227,7 +227,10 @@
 
   .step { align-items: flex-start; text-align: left; }
 
-  .step-num-wrap { margin-bottom: 20px; }
+  /* No connector line on mobile, so drop the desktop line-mask side padding
+     and left-align the accent — number, dash, title and text share one edge. */
+  .step-num-wrap { margin-bottom: 18px; padding: 0; }
+  .step-num::after { left: 0; transform: none; }
 
   /* Bento — mobile: single column stack */
   .bento-grid {
