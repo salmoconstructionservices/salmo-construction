@@ -58,6 +58,42 @@
 })();
 
 
+/* ── SCROLL-SPY URL ─────────────────────────────────────────────
+   As the visitor scrolls, keep the address bar in sync with the
+   section on screen (via replaceState, so it never spams history or
+   causes a jump). Copy the URL at any point to share that section —
+   e.g. scroll to the booking area → URL becomes /#book. Skipped while
+   a project lightbox is open (its hash is #project=…). */
+(function initScrollHashSpy() {
+  const ids = ['services','how-we-work','projects','testimonials','trust','about','faq','book','contact'];
+  const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
+  if (!sections.length) return;
+
+  let ticking = false, current = location.hash;
+
+  function update() {
+    ticking = false;
+    if ((location.hash || '').indexOf('=') !== -1) return;   // leave #project=… alone
+    const mid = window.scrollY + window.innerHeight * 0.4;
+    let active = '';
+    for (const s of sections) {
+      if (s.getBoundingClientRect().top + window.scrollY <= mid) active = s.id;
+    }
+    const newHash = active ? '#' + active : '';   // near the top (hero) → clean URL
+    if (newHash !== current) {
+      current = newHash;
+      history.replaceState(null, '', location.pathname + location.search + newHash);
+    }
+  }
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+})();
+
+
 /* ── SECTION DEEP-LINKS ─────────────────────────────────────────
    Landing via a shared link like salmoconstruction.com/#book should
    scroll to that section. The loading screen locks scroll (~2.2s) and
