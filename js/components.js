@@ -830,7 +830,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
       if ((tries || 0) < 60) requestAnimationFrame(() => renderMobileSlide(sc, photo, (tries || 0) + 1));
       return;
     }
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);  /* cap at 2× — keeps iOS canvas memory down */
     const nw  = photo.naturalWidth;
     const nh  = photo.naturalHeight;
     const ds  = Math.min(availW / nw, availH / nh, 1);
@@ -893,25 +893,17 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
       const sc = document.createElement('canvas');
       slide.appendChild(sc);
       mobileStrip.appendChild(slide);
-      const img = new Image();
-      img.decoding = 'async';
-      /* Paint once, after the bitmap is fully decoded — iOS Safari can draw a
-         blank frame if you paint straight from onload (this was the "photos not
-         loading" bug). decode() gives us the ready bitmap; a short timeout
-         guarantees we still paint if decode() stalls or isn't supported. */
-      let painted = false;
-      const paint = () => { if (!painted) { painted = true; renderMobileSlide(sc, img); } };
-      img.onload = () => {
-        if (img.decode) img.decode().then(paint).catch(paint);
-        else paint();
-        setTimeout(paint, 300);
-      };
-      img.src = src;
+      mSlides.push({ src: src, canvas: sc, rendered: false });
     }
 
+    mSlides = [];
     const total = photos.length;
     mSingle = (total === 1);
-    if (mSingle) { addSlide(photos[0]); mPos = 0; setTranslate(0, false); return; }
+    if (mSingle) {
+      addSlide(photos[0]); mPos = 0; setTranslate(0, false);
+      renderWindow(0);
+      return;
+    }
 
     addSlide(photos[total - 1]);   // clone-last at pos 0
     photos.forEach(src => addSlide(src));
@@ -927,13 +919,45 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     })();
   }
 
+  /* Only a few slide canvases stay alive at once. iOS Safari blanks canvases
+     when the total backing-store memory grows too large — 20 full-screen
+     canvases exceeded that and showed the whole viewer as black. So we render
+     the current slide plus its neighbours and free the rest. */
+  function renderSlide(sd) {
+    if (!sd || sd.rendered) return;
+    sd.rendered = true;
+    const img = new Image();
+    img.decoding = 'async';
+    let painted = false;
+    const paint = () => { if (!painted) { painted = true; renderMobileSlide(sd.canvas, img); } };
+    img.onload = () => {
+      if (img.decode) img.decode().then(paint).catch(paint);
+      else paint();
+      setTimeout(paint, 300);
+    };
+    img.src = sd.src;
+  }
+
+  function freeSlide(sd) {
+    if (!sd || !sd.rendered) return;
+    sd.rendered = false;
+    sd.canvas.width = 0; sd.canvas.height = 0;   // release the backing store
+  }
+
+  function renderWindow(pos) {
+    for (let i = 0; i < mSlides.length; i++) {
+      if (Math.abs(i - pos) <= 2) renderSlide(mSlides[i]);
+      else freeSlide(mSlides[i]);
+    }
+  }
+
   /* ── Mobile: transform-based infinite carousel ──
      We drive the strip with translateX and control the clone→real wrap
      ourselves, so it never fights iOS scroll momentum (the old native-scroll
      teleport did, which made the loop feel stuck / non-infinite). */
   let isWrapping = false;   // kept for closeLightbox compatibility
   let wrapTimer  = null;    // reused as the clone→real reset timer
-  let mPos = 0, mW = 0, mSingle = false;
+  let mPos = 0, mW = 0, mSingle = false, mSlides = [];
 
   function setTranslate(x, animate) {
     if (!mobileStrip) return;
@@ -954,6 +978,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     if (!mobileStrip || mSingle) return;
     const total = carouselPhotos.length;
     mPos = pos;
+    renderWindow(pos);
     const real = posToRealIdx(pos);
     if (real !== carouselIndex) { carouselIndex = real; syncUI(real); }
     setTranslate(-pos * mW, animate);
@@ -962,6 +987,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     if (pos === 0 || pos === total + 1) {
       wrapTimer = setTimeout(() => {
         mPos = (pos === 0) ? total : 1;
+        renderWindow(mPos);
         setTranslate(-mPos * mW, false);
       }, animate ? 340 : 0);
     }
