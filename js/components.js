@@ -434,7 +434,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
       ? `${proj.title}${proj.location ? ' — ' + proj.location : ''}`
       : `Project ${proj.num}`;
     div.innerHTML =
-      `<img src="${coverSrc}" loading="lazy" alt="${isClone ? '' : altText}" />` +
+      `<img src="${coverSrc}" decoding="async" fetchpriority="low" alt="${isClone ? '' : altText}" />` +
       `<div class="marquee-overlay"><div class="bento-info">` +
         (proj.title ? `<span class="bento-label">${proj.title}</span>` : '') +
         (proj.location ? `<span class="bento-location">${proj.location}</span>` : '') +

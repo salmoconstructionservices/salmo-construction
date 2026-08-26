@@ -9,7 +9,14 @@
 /* ── LOADING SCREEN ─────────────────────────────────────────── */
 (function initLoadingScreen() {
   const screen = document.getElementById('loading-screen');
-  if (!screen) return;
+  if (!screen) {
+    /* Loading screen removed — fire salmo:loaded (deferred so the later
+       scripts have registered their listeners) so the hero animations and
+       section deep-links still run. */
+    document.body.style.overflow = '';
+    setTimeout(() => document.dispatchEvent(new Event('salmo:loaded')), 0);
+    return;
+  }
 
   // Skip loading screen on repeat visits within the same session
   if (sessionStorage.getItem('salmo_visited')) {
