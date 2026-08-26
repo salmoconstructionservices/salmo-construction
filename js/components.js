@@ -886,6 +886,9 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
   function buildMobileStrip(photos, startIndex) {
     if (!mobileStrip) return;
     mobileStrip.innerHTML = '';
+    mTrack = document.createElement('div');
+    mTrack.className = 'lb-mobile-track';
+    mobileStrip.appendChild(mTrack);
 
     function addSlide(src) {
       const slide = document.createElement('div');
@@ -895,7 +898,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
       im.alt = '';
       im.decoding = 'async';
       slide.appendChild(im);
-      mobileStrip.appendChild(slide);
+      mTrack.appendChild(slide);
       mSlides.push({ src: src, img: im, loaded: false });
     }
 
@@ -951,12 +954,12 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
      teleport did, which made the loop feel stuck / non-infinite). */
   let isWrapping = false;   // kept for closeLightbox compatibility
   let wrapTimer  = null;    // reused as the clone→real reset timer
-  let mPos = 0, mW = 0, mSingle = false, mSlides = [];
+  let mPos = 0, mW = 0, mSingle = false, mSlides = [], mTrack = null;
 
   function setTranslate(x, animate) {
-    if (!mobileStrip) return;
-    mobileStrip.style.transition = animate ? 'transform 0.32s cubic-bezier(0.22,1,0.36,1)' : 'none';
-    mobileStrip.style.transform  = 'translateX(' + x + 'px)';
+    if (!mTrack) return;
+    mTrack.style.transition = animate ? 'transform 0.32s cubic-bezier(0.22,1,0.36,1)' : 'none';
+    mTrack.style.transform  = 'translateX(' + x + 'px)';
   }
 
   function posToRealIdx(pos) {

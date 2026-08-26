@@ -3084,14 +3084,22 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 
   /* Mobile swipe strip fills the stage (not the whole screen, so the
      info bar below stays visible) */
+  /* Static clip viewport — never transformed, so its clip box stays put. */
   .lb-mobile-strip {
-    display: flex;
+    display: block;
     position: absolute;
     inset: 0;
     overflow: hidden;
     z-index: 1;
-    will-change: transform;
     touch-action: pan-y;          /* vertical (dismiss) passes through; JS drives horizontal */
+  }
+  /* The moving track that holds the slides — transform lives here, not on the
+     clip viewport (transforming the clipper cut off the visible slide). */
+  .lb-mobile-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
   }
 
   /* Dots sit just above the info bar */
