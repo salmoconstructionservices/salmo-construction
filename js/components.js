@@ -890,10 +890,13 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     function addSlide(src) {
       const slide = document.createElement('div');
       slide.className = 'lb-mobile-slide';
-      const sc = document.createElement('canvas');
-      slide.appendChild(sc);
+      const im = document.createElement('img');
+      im.className = 'lb-mobile-photo';
+      im.alt = '';
+      im.decoding = 'async';
+      slide.appendChild(im);
       mobileStrip.appendChild(slide);
-      mSlides.push({ src: src, canvas: sc, rendered: false });
+      mSlides.push({ src: src, img: im, loaded: false });
     }
 
     mSlides = [];
@@ -924,24 +927,15 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
      canvases exceeded that and showed the whole viewer as black. So we render
      the current slide plus its neighbours and free the rest. */
   function renderSlide(sd) {
-    if (!sd || sd.rendered) return;
-    sd.rendered = true;
-    const img = new Image();
-    img.decoding = 'async';
-    let painted = false;
-    const paint = () => { if (!painted) { painted = true; renderMobileSlide(sd.canvas, img); } };
-    img.onload = () => {
-      if (img.decode) img.decode().then(paint).catch(paint);
-      else paint();
-      setTimeout(paint, 300);
-    };
-    img.src = sd.src;
+    if (!sd || sd.loaded) return;
+    sd.loaded = true;
+    sd.img.src = sd.src;                  // plain <img> — iOS renders WebP reliably (canvas didn't)
   }
 
   function freeSlide(sd) {
-    if (!sd || !sd.rendered) return;
-    sd.rendered = false;
-    sd.canvas.width = 0; sd.canvas.height = 0;   // release the backing store
+    if (!sd || !sd.loaded) return;
+    sd.loaded = false;
+    sd.img.removeAttribute('src');        // release the decoded bitmap for far slides
   }
 
   function renderWindow(pos) {
@@ -1097,16 +1091,27 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
 
   /* ── The watermarked canvas currently on screen ── */
   function currentCanvas() {
-    if (isMobile() && mobileStrip) {
-      const slides = mobileStrip.querySelectorAll('.lb-mobile-slide');
-      const slide  = slides[carouselIndex + 1];   /* +1 skips the clone-last */
-      return slide ? slide.querySelector('canvas') : null;
-    }
-    return canvas;
+    return canvas;   /* desktop canvas; mobile saves the source file directly */
   }
 
-  /* ── Save the current photo (exports the already-watermarked canvas) ── */
+  /* ── Save the current photo ── */
   function saveCurrent() {
+    /* Mobile shows plain <img> (iOS can't reliably draw WebP to a canvas), so
+       save the source file directly. */
+    if (isMobile() && mobileStrip) {
+      const src = carouselPhotos[carouselIndex];
+      if (!src) { showToast('Photo still loading — try again'); return; }
+      const filename = openFileBase + '-' + String(carouselIndex + 1).padStart(2, '0') + '.webp';
+      fetch(src).then(r => r.blob()).then(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+        showToast('Photo saved');
+      }).catch(() => showToast('Could not save the photo'));
+      return;
+    }
     const cv = currentCanvas();
     if (!cv || !cv.width || cv.width <= 300) { showToast('Photo still loading — try again'); return; }
     const filename = openFileBase + '-' + String(carouselIndex + 1).padStart(2, '0') + '.jpg';

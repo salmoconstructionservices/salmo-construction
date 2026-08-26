@@ -3034,6 +3034,35 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   justify-content: center;
 }
 
+/* Mobile slides are plain <img> (iOS renders WebP reliably; canvas did not). */
+.lb-mobile-photo {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Watermark overlay (canvas used to bake it in; now it's a DOM overlay). */
+.lb-mobile-wm {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 3;
+  font: 600 11px/1 'Montserrat', sans-serif;
+  letter-spacing: 0.3px;
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  display: none;
+}
+#lightbox.lb--cert .lb-mobile-wm {
+  right: auto; bottom: auto; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.32);
+}
+
 /* ── Mobile: full image on top + compact info bar below ── */
 @media (max-width: 640px) {
   /* Solid black — image is letterboxed, avoid page bleed-through */
@@ -3049,6 +3078,9 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 
   /* Desktop photo-row hidden on mobile */
   .lightbox-photo-row { display: none; }
+
+  /* Watermark overlay shown over the mobile photo */
+  .lb-mobile-wm { display: block; }
 
   /* Mobile swipe strip fills the stage (not the whole screen, so the
      info bar below stays visible) */
