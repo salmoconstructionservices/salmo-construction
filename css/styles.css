@@ -3044,23 +3044,23 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   display: block;
 }
 
-/* Watermark overlay (canvas used to bake it in; now it's a DOM overlay). */
+/* Watermark logo overlay (canvas bakes it in on desktop; DOM overlay on mobile). */
 .lb-mobile-wm {
   position: absolute;
   right: 16px;
   bottom: 16px;
   z-index: 3;
-  font: 600 11px/1 'Montserrat', sans-serif;
-  letter-spacing: 0.3px;
-  color: rgba(255, 255, 255, 0.5);
+  width: 108px;
+  height: auto;
+  opacity: 0.32;
   pointer-events: none;
   display: none;
 }
 #lightbox.lb--cert .lb-mobile-wm {
   right: auto; bottom: auto; left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.32);
+  width: 46%;
+  opacity: 0.18;
 }
 
 /* ── Mobile: full image on top + compact info bar below ── */
