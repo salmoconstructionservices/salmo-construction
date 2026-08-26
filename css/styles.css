@@ -191,7 +191,9 @@ input, textarea, select { font-family: var(--font); }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--navy);
+  /* Deep brand-navy gradient — reads as the signature dark navy rather than a
+     flat bright-blue block (a small saturated fill looks brighter than it is). */
+  background: linear-gradient(140deg, #011E3E 0%, #01101f 100%);
   color: var(--white);
   flex-shrink: 0;
 }
