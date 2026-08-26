@@ -894,7 +894,18 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
       slide.appendChild(sc);
       mobileStrip.appendChild(slide);
       const img = new Image();
-      img.onload = () => renderMobileSlide(sc, img);
+      img.decoding = 'async';
+      /* Paint once, after the bitmap is fully decoded — iOS Safari can draw a
+         blank frame if you paint straight from onload (this was the "photos not
+         loading" bug). decode() gives us the ready bitmap; a short timeout
+         guarantees we still paint if decode() stalls or isn't supported. */
+      let painted = false;
+      const paint = () => { if (!painted) { painted = true; renderMobileSlide(sc, img); } };
+      img.onload = () => {
+        if (img.decode) img.decode().then(paint).catch(paint);
+        else paint();
+        setTimeout(paint, 300);
+      };
       img.src = src;
     }
 
@@ -1351,8 +1362,9 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
   (function initPhotoCyclers() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const HOLD = 2000;   /* ms each photo is held */
-    const FADE = 0.64;   /* s crossfade */
+    const HOLD = 1500;   /* ms each photo is held — quicker to the next */
+    const FADE = 0.55;   /* s crossfade */
+    const EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';  /* smooth ease-in-out flow */
     const cyclers = [];
 
     function makeCycler(item, baseImg, srcs, mode) {
@@ -1363,10 +1375,10 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
       if (mode === 'bento') {
         layer.className = 'bento-img';   /* inherits cover sizing + hover-scale */
         layer.style.cssText = 'position:absolute;top:0;left:0;opacity:0;pointer-events:none;' +
-          'transition:opacity ' + FADE + 's ease, transform 0.6s cubic-bezier(0.23,1,0.32,1);';
+          'transition:opacity ' + FADE + 's ' + EASE + ', transform 0.6s cubic-bezier(0.23,1,0.32,1);';
       } else {
         layer.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;' +
-          'filter:saturate(0.85) brightness(0.95);opacity:0;pointer-events:none;transition:opacity ' + FADE + 's ease;';
+          'filter:saturate(0.85) brightness(0.95);opacity:0;pointer-events:none;transition:opacity ' + FADE + 's ' + EASE + ';';
       }
       baseImg.insertAdjacentElement('afterend', layer);
 
