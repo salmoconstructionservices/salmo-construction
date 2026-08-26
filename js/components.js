@@ -932,6 +932,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
   function renderSlide(sd) {
     if (!sd || sd.loaded) return;
     sd.loaded = true;
+    sd.img.onload = () => { if (mSlides[mPos] === sd) positionWatermark(); };
     sd.img.src = sd.src;                  // plain <img> — iOS renders WebP reliably (canvas didn't)
   }
 
@@ -955,11 +956,27 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
   let isWrapping = false;   // kept for closeLightbox compatibility
   let wrapTimer  = null;    // reused as the clone→real reset timer
   let mPos = 0, mW = 0, mSingle = false, mSlides = [], mTrack = null;
+  const mobileWm = document.querySelector('.lb-mobile-wm');
 
   function setTranslate(x, animate) {
     if (!mTrack) return;
     mTrack.style.transition = animate ? 'transform 0.32s cubic-bezier(0.22,1,0.36,1)' : 'none';
     mTrack.style.transform  = 'translateX(' + x + 'px)';
+  }
+
+  /* Pin the watermark to the visible photo's bottom-right corner (photos are
+     letterboxed, so a fixed stage-corner sits in the black bar, not on the
+     picture). Certs keep the centered CSS position. */
+  function positionWatermark() {
+    if (!mobileWm || !stageEl) return;
+    if (certLightbox) { mobileWm.style.right = ''; mobileWm.style.bottom = ''; return; }
+    const sd = mSlides[mPos];
+    if (!sd || !sd.img || !sd.img.naturalWidth) return;
+    const ir = sd.img.getBoundingClientRect();
+    const sr = stageEl.getBoundingClientRect();
+    if (!ir.width) return;
+    mobileWm.style.right  = Math.max(8, Math.round(sr.right  - ir.right  + 12)) + 'px';
+    mobileWm.style.bottom = Math.max(8, Math.round(sr.bottom - ir.bottom + 12)) + 'px';
   }
 
   function posToRealIdx(pos) {
@@ -976,6 +993,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     const total = carouselPhotos.length;
     mPos = pos;
     renderWindow(pos);
+    positionWatermark();
     const real = posToRealIdx(pos);
     if (real !== carouselIndex) { carouselIndex = real; syncUI(real); }
     setTranslate(-pos * mW, animate);
