@@ -469,6 +469,10 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
 (function initTestimonialAvatars() {
   const avatars = document.querySelectorAll('.testimonial-avatar[data-review]');
   if (!avatars.length) return;
+  /* Testimonials section is hidden for now — don't probe for review photos
+     (avoids 404s). Probing resumes automatically once the section is shown. */
+  const section = document.getElementById('testimonials');
+  if (section && getComputedStyle(section).display === 'none') return;
 
   /* Default avatar: navy circle with white person silhouette */
   function makeDefaultAvatar() {
@@ -739,7 +743,7 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
     img.onload  = () => { logoImg = img; };
     img.onerror = () => tryLoadLogo(srcs.slice(1));
     img.src = srcs[0];
-  })(['assets/images/logo.png', 'assets/images/salmo.png']);
+  })(['assets/images/salmo.png']);
 
   /* ── Carousel state ── */
   let carouselPhotos = [];
