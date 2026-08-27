@@ -124,14 +124,23 @@
 
   function go() {
     if (userScrolled) return;
-    const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 24;
-    const top = target.getBoundingClientRect().top + window.scrollY - navH;
+    const vh = window.innerHeight;
+    if (!vh) return;                       // viewport not ready yet — a later run handles it
+    const navH    = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 24;
+    const rectTop = target.getBoundingClientRect().top + window.scrollY;
+    const secH    = target.offsetHeight;
+    /* If the section fits on screen (e.g. Book), centre it vertically so a
+       shared link lands nicely framed; taller sections just align to the top. */
+    const top = secH < vh - navH
+      ? rectTop - Math.max(navH, (vh - secH) / 2)
+      : rectTop - navH;
     window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
   }
 
   document.addEventListener('salmo:loaded', () => { go(); setTimeout(go, 300); }); // first visit (after loader)
   window.addEventListener('load', () => { go(); setTimeout(go, 300); });           // repeat visit / resources done
   setTimeout(go, 400);                                                             // fallback
+  setTimeout(go, 900);                                                             // late fallback (slow layout/viewport)
 })();
 
 
