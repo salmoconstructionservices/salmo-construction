@@ -48,6 +48,22 @@
 })();
 
 
+/* ── FRAMED SECTION SCROLL ───────────────────────────────────────
+   Shared by anchor clicks, nav clicks (components.js) and shared-link
+   landings: a section that fits the viewport is centred (like Book); a taller
+   one gets comfortable top breathing room instead of jamming under the nav. */
+window.salmoSectionTop = function (target) {
+  if (!target) return 0;
+  const vh      = window.innerHeight || document.documentElement.clientHeight || 800;
+  const navH    = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 24;
+  const rectTop = target.getBoundingClientRect().top + window.scrollY;
+  const secH    = target.offsetHeight;
+  const offset  = secH < vh - navH
+    ? Math.max(navH, (vh - secH) / 2)
+    : Math.max(navH, Math.round(vh * 0.12));
+  return Math.max(0, rectTop - offset);
+};
+
 /* ── SMOOTH SCROLL FOR ANCHOR LINKS ─────────────────────────── */
 (function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -55,11 +71,7 @@
       const target = document.querySelector(this.getAttribute('href'));
       if (!target) return;
       e.preventDefault();
-
-      const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
-      const top  = target.getBoundingClientRect().top + window.scrollY - navH;
-
-      window.scrollTo({ top, behavior: 'smooth' });
+      window.scrollTo({ top: window.salmoSectionTop(target), behavior: 'smooth' });
     });
   });
 })();
@@ -124,17 +136,8 @@
 
   function go() {
     if (userScrolled) return;
-    const vh = window.innerHeight;
-    if (!vh) return;                       // viewport not ready yet — a later run handles it
-    const navH    = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 24;
-    const rectTop = target.getBoundingClientRect().top + window.scrollY;
-    const secH    = target.offsetHeight;
-    /* If the section fits on screen (e.g. Book), centre it vertically so a
-       shared link lands nicely framed; taller sections just align to the top. */
-    const top = secH < vh - navH
-      ? rectTop - Math.max(navH, (vh - secH) / 2)
-      : rectTop - navH;
-    window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+    if (!window.innerHeight) return;       // viewport not ready yet — a later run handles it
+    window.scrollTo({ top: window.salmoSectionTop(target), behavior: 'auto' });
   }
 
   document.addEventListener('salmo:loaded', () => { go(); setTimeout(go, 300); }); // first visit (after loader)

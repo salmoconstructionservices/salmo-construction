@@ -1568,11 +1568,12 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
   /* Smooth-scroll to a section, offset for the fixed nav height. */
   function scrollToSection(target) {
     if (!target) return;
-    const navH = parseInt(
-      getComputedStyle(document.documentElement).getPropertyValue('--nav-h')
-    ) || 24;
-    const top = target.getBoundingClientRect().top + window.scrollY - navH;
-    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    /* Frame the section (centre if it fits, else comfortable top space) — same
+       helper the anchor links and shared-link landings use. */
+    const top = window.salmoSectionTop
+      ? window.salmoSectionTop(target)
+      : Math.max(0, target.getBoundingClientRect().top + window.scrollY - 24);
+    window.scrollTo({ top: top, behavior: 'smooth' });
   }
 
   if (ctTriggerEl) ctTriggerEl.addEventListener('click', () => {
