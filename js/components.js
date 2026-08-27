@@ -397,6 +397,10 @@ function slugifyTitle(s) {
 })();
 const PROJECT_BY_SLUG = {};
 PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
+/* Short shareable link uses the project number: #project=3. Slug map kept so
+   older #project=<slug> links still resolve. */
+const PROJECT_BY_NUM = {};
+PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
 
 
 /* ── MARQUEE STRIP ──────────────────────────────────────────── */
@@ -1162,7 +1166,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
 
     /* Reflect the open project in the URL so it can be shared/deep-linked.
        Certificates are documents, not projects → no deep link. */
-    openProjectSlug = certLightbox ? null : (proj.slug || null);
+    openProjectSlug = certLightbox ? null : (proj.num != null ? String(proj.num) : null);
     if (openProjectSlug && !fromHistory) {
       const url = '#project=' + encodeURIComponent(openProjectSlug);
       if ((location.hash || '') !== url) {
@@ -1378,11 +1382,13 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     });
   });
 
-  /* ── Deep linking: #project=<slug> opens that project (shareable URLs) ── */
+  /* ── Deep linking: #project=<num> opens that project (short shareable URLs).
+     Falls back to the old #project=<slug> so previously-shared links still work. ── */
   function projectFromHash() {
     const m = /^#project=(.+)$/.exec(location.hash || '');
     if (!m) return null;
-    return PROJECT_BY_SLUG[decodeURIComponent(m[1])] || null;
+    const key = decodeURIComponent(m[1]);
+    return PROJECT_BY_NUM[key] || PROJECT_BY_SLUG[key] || null;
   }
 
   /* Back / Forward drives the viewer: a project URL opens it; leaving closes it. */
@@ -1390,7 +1396,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     const proj = projectFromHash();
     const open = lightbox.classList.contains('open');
     if (proj) {
-      if (!open || openProjectSlug !== proj.slug) openCarousel(proj, 0, false, true);
+      if (!open || openProjectSlug !== String(proj.num)) openCarousel(proj, 0, false, true);
     } else if (open && openProjectSlug) {
       closeLightbox(true);
     }
@@ -1403,7 +1409,7 @@ PROJECTS.forEach(p => { PROJECT_BY_SLUG[p.slug] = p; });
     if (!proj) return;
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     history.replaceState(null, '', '#projects');
-    history.pushState({ salmoProject: proj.slug }, '', '#project=' + encodeURIComponent(proj.slug));
+    history.pushState({ salmoProject: String(proj.num) }, '', '#project=' + proj.num);
     openCarousel(proj, 0, false, true);
   })();
 
