@@ -450,4 +450,15 @@ function initAnimations() {
   const mq = window.matchMedia('(max-width: 640px)');
   if (mq.addEventListener) mq.addEventListener('change', applyMobileSpeedup);
 
+  /* Recalculate scroll-trigger positions as the page settles. Without the old
+     loading screen, eager marquee/bento images load and shift the layout after
+     the triggers were measured — stale positions make reveals fire at the wrong
+     scroll spots (glitches when scrolling). Refresh on load and as images land. */
+  function refreshTriggers() { try { ScrollTrigger.refresh(); } catch (e) {} }
+  window.addEventListener('load', refreshTriggers);
+  [700, 1600, 3200].forEach(t => setTimeout(refreshTriggers, t));
+  document.querySelectorAll('.bento-img, .marquee-item img').forEach(img => {
+    if (!img.complete) img.addEventListener('load', refreshTriggers, { once: true });
+  });
+
 } // end initAnimations
