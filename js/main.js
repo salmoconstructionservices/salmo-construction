@@ -58,10 +58,15 @@ window.salmoSectionTop = function (target) {
   const navH    = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 24;
   const rectTop = target.getBoundingClientRect().top + window.scrollY;
   const secH    = target.offsetHeight;
-  const offset  = secH < vh - navH
-    ? Math.max(navH, (vh - secH) / 2)
-    : Math.max(navH, Math.round(vh * 0.12));
-  return Math.max(0, rectTop - offset);
+  if (secH < vh - navH) {
+    /* Fits on screen (e.g. Book, FAQ) → centre it vertically. */
+    return Math.max(0, rectTop - Math.max(navH, (vh - secH) / 2));
+  }
+  /* Taller than the screen (Services, Contact) → bring the heading near the
+     top so the title and as much content as possible are in view. */
+  const title = target.querySelector('.section-title') || target.querySelector('h2');
+  const titleTop = title ? (title.getBoundingClientRect().top + window.scrollY) : rectTop;
+  return Math.max(0, titleTop - 40);
 };
 
 /* ── SMOOTH SCROLL FOR ANCHOR LINKS ─────────────────────────── */
