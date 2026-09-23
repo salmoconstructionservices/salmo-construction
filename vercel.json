@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/(services|how-we-work|projects|trust|about|faq|book|contact)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/projects/:num",
+      "destination": "/index.html"
+    }
+  ]
+}

@@ -1102,7 +1102,7 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
   /* ── Share the current project via its deep link ── */
   function shareCurrent() {
     if (!openProjectSlug) return;
-    const url = location.origin + location.pathname + '#project=' + encodeURIComponent(openProjectSlug);
+    const url = location.origin + '/projects/' + encodeURIComponent(openProjectSlug);
     const title = 'Salmo Construction Services — ' + (titleEl ? titleEl.textContent : 'Project');
     if (navigator.share) { navigator.share({ title, url }).catch(() => {}); return; }
     const done = ok => showToast(ok ? 'Link copied' : 'Could not copy — check the address bar');
@@ -1172,8 +1172,8 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
        Certificates are documents, not projects → no deep link. */
     openProjectSlug = certLightbox ? null : (proj.num != null ? String(proj.num) : null);
     if (openProjectSlug && !fromHistory) {
-      const url = '#project=' + encodeURIComponent(openProjectSlug);
-      if ((location.hash || '') !== url) {
+      const url = '/projects/' + encodeURIComponent(openProjectSlug);
+      if (location.pathname !== url) {
         history.pushState({ salmoProject: openProjectSlug }, '', url);
       }
     }
@@ -1239,7 +1239,7 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
        itself drove the close, which already popped our entry). */
     if (openProjectSlug && !fromHistory) {
       if (history.state && history.state.salmoProject) history.back();
-      else history.replaceState(null, '', '#projects');
+      else history.replaceState(null, '', '/projects');
     }
     openProjectSlug = null;
 
@@ -1386,10 +1386,11 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
     });
   });
 
-  /* ── Deep linking: #project=<num> opens that project (short shareable URLs).
-     Falls back to the old #project=<slug> so previously-shared links still work. ── */
+  /* ── Deep linking: /projects/<num> opens that project (short shareable URLs).
+     Falls back to <slug> so previously-shared links still work; old
+     #project=… links are rewritten to this form early in main.js. ── */
   function projectFromHash() {
-    const m = /^#project=(.+)$/.exec(location.hash || '');
+    const m = /^\/projects\/([^/]+)\/?$/.exec(location.pathname);
     if (!m) return null;
     const key = decodeURIComponent(m[1]);
     return PROJECT_BY_NUM[key] || PROJECT_BY_SLUG[key] || null;
@@ -1412,8 +1413,8 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
     const proj = projectFromHash();
     if (!proj) return;
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    history.replaceState(null, '', '#projects');
-    history.pushState({ salmoProject: String(proj.num) }, '', '#project=' + proj.num);
+    history.replaceState(null, '', '/projects');
+    history.pushState({ salmoProject: String(proj.num) }, '', '/projects/' + proj.num);
     openCarousel(proj, 0, false, true);
   })();
 

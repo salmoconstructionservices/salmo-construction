@@ -82,31 +82,59 @@ window.salmoSectionTop = function (target) {
 })();
 
 
+/* ── CLEAN SECTION URLS ─────────────────────────────────────────
+   Each section has its own path — salmoconstruction.com/book,
+   /services, /faq … (Vercel rewrites them all to index.html, see
+   vercel.json). Project photos live at /projects/<num> (components.js).
+   Old #hash links that were already shared (/#book, /#project=3) are
+   converted to the clean form on arrival so they keep working. */
+const SALMO_SECTIONS = ['services','how-we-work','projects','trust','about','faq','book','contact']; // 'testimonials' omitted while that section is hidden
+
+(function upgradeLegacyHash() {
+  const h = location.hash;
+  if (!h) return;
+  const proj = /^#project=(.+)$/.exec(h);
+  let path = null;
+  if (proj) path = '/projects/' + proj[1];
+  else if (h === '#hero') path = '/';
+  else if (SALMO_SECTIONS.includes(h.slice(1))) path = '/' + h.slice(1);
+  if (path) history.replaceState(history.state, '', path + location.search);
+})();
+
+/* Section id named by the current path ('' for home / a project URL). */
+window.salmoSectionFromPath = function () {
+  const seg = location.pathname.replace(/^\/+|\/+$/g, '');
+  return SALMO_SECTIONS.includes(seg) ? seg : '';
+};
+window.salmoIsProjectPath = function () {
+  return /^\/projects\/[^/]+\/?$/.test(location.pathname);
+};
+
+
 /* ── SCROLL-SPY URL ─────────────────────────────────────────────
    As the visitor scrolls, keep the address bar in sync with the
    section on screen (via replaceState, so it never spams history or
    causes a jump). Copy the URL at any point to share that section —
-   e.g. scroll to the booking area → URL becomes /#book. Skipped while
-   a project lightbox is open (its hash is #project=…). */
-(function initScrollHashSpy() {
-  const ids = ['services','how-we-work','projects','trust','about','faq','book','contact']; // 'testimonials' omitted while that section is hidden
-  const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
+   e.g. scroll to the booking area → URL becomes /book. Skipped while
+   a project viewer is open (its URL is /projects/<num>). */
+(function initScrollPathSpy() {
+  const sections = SALMO_SECTIONS.map(id => document.getElementById(id)).filter(Boolean);
   if (!sections.length) return;
 
-  let ticking = false, current = location.hash;
+  let ticking = false, current = location.pathname;
 
   function update() {
     ticking = false;
-    if ((location.hash || '').indexOf('=') !== -1) return;   // leave #project=… alone
+    if (window.salmoIsProjectPath()) return;   // leave /projects/<num> alone
     const mid = window.scrollY + window.innerHeight * 0.4;
     let active = '';
     for (const s of sections) {
       if (s.getBoundingClientRect().top + window.scrollY <= mid) active = s.id;
     }
-    const newHash = active ? '#' + active : '';   // near the top (hero) → clean URL
-    if (newHash !== current) {
-      current = newHash;
-      history.replaceState(null, '', location.pathname + location.search + newHash);
+    const newPath = '/' + active;               // near the top (hero) → "/"
+    if (newPath !== current) {
+      current = newPath;
+      history.replaceState(null, '', newPath + location.search);
     }
   }
 
@@ -119,17 +147,18 @@ window.salmoSectionTop = function (target) {
 
 
 /* ── SECTION DEEP-LINKS ─────────────────────────────────────────
-   Landing via a shared link like salmoconstruction.com/#book should
+   Landing via a shared link like salmoconstruction.com/book should
    scroll to that section. The loading screen locks scroll (~2.2s) and
-   lazy images shift layout, so the browser's native jump misses — we
-   re-assert the position once things settle, but never fight the user
-   if they've already started scrolling. (Project deep-links #project=…
-   are handled separately in components.js.) */
+   lazy images shift layout, so a plain jump misses — we re-assert the
+   position once things settle, but never fight the user if they've
+   already started scrolling. (Project deep-links /projects/<num> are
+   handled separately in components.js.) */
 (function initSectionDeepLink() {
-  const hash = location.hash;
-  if (!hash || hash.indexOf('=') !== -1) return;      // skip #project=slug etc.
-  const target = document.getElementById(hash.slice(1));
+  const id = window.salmoSectionFromPath();
+  if (!id) return;
+  const target = document.getElementById(id);
   if (!target) return;
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   let userScrolled = false;
   const mark = () => { userScrolled = true; };
