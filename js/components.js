@@ -1624,6 +1624,12 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
   let lastY   = window.scrollY;
   let ticking = false;
 
+  /* ── Mobile: hide the dock while scrolling, pop it back when the scroll
+     settles (debounced) — same feel as the Artsons bottom dock. Desktop
+     keeps it visible; the contact panel being open pins it too. ── */
+  const mobileMQ = window.matchMedia('(max-width: 767px)');
+  let hideTimer;
+
   window.addEventListener('scroll', () => {
     if (ticking) return;
     ticking = true;
@@ -1633,9 +1639,24 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
       else if (y < lastY)       nav.classList.remove('compact');
       lastY = y;
       setActive(getActiveId());
+
+      if (mobileMQ.matches && !inContactMode) {
+        nav.classList.add('nav-hidden');
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => nav.classList.remove('nav-hidden'), 240);
+      }
+
       ticking = false;
     });
   }, { passive: true });
+
+  /* Leaving mobile (rotate / resize to desktop) must never strand the
+     dock off-screen. */
+  const onNavMQ = e => {
+    if (!e.matches) { nav.classList.remove('nav-hidden'); clearTimeout(hideTimer); }
+  };
+  if (mobileMQ.addEventListener) mobileMQ.addEventListener('change', onNavMQ);
+  else if (mobileMQ.addListener) mobileMQ.addListener(onNavMQ);
 
   setActive(getActiveId());
 
