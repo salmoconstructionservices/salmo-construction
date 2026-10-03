@@ -88,6 +88,11 @@ section:not(#hero),
   position: relative;
   margin-top: calc(var(--cut) * -1);
   clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%, 0 var(--cut));
+  /* Slide-in reveals (.reveal-right starts 50px off to the right) and the
+     project marquee must not widen the page on phones — that let the page
+     pan sideways and pushed the fixed dock off-centre. clip (not hidden)
+     keeps position: sticky working inside sections. */
+  overflow-x: clip;
 }
 
 /* Section labels */
@@ -531,7 +536,7 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.20);
   border-top-color: rgba(255, 255, 255, 0.30);  /* light-refraction top edge */
-  border-radius: 100px;
+  border-radius: 9999px;
   box-shadow:
     0 12px 40px rgba(0, 0, 0, 0.40),
     0 1px 0 rgba(255, 255, 255, 0.10) inset;
@@ -649,6 +654,29 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
   #glass-nav.compact .gn-mark  { height: 19px; }
   #glass-nav.compact .gn-label { font-size: 8.5px; }
   #glass-nav.compact .gn-logo-img { max-width: 56px; height: 20px; }
+}
+
+/* ── Phones — same as the Iconiq Creatives phone dock: a near-full-width
+   bar, 12px gap left and right, 10px above the bottom edge (plus the
+   home-indicator safe area), rounded 24px corners, tabs sharing the width. ── */
+@media (max-width: 600px) {
+  /* Pinned 12px from each edge (not centred with translateX) — same as
+     Iconiq, so the gaps stay equal even if the page is a touch wider. */
+  #glass-nav { left: 12px; right: 12px; width: auto; max-width: none; bottom: 10px; transform: none; }
+  #glass-nav.nav-hidden { transform: translateY(calc(100% + 32px)); }
+  @media (prefers-reduced-motion: reduce) {
+    #glass-nav.nav-hidden { transform: none; }   /* fade only, no slide */
+  }
+  @supports (bottom: env(safe-area-inset-bottom)) {
+    #glass-nav { bottom: calc(10px + env(safe-area-inset-bottom)); }
+  }
+  .glass-pill { border-radius: 24px; }
+  .dock-panel,
+  #glass-nav.compact .dock-panel { padding: 6px 4px; }
+  .dock-nav-panel .gn-item,
+  #glass-nav.compact .dock-nav-panel .gn-item {
+    flex: 1 1 0; min-width: 0; padding: 6px 2px; min-height: 52px; border-radius: 16px;
+  }
 }
 }
 
