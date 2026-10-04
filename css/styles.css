@@ -1219,7 +1219,8 @@ body { padding-bottom: 0; } /* clearance moved to footer padding-bottom */
 .bento-grid {
   display: grid;
   grid-template-columns: 1.6fr 1fr;
-  grid-template-rows: 300px 240px 260px;
+  grid-template-rows: 300px 240px;
+  grid-auto-rows: 260px;   /* 3rd row only exists when a wide banner item fills it */
   gap: 4px;
   margin-bottom: 4px;
 }
