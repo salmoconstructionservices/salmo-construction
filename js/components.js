@@ -1105,6 +1105,11 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
     const url = location.origin + '/projects/' + encodeURIComponent(openProjectSlug);
     const title = 'Salmo Construction Services — ' + (titleEl ? titleEl.textContent : 'Project');
     if (navigator.share) { navigator.share({ title, url }).catch(() => {}); return; }
+    copyLink(url);
+  }
+
+  /* ── Copy a URL to the clipboard, with toast feedback ── */
+  function copyLink(url) {
     const done = ok => showToast(ok ? 'Link copied' : 'Could not copy — check the address bar');
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(() => done(true), () => done(false));
@@ -1362,6 +1367,34 @@ PROJECTS.forEach(p => { PROJECT_BY_NUM[p.num] = p; });
       if (proj) openCarousel(proj, 0);
     });
   }
+
+  /* ── Share button on bento + marquee tiles ──
+     Appears on hover (always shown on touch screens). Clicking it copies
+     that project's own link (/projects/<num>) instead of opening the viewer. */
+  const SHARE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 15V3"/><path d="M8 7l4-4 4 4"/></svg>';
+  document.querySelectorAll('.bento-item[data-project-num], .marquee-item[data-project-num]').forEach(item => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'tile-share';
+    btn.innerHTML = SHARE_SVG;
+    if (item.getAttribute('aria-hidden')) btn.tabIndex = -1;   /* marquee loop clones */
+    btn.setAttribute('aria-label', 'Copy link to ' + (item.dataset.title || 'this project'));
+    item.appendChild(btn);
+  });
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.tile-share');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();   /* don't open the photo viewer */
+    const num = btn.parentElement.dataset.projectNum;
+    copyLink(location.origin + '/projects/' + encodeURIComponent(num));
+    btn.classList.add('copied');
+    setTimeout(() => btn.classList.remove('copied'), 1400);
+  }, true);
+  document.addEventListener('keydown', e => {
+    /* Enter/Space on the button must not bubble to the tile's open-viewer key handler */
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('.tile-share')) e.stopPropagation();
+  }, true);
 
   const gallery = document.getElementById('projects-gallery');
   if (gallery) {
