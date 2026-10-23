@@ -17,111 +17,76 @@ function initAnimations() {
      faster, so content appears with the slightest scroll instead of lagging. */
   const MOBILE = window.matchMedia('(max-width: 640px)').matches;
 
-  /* ── HERO ANIMATIONS ──────────────────────────────────────── */
-  function runHeroAnimations() {
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  /* ── HERO ANIMATIONS ──────────────────────────────────────────
+     One paused timeline holds the whole hero entrance (text, house image,
+     line-drawn house). It plays every time the page opens — first load,
+     reload, or Back/Forward — and replays whenever the visitor scrolls
+     back up to the hero after it has fully left the screen. Visitors who
+     prefer reduced motion get the finished state with no animation. */
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const heroTl  = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
 
-    // Hero right (house SVG) fades + scales in
-    tl.fromTo('#hero .hero-right', {
-      opacity: 0,
-      x: 60,
-      scale: 0.94
-    }, {
-      opacity: 1,
-      x: 0,
-      scale: 1,
-      duration: 1.1
-    }, 0);
+  // Hero right (house SVG) fades + scales in
+  heroTl.fromTo('#hero .hero-right',
+    { opacity: 0, x: 60, scale: 0.94 },
+    { opacity: 1, x: 0, scale: 1, duration: 1.1 }, 0);
 
-    // Headline
-    tl.fromTo('.hero-title', {
-      opacity: 0,
-      y: 40
-    }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.85
-    }, 0.3);
+  // Headline → subtitle → description → CTA buttons
+  heroTl.fromTo('.hero-title',    { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.85 }, 0.3);
+  heroTl.fromTo('.hero-subtitle', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7  }, 0.5);
+  heroTl.fromTo('.hero-desc',     { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.65 }, 0.65);
+  heroTl.fromTo('.hero-ctas',     { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6  }, 0.8);
 
-    // Subtitle
-    tl.fromTo('.hero-subtitle', {
-      opacity: 0,
-      y: 30
-    }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.7
-    }, 0.5);
-
-    // Description
-    tl.fromTo('.hero-desc', {
-      opacity: 0,
-      y: 24
-    }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.65
-    }, 0.65);
-
-    // CTA buttons
-    tl.fromTo('.hero-ctas', {
-      opacity: 0,
-      y: 20
-    }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6
-    }, 0.8);
-  }
-
-  // Play hero animations after loading screen OR immediately if already visited
-  if (sessionStorage.getItem('salmo_visited')) {
-    // Run right away (no loading screen)
-    setTimeout(runHeroAnimations, 100);
-  } else {
-    document.addEventListener('salmo:loaded', runHeroAnimations);
-  }
-
-
-  /* ── SVG HOUSE DRAW ANIMATION ─────────────────────────────── */
-  function initHouseAnimation() {
-    const house = document.getElementById('hero-house');
-    if (!house) return;
-
-    const paths = house.querySelectorAll('.house-path');
-    if (!paths.length) return;
-
-    // Set up each path to start invisible
-    paths.forEach(path => {
+  /* SVG house draw — each line traces itself in white */
+  const house = document.getElementById('hero-house');
+  const housePaths = house ? house.querySelectorAll('.house-path') : [];
+  if (housePaths.length) {
+    housePaths.forEach(path => {
       let length;
       try {
         length = path.getTotalLength ? path.getTotalLength() : 200;
       } catch {
         length = 200;
       }
-      gsap.set(path, {
-        strokeDasharray: length,
-        strokeDashoffset: length
-      });
+      gsap.set(path, { strokeDasharray: length });
+      path.dataset.len = length;
     });
+    heroTl.fromTo(housePaths,
+      { strokeDashoffset: i => housePaths[i].dataset.len },
+      { strokeDashoffset: 0, stroke: '#FFFFFF', duration: 2.0, stagger: 0.035, ease: 'power2.inOut' }, 0.3);
+  }
 
-    // Draw in with white strokes
-    function drawHouse() {
-      gsap.to(paths, {
-        strokeDashoffset: 0,
-        stroke: '#FFFFFF',
-        duration: 2.0,
-        stagger: 0.035,
-        ease: 'power2.inOut',
-        delay: 0.3
-      });
-    }
+  function playHero() {
+    if (REDUCED) heroTl.progress(1);   // show finished state, no motion
+    else heroTl.restart();
+  }
 
-    if (sessionStorage.getItem('salmo_visited')) {
-      setTimeout(drawHouse, 100);
-    } else {
-      document.addEventListener('salmo:loaded', drawHouse);
-    }
+  /* Page open: play once the page is ready (salmo:loaded), with a timed
+     fallback so the hero can never stay blank if that event is missed. */
+  let introDone = false;
+  const intro = () => { if (introDone) return; introDone = true; playHero(); };
+  document.addEventListener('salmo:loaded', intro, { once: true });
+  setTimeout(intro, 2600);
+
+  /* Back/Forward restores the page from cache without re-running scripts —
+     replay the entrance so it still "loads" every time the page opens. */
+  window.addEventListener('pageshow', e => { if (e.persisted) playHero(); });
+
+  /* Scrolling back to the top: once the hero has completely left the screen,
+     rewind it (invisible to the visitor), then replay as it comes back. */
+  ScrollTrigger.create({
+    trigger: '#hero',
+    start: 'top top',
+    end: 'bottom top',
+    onLeave: () => { if (!REDUCED) heroTl.pause(0); },
+    onEnterBack: playHero
+  });
+
+
+  /* ── HOUSE: dim once scrolled past ─────────────────────────── */
+  function initHouseAnimation() {
+    if (!house || !housePaths.length) return;
+    const paths = housePaths;
 
     // Scroll past hero: dim + add subtle fills
     ScrollTrigger.create({
